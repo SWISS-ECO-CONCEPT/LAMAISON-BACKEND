@@ -1,5 +1,34 @@
 {
   "name": "lamaison-backend",
   "version": "1.0.0",
-  "main": "server.ts"
+  "description": "lamaison's backend",
+  "homepage": "https://github.com/SWISS-ECO-CONCEPT/LAMAISON-BACKEND#readme",
+  "bugs": {
+    "url": "https://github.com/SWISS-ECO-CONCEPT/LAMAISON-BACKEND/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SWISS-ECO-CONCEPT/LAMAISON-BACKEND.git"
+  },
+  "license": "ISC",
+  "author": "Gilles",
+  "type": "module",
+  "main": "server.ts",
+  "scripts": {
+    "test": "npm test",
+    "server": "nodemon server.ts",
+    "dev": "npm run server"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "nodemon": "^3.1.10",
+    "pg": "^8.16.3",
+    "prisma": "^6.12.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
 }
