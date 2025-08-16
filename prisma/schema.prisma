@@ -19,3 +19,13 @@ model User {
   password String
   role Role
 }
+
+model Annonce {
+  id          Int      @id @default(autoincrement())
+  titre       String
+  description String
+  prix        Float
+  ville       String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
