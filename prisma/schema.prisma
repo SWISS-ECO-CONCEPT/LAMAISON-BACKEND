@@ -13,24 +13,37 @@ enum Role {
   PROSPECT
 }
 
+enum RdvStatus {
+  EN_ATTENTE
+  ACCEPTE
+  REFUSE
+  ANNULE
+}
+
 model User {
-  id        Int      @id @default(autoincrement())
+  id        Int          @id @default(autoincrement())
   firstname String
-  email     String   @unique
+  email     String       @unique
   password  String
   role      Role
   favoris   Favori[] // relation vers Favori
+  annonces  Annonce[]  // Si c’est un agent : ses annonces
+  rdvs      RendezVous[] @relation("ProspectRdv") // Si c’est un prospect : ses demandes de RDV
 }
 
 model Annonce {
   id          Int      @id @default(autoincrement())
   titre       String
-  description String
+  description String 
   prix        Float
   ville       String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   favoris     Favori[] // relation vers Favori
+  // propriétaire de l’annonce (agent ou particulier vendeur)
+  proprietaire   User      @relation(fields: [proprietaireId], references: [id])
+  proprietaireId Int
+  rendezVous     RendezVous[] // les RDV liés à cette annonce
 }
 
 model Favori {
@@ -42,4 +55,17 @@ model Favori {
   createdAt DateTime @default(now())
 
   @@unique([userId, annonceId]) // un user ne peut pas ajouter 2x la même annonce
+}
+
+model RendezVous {
+  id         Int       @id @default(autoincrement())
+  date       DateTime
+  status     RdvStatus @default(EN_ATTENTE)
+  createdAt  DateTime  @default(now())
+// Relation vers le prospect (demandeur)
+  prospect   User      @relation("ProspectRdv", fields: [prospectId], references: [id])
+  prospectId Int
+// Relation vers l’annonce concernée
+  annonce    Annonce   @relation(fields: [annonceId], references: [id])
+  annonceId  Int
 }
