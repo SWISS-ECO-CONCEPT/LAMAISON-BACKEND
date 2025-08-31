@@ -1,33 +1,32 @@
-import { PrismaClient } from "@prisma/client";
-import { CreateFavoriDTO } from "../dto/favoris.dto";
+import prisma from "../utils/db";
+import { CreateFavoriDTO, FavoriResponseDTO } from "../dto/favoris.dto";
 
-const prisma = new PrismaClient();
-
-export class FavorisService {
-  // Ajouter un favori
-  static async addFavori(userId: number, data: CreateFavoriDTO) {
+export const favoriService = {
+  async createFavori(userId: number, data: CreateFavoriDTO): Promise<FavoriResponseDTO> {
     return prisma.favori.create({
       data: {
-        userId,
         annonceId: data.annonceId,
+        userId,
       },
     });
-  }
+  },
 
-  // Supprimer un favori
-  static async removeFavori(userId: number, annonceId: number) {
-    return prisma.favori.deleteMany({
-      where: { userId, annonceId },
-    });
-  }
-
-  // Récupérer les favoris d’un user
-  static async getFavorisByUser(userId: number) {
+  async getUserFavoris(userId: number): Promise<FavoriResponseDTO[]> {
     return prisma.favori.findMany({
       where: { userId },
-      include: {
-        annonce: true, // ramène aussi les détails des annonces
-      },
+      include: { annonce: true }, // utile si on veut les détails des annonces
     });
-  }
-}
+  },
+
+  async deleteFavori(userId: number, favoriId: number): Promise<FavoriResponseDTO> {
+    // Vérification que le favori appartient bien au user
+    const favori = await prisma.favori.findUnique({ where: { id: favoriId } });
+    if (!favori || favori.userId !== userId) {
+      throw new Error("Action non autorisée");
+    }
+
+    return prisma.favori.delete({
+      where: { id: favoriId },
+    });
+  },
+};

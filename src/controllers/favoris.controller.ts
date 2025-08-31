@@ -1,48 +1,38 @@
 import { Request, Response } from "express";
-import { FavorisService } from "../services/favoris.service";
+import { favoriService } from "../services/favoris.service";
+import { CreateFavoriDTO } from "../dto/favoris.dto";
 
-export class FavorisController {
-  static async addFavori(req: Request, res: Response) {
-    try {
-      if (!req.user) {
-        return res.status(401).json({ error: "Non authentifié" });
-      }
-      const userId = req.user.id;
-
-      const { annonceId } = req.body;
-
-      const favori = await FavorisService.addFavori(userId, { annonceId });
-      res.json(favori);
-    } catch (err) {
-      res.status(400).json({ error: "Impossible d’ajouter aux favoris" });
-    }
+// Ajouter un favori
+export const createFavori = async (req: Request, res: Response) => {
+  try {
+    const userId = (req.user as any).id; // récupéré du token
+    const data: CreateFavoriDTO = req.body;
+    const favori = await favoriService.createFavori(userId, data);
+    res.status(201).json(favori);
+  } catch (error: any) {
+    res.status(400).json({ error: error.message });
   }
+};
 
-  static async removeFavori(req: Request, res: Response) {
-    try {
-      if (!req.user) {
-        return res.status(401).json({ error: "Non authentifié" });
-      }
-      const userId = req.user.id;
-      const annonceId = parseInt(req.params.annonceId);
-
-      await FavorisService.removeFavori(userId, annonceId);
-      res.json({ message: "Favori supprimé" });
-    } catch (err) {
-      res.status(400).json({ error: "Impossible de supprimer le favori" });
-    }
+// Récupérer tous les favoris d’un user
+export const getUserFavoris = async (req: Request, res: Response) => {
+  try {
+    const userId = (req.user as any).id;
+    const favoris = await favoriService.getUserFavoris(userId);
+    res.json(favoris);
+  } catch (error: any) {
+    res.status(400).json({ error: error.message });
   }
+};
 
-  static async getFavoris(req: Request, res: Response) {
-    try {
-      if (!req.user) {
-        return res.status(401).json({ error: "Non authentifié" });
-      }
-      const userId = req.user.id;
-      const favoris = await FavorisService.getFavorisByUser(userId);
-      res.json(favoris);
-    } catch (err) {
-      res.status(400).json({ error: "Impossible de récupérer les favoris" });
-    }
+// Supprimer un favori
+export const deleteFavori = async (req: Request, res: Response) => {
+  try {
+    const userId = (req.user as any).id;
+    const favoriId = parseInt(req.params.id);
+    const favori = await favoriService.deleteFavori(userId, favoriId);
+    res.json(favori);
+  } catch (error: any) {
+    res.status(400).json({ error: error.message });
   }
-}
+};
