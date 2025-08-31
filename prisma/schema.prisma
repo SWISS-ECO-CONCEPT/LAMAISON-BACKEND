@@ -27,6 +27,8 @@ model User {
   password  String
   role      Role
   favoris   Favori[] // relation vers Favori
+  sentMessages Message[] @relation("SentMessages") // relation vers Message
+  receivedMessages Message[] @relation("ReceivedMessages") // relation vers Message
   annonces  Annonce[]  // Si c’est un agent : ses annonces
   rdvs      RendezVous[] @relation("ProspectRdv") // Si c’est un prospect : ses demandes de RDV
 }
@@ -68,4 +70,16 @@ model RendezVous {
 // Relation vers l’annonce concernée
   annonce    Annonce   @relation(fields: [annonceId], references: [id])
   annonceId  Int
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  senderId  Int
+  receiverId Int
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sender   User @relation("SentMessages", fields: [senderId], references: [id])
+  receiver User @relation("ReceivedMessages", fields: [receiverId], references: [id])
 }
