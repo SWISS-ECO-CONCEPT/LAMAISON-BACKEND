@@ -3,6 +3,7 @@ export interface CreateAnnonceDto {
   description: string;
   prix: number;
   ville: string;
+   proprietaireId: number; // Obligatoire car relation avec User
 }
 
 export interface UpdateAnnonceDto {
