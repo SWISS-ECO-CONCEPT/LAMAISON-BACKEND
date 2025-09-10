@@ -2,9 +2,10 @@ import { SignInDto, SignUpDto } from "../dto/auth.dto";
 import prisma from "../utils/db";
 import * as bcrypt from "bcrypt"
 import Jwt from "jsonwebtoken";
+import { JWT_SECRET } from "../config/config";
 
 const SALT_ROUNDS = 10;
-const JWT_SECRET = process.env.JWT_SECRET || "dev-secret"; // à sécuriser en prod
+// const JWT_SECRET = process.env.JWT_SECRET || "dev-secret"; // à sécuriser en prod
 
 // Fonction d'inscription
 export async function signUp(dto: SignUpDto) {

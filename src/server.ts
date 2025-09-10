@@ -5,6 +5,7 @@ import annonceRoutes from './routes/annonce.routes';
 import favorisRoutes from './routes/favoris.routes';
 import rdvRoutes from "./routes/rdv.routes";
 import messageRoutes from './routes/message.routes';
+import imageRoutes from './routes/image.routes';
 
 const app = express();
 
@@ -20,5 +21,7 @@ app.use('/annonces', annonceRoutes)
 app.use('/favoris', favorisRoutes)
 app.use('/rdvs', rdvRoutes)
 app.use("/messages", messageRoutes)
+app.use("/uploads", express.static("uploads")); // servir les fichiers locaux
+app.use("/images", imageRoutes);
 app.listen(5000, () => console.log('Serveur démarre sur le port 5000'));
 export default app 

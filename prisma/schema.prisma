@@ -37,6 +37,8 @@ model User {
   receivedMessages Message[]    @relation("ReceivedMessages") // relation vers Message
   annonces         Annonce[] // Si c’est un agent : ses annonces
   rdvs             RendezVous[] @relation("ProspectRdv") // Si c’est un prospect : ses demandes de RDV
+
+  Image Image[]
 }
 
 model Annonce {
@@ -53,7 +55,8 @@ model Annonce {
   // propriétaire de l’annonce (agent ou particulier vendeur)
   proprietaire   User         @relation(fields: [proprietaireId], references: [id])
   proprietaireId Int
-  rendezVous     RendezVous[] // les RDV liés à cette annonce
+  rendezVous     RendezVous[] // les RDV liés à cette annonc
+  Image Image[]
 }
 
 model Favori {
@@ -90,4 +93,14 @@ model Message {
 
   sender   User @relation("SentMessages", fields: [senderId], references: [id])
   receiver User @relation("ReceivedMessages", fields: [receiverId], references: [id])
+}
+
+model Image {
+  id        Int      @id @default(autoincrement())
+  url       String
+  annonce   Annonce  @relation(fields: [annonceId], references: [id])
+  annonceId Int
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  createdAt DateTime @default(now())
 }
