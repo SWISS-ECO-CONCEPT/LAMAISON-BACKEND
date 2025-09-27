@@ -22,9 +22,8 @@ enum RdvStatus {
 
 model User {
   id        Int      @id @default(autoincrement())
+  clerkId   String   @unique // identifiant unique Clerk (équivaut à l’auth provider)
   firstname String
-  email     String   @unique
-  password  String
   role      Role
   phone     String?
   avatar    String?
@@ -32,14 +31,15 @@ model User {
   updatedAt DateTime @updatedAt
 
   // relations
-  favoris          Favori[] // relation vers Favori
-  sentMessages     Message[]    @relation("SentMessages") // relation vers Message
-  receivedMessages Message[]    @relation("ReceivedMessages") // relation vers Message
-  annonces         Annonce[] // Si c’est un agent : ses annonces
-  rdvs             RendezVous[] @relation("ProspectRdv") // Si c’est un prospect : ses demandes de RDV
+  favoris          Favori[] 
+  sentMessages     Message[]    @relation("SentMessages")
+  receivedMessages Message[]    @relation("ReceivedMessages")
+  annonces         Annonce[] 
+  rdvs             RendezVous[] @relation("ProspectRdv")
 
   Image Image[]
 }
+
 
 model Annonce {
   id             Int          @id @default(autoincrement())
