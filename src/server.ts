@@ -8,6 +8,7 @@ import messageRoutes from './routes/message.routes';
 import authSyncRoutes from './routes/authSync.routes';
 import imageRoutes from './routes/image.routes';
 import bodyParser from "body-parser";
+import clerkWebhook from './routes/clerkwebhook.routes';
 
 const app = express();
 app.use(bodyParser.json());
@@ -20,6 +21,7 @@ app.use(cors({
 app.get('/', (req, res) => res.send('API LAMAISON fonctionne'));
 app.use(express.json())
 app.use('/auth', userRoutes)
+app.use('/webhooks', clerkWebhook)
 app.use('/annonces', annonceRoutes)
 app.use('/favoris', favorisRoutes) 
 app.use('/rdvs', rdvRoutes)
