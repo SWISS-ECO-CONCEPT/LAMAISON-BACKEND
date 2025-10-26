@@ -11,17 +11,19 @@ import bodyParser from "body-parser";
 import clerkWebhook from './routes/clerkwebhook.routes';
 
 const app = express();
-app.use(bodyParser.json());
 
 app.use(cors({
   origin: '*', // autorise le frontend
   credentials: true // si on veut envoyer des cookies plus tard
 }))
 
-app.get('/', (req, res) => res.send('API LAMAISON fonctionne'));
-app.use(express.json())
-app.use('/auth', userRoutes)
+// Webhook route must come before body parsers
 app.use('/webhooks', clerkWebhook)
+
+app.use(bodyParser.json());
+app.use(express.json())
+app.get('/', (req, res) => res.send('API LAMAISON fonctionne'));
+app.use('/auth', userRoutes)
 app.use('/annonces', annonceRoutes)
 app.use('/favoris', favorisRoutes) 
 app.use('/rdvs', rdvRoutes)
