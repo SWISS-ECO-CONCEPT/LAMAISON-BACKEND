@@ -9,12 +9,14 @@ import authSyncRoutes from './routes/authSync.routes';
 import imageRoutes from './routes/image.routes';
 import bodyParser from "body-parser";
 import clerkWebhook from './routes/clerkwebhook.routes';
-
+import { clerkMiddleware, requireAuth } from "@clerk/express"; 
 const app = express();
 
 app.use(cors({
-  origin: '*', // autorise le frontend
-  credentials: true // si on veut envoyer des cookies plus tard
+  origin: 'http://localhost:5173', // your frontend URL
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }))
 
 // Webhook route must come before body parsers
@@ -22,9 +24,10 @@ app.use('/webhooks', clerkWebhook)
 
 app.use(bodyParser.json());
 app.use(express.json())
+app.use(clerkMiddleware());
 app.get('/', (req, res) => res.send('API LAMAISON fonctionne'));
 app.use('/auth', userRoutes)
-app.use('/annonces', annonceRoutes)
+app.use('/annonces', annonceRoutes) // apply Clerk auth inside this router or with the proper middleware wrapper
 app.use('/favoris', favorisRoutes) 
 app.use('/rdvs', rdvRoutes)
 app.use("/messages", messageRoutes)
