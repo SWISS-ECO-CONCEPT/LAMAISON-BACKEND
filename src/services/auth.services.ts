@@ -115,6 +115,13 @@ export async function signIn(dto: SignInDto) {
   };
 }
 
+// Helper: return database user id from a Clerk clerkId (or null if not found)
+export async function getDbUserIdByClerkId(clerkId: string): Promise<number | null> {
+  if (!clerkId) return null;
+  const user = await prisma.user.findUnique({ where: { clerkId } });
+  return user ? user.id : null;
+}
+
 // export async function signIn(dto: SignInDto) {
 //     const { email, password } = dto;
 //      //Vérification des champs requis

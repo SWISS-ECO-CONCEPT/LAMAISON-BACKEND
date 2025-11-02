@@ -1,10 +1,12 @@
+import { TypeBien } from "@prisma/client";
+
 export interface CreateAnnonceDto {
   titre: string;
   description: string;
   prix: number;
   ville: string;
   proprietaireId: number; // Obligatoire car relation avec User
-  type?: 'maison' | 'appartement' | 'terrain' | 'chambre' | 'meublé' | string;
+  type?: TypeBien;
   surface?: number;
   chambres?: number;
   douches?: number;
@@ -16,7 +18,7 @@ export interface UpdateAnnonceDto {
   description?: string;
   prix?: number;
   ville?: string;
-  type?: string;
+  type?: TypeBien;
   surface?: number;
   chambres?: number;
   douches?: number;
