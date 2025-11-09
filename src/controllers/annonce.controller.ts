@@ -6,8 +6,6 @@ import { getDbUserIdByClerkId } from "../services/auth.services";
 
 // ✅ Créer une annonce
 export const createAnnonce = async (req: Request, res: Response) => {
-  console.log("requete:",req)
-  console.log('Incoming createAnnonce body:', req.body);
   try {
     const clerkId = req.params.clerkId as string | undefined;
     if (!clerkId) {
@@ -21,6 +19,15 @@ export const createAnnonce = async (req: Request, res: Response) => {
     }
 
     const data: CreateAnnonceDto = req.body;
+    // Normalize and validate images
+    const normalizedImages: string[] = Array.isArray(data.images)
+      ? data.images
+          .map((img: any) => (typeof img === 'string' ? img : img?.url))
+          .filter(Boolean)
+      : [];
+    if (!normalizedImages.length) {
+      return res.status(400).json({ message: 'Au moins une image est requise.' });
+    }
 
     // Build prisma data object using the found proprietaire id
     const prismaData: any = {
@@ -33,21 +40,12 @@ export const createAnnonce = async (req: Request, res: Response) => {
       douches: data.douches ?? null,
       type: data.type ? (data.type as TypeBien) : null,
       proprietaire: { connect: { id: Number(dbUserId) } },
+      images: normalizedImages,
     };
 
-    // If images are provided as URLs or objects, handle them
-    if (data.images?.length) {
-      prismaData.Image = {
-        create: data.images.map((img) => ({
-          url: typeof img === 'string' ? img : img.url,
-          user: { connect: { id: Number(dbUserId) } },
-        })),
-      };
-    }
-
     const annonce = await prisma.annonce.create({
-      data: prismaData,
-      include: { Image: true, proprietaire: true },
+      data: prismaData as any,
+      include: { proprietaire: true },
     });
 
     res.status(201).json({ message: 'Annonce créée avec succès.', data: annonce });
@@ -61,11 +59,33 @@ export const createAnnonce = async (req: Request, res: Response) => {
 export const getAllAnnonces = async (req: Request, res: Response) => {
   try {
     const annonces = await prisma.annonce.findMany({
-      include: { Image: true, proprietaire: true },
+      include: { proprietaire: true },
     });
     res.json(annonces);
   } catch (error) {
     res.status(500).json({ message: "Erreur lors de la récupération", error });
+  }
+};
+
+// ✅ Récupérer toutes les annonces d'un utilisateur (via son clerkId)
+export const getAnnoncesByUser = async (req: Request, res: Response) => {
+  try {
+    const clerkId = req.params.clerkId as string | undefined;
+    if (!clerkId) {
+      return res.status(400).json({ message: 'clerkId parameter is required in the route.' });
+    }
+
+    // Option A: filtrer par relation sur clerkId directement
+    const annonces = await prisma.annonce.findMany({
+      where: { proprietaire: { clerkId } },
+      orderBy: { createdAt: 'desc' },
+      include: { proprietaire: true },
+    });
+
+    return res.json(annonces);
+  } catch (error: any) {
+    console.error('Erreur lors de la récupération des annonces utilisateur:', error);
+    return res.status(500).json({ message: 'Erreur lors de la récupération', error: error.message || error });
   }
 };
 
@@ -74,7 +94,7 @@ export const getAnnonceById = async (req: Request, res: Response) => {
   try {
     const annonce = await prisma.annonce.findUnique({
       where: { id: Number(req.params.id) },
-      include: { Image: true, proprietaire: true },
+      include: { proprietaire: true },
     });
     if (!annonce) {
       return res.status(404).json({ message: "Annonce non trouvée" });
@@ -90,24 +110,14 @@ export const updateAnnonce = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
     const data: UpdateAnnonceDto = req.body;
-
-    const annonceExistante = await prisma.annonce.findUnique({
-      where: { id },
-      include: { Image: true },
-    });
-
+    const annonceExistante = await prisma.annonce.findUnique({ where: { id } });
     if (!annonceExistante) {
       return res.status(404).json({ message: "Annonce non trouvée" });
     }
 
-    // ✅ Si nouvelles images : on supprime les anciennes
-    if (data.images?.length) {
-      await prisma.image.deleteMany({ where: { annonceId: id } });
-    }
-
     const annonce = await prisma.annonce.update({
       where: { id },
-      data: {
+      data: ({
         titre: data.titre ?? undefined,
         description: data.description ?? undefined,
         prix: data.prix ? Number(data.prix) : undefined,
@@ -116,18 +126,11 @@ export const updateAnnonce = async (req: Request, res: Response) => {
         chambres: data.chambres ?? undefined,
         douches: data.douches ?? undefined,
         type: data.type ? (data.type as TypeBien) : undefined,
-
-        Image: data.images?.length
-          ? {
-              create: data.images.map((img) => ({
-                url: typeof img === "string" ? img : img.url,
-                user: { connect: { id: annonceExistante.proprietaireId } },
-
-              })),
-            }
+        images: Array.isArray(data.images)
+          ? data.images.map((img: any) => (typeof img === 'string' ? img : img?.url)).filter(Boolean)
           : undefined,
-      },
-      include: { Image: true, proprietaire: true },
+      } as any),
+      include: { proprietaire: true },
     });
 
     res.json({

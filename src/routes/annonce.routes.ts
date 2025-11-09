@@ -5,6 +5,7 @@ const router = Router();
 
 // Routes publiques (lecture seule)
 router.get("/", annonceController.getAllAnnonces);
+router.get("/user/:clerkId", annonceController.getAnnoncesByUser);
 router.get("/:id", annonceController.getAnnonceById);
 
 // Routes protégées (création, modification, suppression)

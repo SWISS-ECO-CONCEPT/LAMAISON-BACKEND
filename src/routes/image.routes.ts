@@ -1,9 +1,8 @@
 import { Router } from "express";
 import multer from "multer";
 import path from "path";
-import * as imageController from "../controllers/image.controller"
+import { createImage } from "../controllers/image.controller"
 
-import { isAuthenticated } from "../middlewares/auth.middleware";
 
 const router = Router();
 
@@ -16,11 +15,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// CRUD
-router.post("/", isAuthenticated, upload.single("file"), imageController.createImage);
-router.get("/", imageController.getAllImages);
-router.get("/:id", imageController.getImageById);
-router.put("/:id", isAuthenticated, imageController.updateImage);
-router.delete("/:id", isAuthenticated, imageController.deleteImage);
+// Upload only
+router.post("/", upload.single("file"), createImage);
 
 export default router;
