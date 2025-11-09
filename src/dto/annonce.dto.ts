@@ -10,7 +10,7 @@ export interface CreateAnnonceDto {
   surface?: number;
   chambres?: number;
   douches?: number;
-   images?: any[];
+  images: string[];
 }
 
 export interface UpdateAnnonceDto {
@@ -22,5 +22,5 @@ export interface UpdateAnnonceDto {
   surface?: number;
   chambres?: number;
   douches?: number;
-  images?: any[];
+  images?: string[];
 }
