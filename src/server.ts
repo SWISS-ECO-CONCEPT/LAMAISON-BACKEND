@@ -22,9 +22,13 @@ app.use(cors({
 // Webhook route must come before body parsers
 app.use('/webhooks', clerkWebhook)
 
+
+app.use(clerkMiddleware());
+
+
+
 app.use(bodyParser.json());
 app.use(express.json())
-app.use(clerkMiddleware());
 app.get('/', (req, res) => res.send('API LAMAISON fonctionne'));
 app.use('/auth', userRoutes)
 app.use('/annonces', annonceRoutes) // apply Clerk auth inside this router or with the proper middleware wrapper
