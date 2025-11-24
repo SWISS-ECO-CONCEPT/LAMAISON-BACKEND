@@ -1,4 +1,4 @@
-import prisma from "../utils/db";
+import {prisma} from "../utils/db";
 import { CreateRdvDto, UpdateRdvDto } from "../dto/rdv.dto";
 
 // Service de gestion des rendez-vous

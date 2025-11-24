@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import prisma from "../utils/db";
+import {prisma} from "../utils/db";
 import { signInController, signUpController } from "../controllers/auth.controllers";
 
 

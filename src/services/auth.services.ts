@@ -1,5 +1,5 @@
 import { SignInDto, SignUpDto } from "../dto/auth.dto";
-import prisma from "../utils/db";
+import { prisma } from "../utils/db";
 import * as bcrypt from "bcrypt"
 import Jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config/config";

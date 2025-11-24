@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { Webhook } from "svix";
 import bodyParser from "body-parser";
-import prisma from "../utils/db";
+import {prisma} from "../utils/db";
 
 const route = Router();
 

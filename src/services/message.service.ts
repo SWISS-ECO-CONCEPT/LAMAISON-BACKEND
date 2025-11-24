@@ -1,4 +1,4 @@
-import prisma from "../utils/db";
+import {prisma} from "../utils/db";
 import { CreateMessageDto, UpdateMessageDto } from "../dto/message.dto";
 
 

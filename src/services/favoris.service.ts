@@ -1,4 +1,4 @@
-import prisma from "../utils/db";
+import {prisma} from "../utils/db";
 import { CreateFavoriDTO, FavoriResponseDTO } from "../dto/favoris.dto";
 
 export const favoriService = {

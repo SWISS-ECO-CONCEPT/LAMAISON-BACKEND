@@ -1,9 +1,8 @@
 import { Request, Response } from "express";
-import prisma from "../utils/db";
-import { TypeBien } from "@prisma/client";
+import {prisma} from "../utils/db";
+import { TypeBien } from "../../generated/prisma/client";
 import { CreateAnnonceDto, UpdateAnnonceDto } from "../dto/annonce.dto";
 import { getDbUserIdByClerkId } from "../services/auth.services";
-
 // ✅ Créer une annonce
 export const createAnnonce = async (req: Request, res: Response) => {
   try {
@@ -38,7 +37,7 @@ export const createAnnonce = async (req: Request, res: Response) => {
       surface: data.surface ?? null,
       chambres: data.chambres ?? null,
       douches: data.douches ?? null,
-      type: data.type ? (data.type as TypeBien) : null,
+      type: data.type ? data.type as TypeBien : null,
       proprietaire: { connect: { id: Number(dbUserId) } },
       images: normalizedImages,
     };
@@ -125,7 +124,7 @@ export const updateAnnonce = async (req: Request, res: Response) => {
         surface: data.surface ?? undefined,
         chambres: data.chambres ?? undefined,
         douches: data.douches ?? undefined,
-        type: data.type ? (data.type as TypeBien) : undefined,
+        type: data.type ? data.type as TypeBien : undefined,
         images: Array.isArray(data.images)
           ? data.images.map((img: any) => (typeof img === 'string' ? img : img?.url)).filter(Boolean)
           : undefined,
