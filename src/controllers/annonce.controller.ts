@@ -1,9 +1,8 @@
 import { Request, Response } from "express";
-import prisma from "../utils/db";
-import { TypeBien } from "@prisma/client";
+import {prisma} from "../utils/db";
+import { TypeBien } from "../../generated/prisma/client";
 import { CreateAnnonceDto, UpdateAnnonceDto } from "../dto/annonce.dto";
 import { getDbUserIdByClerkId } from "../services/auth.services";
-
 // ✅ Créer une annonce
 export const createAnnonce = async (req: Request, res: Response) => {
   try {
@@ -38,7 +37,7 @@ export const createAnnonce = async (req: Request, res: Response) => {
       surface: data.surface ?? null,
       chambres: data.chambres ?? null,
       douches: data.douches ?? null,
-      type: data.type ? (data.type as TypeBien) : null,
+      type: data.type ? data.type as TypeBien : null,
       proprietaire: { connect: { id: Number(dbUserId) } },
       images: normalizedImages,
     };
@@ -125,7 +124,7 @@ export const updateAnnonce = async (req: Request, res: Response) => {
         surface: data.surface ?? undefined,
         chambres: data.chambres ?? undefined,
         douches: data.douches ?? undefined,
-        type: data.type ? (data.type as TypeBien) : undefined,
+        type: data.type ? data.type as TypeBien : undefined,
         images: Array.isArray(data.images)
           ? data.images.map((img: any) => (typeof img === 'string' ? img : img?.url)).filter(Boolean)
           : undefined,
@@ -150,10 +149,25 @@ export const updateAnnonce = async (req: Request, res: Response) => {
 export const deleteAnnonce = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
+    
+    // Vérifier que l'annonce existe
+    const annonceExistante = await prisma.annonce.findUnique({ where: { id } });
+    if (!annonceExistante) {
+      return res.status(404).json({ message: "Annonce non trouvée" });
+    }
+
+    // Supprimer en cascade: d'abord les favoris, puis les RDVs, puis l'annonce
+    await prisma.favori.deleteMany({ where: { annonceId: id } });
+    await prisma.rendezVous.deleteMany({ where: { annonceId: id } });
     await prisma.annonce.delete({ where: { id } });
+
     res.json({ message: "Annonce supprimée avec succès" });
-  } catch (error) {
-    res.status(500).json({ message: "Erreur lors de la suppression", error });
+  } catch (error: any) {
+    console.error("Erreur lors de la suppression :", error);
+    res.status(500).json({ 
+      message: "Erreur lors de la suppression", 
+      error: error.message || error 
+    });
   }
 };
 

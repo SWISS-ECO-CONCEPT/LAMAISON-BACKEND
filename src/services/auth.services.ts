@@ -1,5 +1,5 @@
 import { SignInDto, SignUpDto } from "../dto/auth.dto";
-import prisma from "../utils/db";
+import { prisma } from "../utils/db";
 import * as bcrypt from "bcrypt"
 import Jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config/config";
@@ -120,6 +120,65 @@ export async function getDbUserIdByClerkId(clerkId: string): Promise<number | nu
   if (!clerkId) return null;
   const user = await prisma.user.findUnique({ where: { clerkId } });
   return user ? user.id : null;
+}
+
+// Mettre à jour le rôle de l'utilisateur
+export async function updateUserRole(clerkId: string, newRole: string) {
+  if (!clerkId) {
+    throw new Error("clerkId requis.");
+  }
+
+  const validRoles = ["AGENT", "PROSPECT"];
+  if (!validRoles.includes(newRole)) {
+    throw new Error("Le rôle doit être  AGENT ou PROSPECT");
+  }
+
+  // Vérifier que l'utilisateur existe
+  const user = await prisma.user.findUnique({ where: { clerkId } });
+  if (!user) {
+    throw new Error("Utilisateur non trouvé.");
+  }
+
+  // Mettre à jour le rôle dans la base de données
+  const updatedUser = await prisma.user.update({
+    where: { clerkId },
+    data: { role: newRole as any },
+  });
+
+  // Mettre à jour les métadonnées Clerk si la clé secrète est disponible
+  if (process.env.CLERK_SECRET_KEY) {
+    try {
+      const response = await fetch(`https://api.clerk.com/v1/users/${clerkId}`, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${process.env.CLERK_SECRET_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          unsafe_metadata: {
+            role: newRole,
+          },
+        }),
+      });
+
+      if (!response.ok) {
+        console.error('Erreur lors de la mise à jour de Clerk:', response.statusText);
+        // Continuer même si la mise à jour Clerk échoue
+      }
+    } catch (error) {
+      console.error('Erreur lors de la communication avec Clerk API:', error);
+      // Continuer même si la mise à jour Clerk échoue
+    }
+  }
+
+  return {
+    user: {
+      id: updatedUser.id,
+      clerkId: updatedUser.clerkId,
+      firstname: updatedUser.firstname,
+      role: updatedUser.role,
+    },
+  };
 }
 
 // export async function signIn(dto: SignInDto) {

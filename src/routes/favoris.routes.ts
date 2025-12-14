@@ -1,11 +1,11 @@
 import { Router } from "express";
 import * as FavorisController from "../controllers/favoris.controller";
-import { isAuthenticated } from "../middlewares/auth.middleware";
+import { requireAuth } from "@clerk/express";
 
 const router = Router();
 
-router.post("/", isAuthenticated, FavorisController.createFavori);
-router.delete("/:annonceId", isAuthenticated, FavorisController.deleteFavori);
-router.get("/", isAuthenticated, FavorisController.getUserFavoris);
+router.post("/:clerkId", FavorisController.createFavori);
+router.delete("/:annonceId/:clerkId", FavorisController.deleteFavori);
+router.get("/:clerkId", FavorisController.getUserFavoris);
 
 export default router;

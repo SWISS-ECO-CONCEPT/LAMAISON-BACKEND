@@ -1,10 +1,11 @@
-datasource db {
-  provider = "postgresql"
-  url      = env("DB_URL")
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
 }
 
-generator client {
-  provider = "prisma-client-js"
+datasource db {
+  provider = "postgresql"
+  // The database connection URL is configured in prisma.config.ts
 }
 
 enum Role {
@@ -15,6 +16,7 @@ enum Role {
 
 enum RdvStatus {
   EN_ATTENTE
+  PROPOSE
   ACCEPTE
   REFUSE
   ANNULE
@@ -84,8 +86,15 @@ model Favori {
 model RendezVous {
   id         Int       @id @default(autoincrement())
   date       DateTime
+  proposedDate DateTime?
+  nom        String
+  prenom     String
+  email      String
+  telephone  String
+  message    String
   status     RdvStatus @default(EN_ATTENTE)
   createdAt  DateTime  @default(now())
+  
   // Relation vers le prospect (demandeur)
   prospect   User      @relation("ProspectRdv", fields: [prospectId], references: [id])
   prospectId Int

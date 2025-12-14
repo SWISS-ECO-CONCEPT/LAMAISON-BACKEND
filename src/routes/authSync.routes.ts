@@ -1,6 +1,6 @@
 import { Request, Response, Router } from "express";
 import { Webhook } from "svix"; // Clerk utilise svix pour signer les events
-import prisma from "../utils/db";
+import {prisma} from "../utils/db";
 
 const router = Router();
 

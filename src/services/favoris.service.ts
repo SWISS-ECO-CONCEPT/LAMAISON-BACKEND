@@ -1,14 +1,33 @@
-import prisma from "../utils/db";
+import {prisma} from "../utils/db";
 import { CreateFavoriDTO, FavoriResponseDTO } from "../dto/favoris.dto";
 
 export const favoriService = {
   async createFavori(userId: number, data: CreateFavoriDTO): Promise<FavoriResponseDTO> {
-    return prisma.favori.create({
-      data: {
-        annonceId: data.annonceId,
-        userId,
-      },
-    });
+    try {
+      return await prisma.favori.create({
+        data: {
+          annonceId: data.annonceId,
+          userId,
+        },
+      });
+    } catch (error: any) {
+      if (error.code === "P2002") {
+        const existing = await prisma.favori.findUnique({
+          where: {
+            userId_annonceId: {
+              userId,
+              annonceId: data.annonceId,
+            },
+          },
+        });
+
+        if (existing) {
+          return existing as unknown as FavoriResponseDTO;
+        }
+      }
+
+      throw error;
+    }
   },
 
   async getUserFavoris(userId: number): Promise<FavoriResponseDTO[]> {
@@ -18,15 +37,22 @@ export const favoriService = {
     });
   },
 
-  async deleteFavori(userId: number, favoriId: number): Promise<FavoriResponseDTO> {
-    // Vérification que le favori appartient bien au user
-    const favori = await prisma.favori.findUnique({ where: { id: favoriId } });
-    if (!favori || favori.userId !== userId) {
-      throw new Error("Action non autorisée");
+  async deleteFavori(userId: number, annonceId: number): Promise<FavoriResponseDTO | null> {
+    const existing = await prisma.favori.findUnique({
+      where: {
+        userId_annonceId: {
+          userId,
+          annonceId,
+        },
+      },
+    });
+
+    if (!existing) {
+      return null;
     }
 
     return prisma.favori.delete({
-      where: { id: favoriId },
+      where: { id: existing.id },
     });
   },
 };
