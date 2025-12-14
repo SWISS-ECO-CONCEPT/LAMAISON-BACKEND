@@ -41,6 +41,7 @@ export type RendezVousSumAggregateOutputType = {
 export type RendezVousMinAggregateOutputType = {
   id: number | null
   date: Date | null
+  proposedDate: Date | null
   nom: string | null
   prenom: string | null
   email: string | null
@@ -55,6 +56,7 @@ export type RendezVousMinAggregateOutputType = {
 export type RendezVousMaxAggregateOutputType = {
   id: number | null
   date: Date | null
+  proposedDate: Date | null
   nom: string | null
   prenom: string | null
   email: string | null
@@ -69,6 +71,7 @@ export type RendezVousMaxAggregateOutputType = {
 export type RendezVousCountAggregateOutputType = {
   id: number
   date: number
+  proposedDate: number
   nom: number
   prenom: number
   email: number
@@ -97,6 +100,7 @@ export type RendezVousSumAggregateInputType = {
 export type RendezVousMinAggregateInputType = {
   id?: true
   date?: true
+  proposedDate?: true
   nom?: true
   prenom?: true
   email?: true
@@ -111,6 +115,7 @@ export type RendezVousMinAggregateInputType = {
 export type RendezVousMaxAggregateInputType = {
   id?: true
   date?: true
+  proposedDate?: true
   nom?: true
   prenom?: true
   email?: true
@@ -125,6 +130,7 @@ export type RendezVousMaxAggregateInputType = {
 export type RendezVousCountAggregateInputType = {
   id?: true
   date?: true
+  proposedDate?: true
   nom?: true
   prenom?: true
   email?: true
@@ -226,6 +232,7 @@ export type RendezVousGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 export type RendezVousGroupByOutputType = {
   id: number
   date: Date
+  proposedDate: Date | null
   nom: string
   prenom: string
   email: string
@@ -263,6 +270,7 @@ export type RendezVousWhereInput = {
   NOT?: Prisma.RendezVousWhereInput | Prisma.RendezVousWhereInput[]
   id?: Prisma.IntFilter<"RendezVous"> | number
   date?: Prisma.DateTimeFilter<"RendezVous"> | Date | string
+  proposedDate?: Prisma.DateTimeNullableFilter<"RendezVous"> | Date | string | null
   nom?: Prisma.StringFilter<"RendezVous"> | string
   prenom?: Prisma.StringFilter<"RendezVous"> | string
   email?: Prisma.StringFilter<"RendezVous"> | string
@@ -279,6 +287,7 @@ export type RendezVousWhereInput = {
 export type RendezVousOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   date?: Prisma.SortOrder
+  proposedDate?: Prisma.SortOrderInput | Prisma.SortOrder
   nom?: Prisma.SortOrder
   prenom?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -298,6 +307,7 @@ export type RendezVousWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.RendezVousWhereInput[]
   NOT?: Prisma.RendezVousWhereInput | Prisma.RendezVousWhereInput[]
   date?: Prisma.DateTimeFilter<"RendezVous"> | Date | string
+  proposedDate?: Prisma.DateTimeNullableFilter<"RendezVous"> | Date | string | null
   nom?: Prisma.StringFilter<"RendezVous"> | string
   prenom?: Prisma.StringFilter<"RendezVous"> | string
   email?: Prisma.StringFilter<"RendezVous"> | string
@@ -314,6 +324,7 @@ export type RendezVousWhereUniqueInput = Prisma.AtLeast<{
 export type RendezVousOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   date?: Prisma.SortOrder
+  proposedDate?: Prisma.SortOrderInput | Prisma.SortOrder
   nom?: Prisma.SortOrder
   prenom?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -336,6 +347,7 @@ export type RendezVousScalarWhereWithAggregatesInput = {
   NOT?: Prisma.RendezVousScalarWhereWithAggregatesInput | Prisma.RendezVousScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"RendezVous"> | number
   date?: Prisma.DateTimeWithAggregatesFilter<"RendezVous"> | Date | string
+  proposedDate?: Prisma.DateTimeNullableWithAggregatesFilter<"RendezVous"> | Date | string | null
   nom?: Prisma.StringWithAggregatesFilter<"RendezVous"> | string
   prenom?: Prisma.StringWithAggregatesFilter<"RendezVous"> | string
   email?: Prisma.StringWithAggregatesFilter<"RendezVous"> | string
@@ -349,6 +361,7 @@ export type RendezVousScalarWhereWithAggregatesInput = {
 
 export type RendezVousCreateInput = {
   date: Date | string
+  proposedDate?: Date | string | null
   nom: string
   prenom: string
   email: string
@@ -363,6 +376,7 @@ export type RendezVousCreateInput = {
 export type RendezVousUncheckedCreateInput = {
   id?: number
   date: Date | string
+  proposedDate?: Date | string | null
   nom: string
   prenom: string
   email: string
@@ -376,6 +390,7 @@ export type RendezVousUncheckedCreateInput = {
 
 export type RendezVousUpdateInput = {
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  proposedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   nom?: Prisma.StringFieldUpdateOperationsInput | string
   prenom?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -390,6 +405,7 @@ export type RendezVousUpdateInput = {
 export type RendezVousUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  proposedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   nom?: Prisma.StringFieldUpdateOperationsInput | string
   prenom?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -404,6 +420,7 @@ export type RendezVousUncheckedUpdateInput = {
 export type RendezVousCreateManyInput = {
   id?: number
   date: Date | string
+  proposedDate?: Date | string | null
   nom: string
   prenom: string
   email: string
@@ -417,6 +434,7 @@ export type RendezVousCreateManyInput = {
 
 export type RendezVousUpdateManyMutationInput = {
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  proposedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   nom?: Prisma.StringFieldUpdateOperationsInput | string
   prenom?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -429,6 +447,7 @@ export type RendezVousUpdateManyMutationInput = {
 export type RendezVousUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  proposedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   nom?: Prisma.StringFieldUpdateOperationsInput | string
   prenom?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -453,6 +472,7 @@ export type RendezVousOrderByRelationAggregateInput = {
 export type RendezVousCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   date?: Prisma.SortOrder
+  proposedDate?: Prisma.SortOrder
   nom?: Prisma.SortOrder
   prenom?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -473,6 +493,7 @@ export type RendezVousAvgOrderByAggregateInput = {
 export type RendezVousMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   date?: Prisma.SortOrder
+  proposedDate?: Prisma.SortOrder
   nom?: Prisma.SortOrder
   prenom?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -487,6 +508,7 @@ export type RendezVousMaxOrderByAggregateInput = {
 export type RendezVousMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   date?: Prisma.SortOrder
+  proposedDate?: Prisma.SortOrder
   nom?: Prisma.SortOrder
   prenom?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -588,12 +610,17 @@ export type RendezVousUncheckedUpdateManyWithoutAnnonceNestedInput = {
   deleteMany?: Prisma.RendezVousScalarWhereInput | Prisma.RendezVousScalarWhereInput[]
 }
 
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
+}
+
 export type EnumRdvStatusFieldUpdateOperationsInput = {
   set?: $Enums.RdvStatus
 }
 
 export type RendezVousCreateWithoutProspectInput = {
   date: Date | string
+  proposedDate?: Date | string | null
   nom: string
   prenom: string
   email: string
@@ -607,6 +634,7 @@ export type RendezVousCreateWithoutProspectInput = {
 export type RendezVousUncheckedCreateWithoutProspectInput = {
   id?: number
   date: Date | string
+  proposedDate?: Date | string | null
   nom: string
   prenom: string
   email: string
@@ -649,6 +677,7 @@ export type RendezVousScalarWhereInput = {
   NOT?: Prisma.RendezVousScalarWhereInput | Prisma.RendezVousScalarWhereInput[]
   id?: Prisma.IntFilter<"RendezVous"> | number
   date?: Prisma.DateTimeFilter<"RendezVous"> | Date | string
+  proposedDate?: Prisma.DateTimeNullableFilter<"RendezVous"> | Date | string | null
   nom?: Prisma.StringFilter<"RendezVous"> | string
   prenom?: Prisma.StringFilter<"RendezVous"> | string
   email?: Prisma.StringFilter<"RendezVous"> | string
@@ -662,6 +691,7 @@ export type RendezVousScalarWhereInput = {
 
 export type RendezVousCreateWithoutAnnonceInput = {
   date: Date | string
+  proposedDate?: Date | string | null
   nom: string
   prenom: string
   email: string
@@ -675,6 +705,7 @@ export type RendezVousCreateWithoutAnnonceInput = {
 export type RendezVousUncheckedCreateWithoutAnnonceInput = {
   id?: number
   date: Date | string
+  proposedDate?: Date | string | null
   nom: string
   prenom: string
   email: string
@@ -714,6 +745,7 @@ export type RendezVousUpdateManyWithWhereWithoutAnnonceInput = {
 export type RendezVousCreateManyProspectInput = {
   id?: number
   date: Date | string
+  proposedDate?: Date | string | null
   nom: string
   prenom: string
   email: string
@@ -726,6 +758,7 @@ export type RendezVousCreateManyProspectInput = {
 
 export type RendezVousUpdateWithoutProspectInput = {
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  proposedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   nom?: Prisma.StringFieldUpdateOperationsInput | string
   prenom?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -739,6 +772,7 @@ export type RendezVousUpdateWithoutProspectInput = {
 export type RendezVousUncheckedUpdateWithoutProspectInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  proposedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   nom?: Prisma.StringFieldUpdateOperationsInput | string
   prenom?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -752,6 +786,7 @@ export type RendezVousUncheckedUpdateWithoutProspectInput = {
 export type RendezVousUncheckedUpdateManyWithoutProspectInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  proposedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   nom?: Prisma.StringFieldUpdateOperationsInput | string
   prenom?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -765,6 +800,7 @@ export type RendezVousUncheckedUpdateManyWithoutProspectInput = {
 export type RendezVousCreateManyAnnonceInput = {
   id?: number
   date: Date | string
+  proposedDate?: Date | string | null
   nom: string
   prenom: string
   email: string
@@ -777,6 +813,7 @@ export type RendezVousCreateManyAnnonceInput = {
 
 export type RendezVousUpdateWithoutAnnonceInput = {
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  proposedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   nom?: Prisma.StringFieldUpdateOperationsInput | string
   prenom?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -790,6 +827,7 @@ export type RendezVousUpdateWithoutAnnonceInput = {
 export type RendezVousUncheckedUpdateWithoutAnnonceInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  proposedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   nom?: Prisma.StringFieldUpdateOperationsInput | string
   prenom?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -803,6 +841,7 @@ export type RendezVousUncheckedUpdateWithoutAnnonceInput = {
 export type RendezVousUncheckedUpdateManyWithoutAnnonceInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  proposedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   nom?: Prisma.StringFieldUpdateOperationsInput | string
   prenom?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -818,6 +857,7 @@ export type RendezVousUncheckedUpdateManyWithoutAnnonceInput = {
 export type RendezVousSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   date?: boolean
+  proposedDate?: boolean
   nom?: boolean
   prenom?: boolean
   email?: boolean
@@ -834,6 +874,7 @@ export type RendezVousSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
 export type RendezVousSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   date?: boolean
+  proposedDate?: boolean
   nom?: boolean
   prenom?: boolean
   email?: boolean
@@ -850,6 +891,7 @@ export type RendezVousSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
 export type RendezVousSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   date?: boolean
+  proposedDate?: boolean
   nom?: boolean
   prenom?: boolean
   email?: boolean
@@ -866,6 +908,7 @@ export type RendezVousSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
 export type RendezVousSelectScalar = {
   id?: boolean
   date?: boolean
+  proposedDate?: boolean
   nom?: boolean
   prenom?: boolean
   email?: boolean
@@ -877,7 +920,7 @@ export type RendezVousSelectScalar = {
   annonceId?: boolean
 }
 
-export type RendezVousOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "date" | "nom" | "prenom" | "email" | "telephone" | "message" | "status" | "createdAt" | "prospectId" | "annonceId", ExtArgs["result"]["rendezVous"]>
+export type RendezVousOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "date" | "proposedDate" | "nom" | "prenom" | "email" | "telephone" | "message" | "status" | "createdAt" | "prospectId" | "annonceId", ExtArgs["result"]["rendezVous"]>
 export type RendezVousInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   prospect?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   annonce?: boolean | Prisma.AnnonceDefaultArgs<ExtArgs>
@@ -900,6 +943,7 @@ export type $RendezVousPayload<ExtArgs extends runtime.Types.Extensions.Internal
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     date: Date
+    proposedDate: Date | null
     nom: string
     prenom: string
     email: string
@@ -1336,6 +1380,7 @@ export interface Prisma__RendezVousClient<T, Null = never, ExtArgs extends runti
 export interface RendezVousFieldRefs {
   readonly id: Prisma.FieldRef<"RendezVous", 'Int'>
   readonly date: Prisma.FieldRef<"RendezVous", 'DateTime'>
+  readonly proposedDate: Prisma.FieldRef<"RendezVous", 'DateTime'>
   readonly nom: Prisma.FieldRef<"RendezVous", 'String'>
   readonly prenom: Prisma.FieldRef<"RendezVous", 'String'>
   readonly email: Prisma.FieldRef<"RendezVous", 'String'>

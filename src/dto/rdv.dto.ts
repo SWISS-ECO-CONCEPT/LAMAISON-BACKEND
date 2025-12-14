@@ -5,12 +5,13 @@ export interface CreateRdvDto {
   email: string;
   telephone: string;
   message: string;
-  status: "EN_ATTENTE" | "ACCEPTE" | "REFUSE" | "ANNULE";
+  status?: "EN_ATTENTE" | "PROPOSE" | "ACCEPTE" | "REFUSE" | "ANNULE";
   prospectId: number;  // l’utilisateur qui demande le RDV (prospect)
   annonceId: number;   // l’annonce liée au RDV
 }
 
 export interface UpdateRdvDto {
   date?: Date;
-  status?: "EN_ATTENTE" | "ACCEPTE" | "REFUSE" | "ANNULE";
+  proposedDate?: Date;
+  status?: "EN_ATTENTE" | "PROPOSE" | "ACCEPTE" | "REFUSE" | "ANNULE";
 }

@@ -20,6 +20,7 @@ export type Role = (typeof Role)[keyof typeof Role]
 
 export const RdvStatus = {
   EN_ATTENTE: 'EN_ATTENTE',
+  PROPOSE: 'PROPOSE',
   ACCEPTE: 'ACCEPTE',
   REFUSE: 'REFUSE',
   ANNULE: 'ANNULE'

@@ -863,6 +863,7 @@ export type FavoriScalarFieldEnum = (typeof FavoriScalarFieldEnum)[keyof typeof 
 export const RendezVousScalarFieldEnum = {
   id: 'id',
   date: 'date',
+  proposedDate: 'proposedDate',
   nom: 'nom',
   prenom: 'prenom',
   email: 'email',

@@ -149,10 +149,25 @@ export const updateAnnonce = async (req: Request, res: Response) => {
 export const deleteAnnonce = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
+    
+    // Vérifier que l'annonce existe
+    const annonceExistante = await prisma.annonce.findUnique({ where: { id } });
+    if (!annonceExistante) {
+      return res.status(404).json({ message: "Annonce non trouvée" });
+    }
+
+    // Supprimer en cascade: d'abord les favoris, puis les RDVs, puis l'annonce
+    await prisma.favori.deleteMany({ where: { annonceId: id } });
+    await prisma.rendezVous.deleteMany({ where: { annonceId: id } });
     await prisma.annonce.delete({ where: { id } });
+
     res.json({ message: "Annonce supprimée avec succès" });
-  } catch (error) {
-    res.status(500).json({ message: "Erreur lors de la suppression", error });
+  } catch (error: any) {
+    console.error("Erreur lors de la suppression :", error);
+    res.status(500).json({ 
+      message: "Erreur lors de la suppression", 
+      error: error.message || error 
+    });
   }
 };
 

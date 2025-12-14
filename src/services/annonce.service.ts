@@ -1,4 +1,4 @@
-import prisma from "../utils/db";
+import {prisma} from "../utils/db";
 import { CreateAnnonceDto, UpdateAnnonceDto } from "../dto/annonce.dto";
 
 export const createAnnonce = async (data: CreateAnnonceDto) => {

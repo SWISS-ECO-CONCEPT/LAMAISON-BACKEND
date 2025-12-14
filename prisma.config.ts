@@ -14,7 +14,7 @@ export default defineConfig({
 
   // config de la datasource (base de données)
   datasource: {
-    url: env("DATABASE_URL"),
+    url: env("DB_URL"),
    
   },
 

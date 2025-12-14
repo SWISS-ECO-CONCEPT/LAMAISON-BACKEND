@@ -1,4 +1,4 @@
-import { TypeBien } from "@prisma/client";
+type TypeBien = "maison" | "appartement" | "terrain";
 
 export interface CreateAnnonceDto {
   titre: string;
