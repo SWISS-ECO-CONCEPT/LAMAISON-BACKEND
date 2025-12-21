@@ -1,14 +1,14 @@
 import { Request, Response, Router } from "express";
-import {prisma} from "../utils/db";
+import { prisma } from "../utils/db";
 import { signInController, signUpController, updateUserRoleController } from "../controllers/auth.controllers";
 import { requireAuth } from "@clerk/express";
 
 
 const userRouter = Router();
 
-userRouter.post('/signup', signUpController )
-userRouter.post('/signin', signInController )
-userRouter.put('/update-role', updateUserRoleController )
+userRouter.post('/signup', signUpController)
+userRouter.post('/signin', signInController)
+userRouter.put('/update-role', updateUserRoleController)
 
 userRouter.get('/me', requireAuth(), async (req: Request, res: Response) => {
     try {
@@ -28,10 +28,29 @@ userRouter.get('/me', requireAuth(), async (req: Request, res: Response) => {
     }
 });
 
-userRouter.get('/users', async(req:Request, res:Response)=>{
-    const user= await prisma.user.findMany()
+userRouter.get('/users', async (req: Request, res: Response) => {
+    const user = await prisma.user.findMany()
     res.status(200).json(user)
 })
+
+userRouter.get('/user/:id', requireAuth(), async (req: Request, res: Response) => {
+    try {
+        const user = await prisma.user.findUnique({
+            where: { id: Number(req.params.id) },
+            select: {
+                id: true,
+                clerkId: true,
+                firstname: true,
+                role: true,
+                avatar: true,
+            }
+        });
+        if (!user) return res.status(404).json({ message: "Utilisateur non trouvé" });
+        res.status(200).json(user);
+    } catch (e) {
+        res.status(500).json({ message: "Erreur serveur", error: e });
+    }
+});
 
 export default userRouter
 
