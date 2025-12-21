@@ -8,13 +8,13 @@ import { prisma } from "../utils/db";
 export const createRdv = async (req: Request, res: Response) => {
   try {
     // Map clerkId -> our DB user id
-    const payload = {...req.body} as any;
+    const payload = { ...req.body } as any;
     const actorClerkId = (req as any).auth?.userId as string | undefined;
     if (!actorClerkId) {
       return res.status(401).json({ message: "Non authentifié" });
     }
-    
-        // Si frontend envoie clerkId (prospectClerkId), le mapper en prospectId DB
+
+    // Si frontend envoie clerkId (prospectClerkId), le mapper en prospectId DB
     if (payload.prospectClerkId && payload.prospectClerkId !== actorClerkId) {
       return res.status(403).json({ message: "Accès refusé" });
     }
@@ -28,58 +28,58 @@ export const createRdv = async (req: Request, res: Response) => {
       if (!dbId) {
         return res.status(404).json({ message: 'Utilisateur Clerk introuvable dans la base.(clerkId)' });
       }
-        payload.prospectId = dbId;
+      payload.prospectId = dbId;
+    }
+
+    // remove frontend-only fields
+    delete payload.prospectClerkId;
+    delete payload.proprietaireId;
+
+    const rdv: any = await rdvService.createRdv(payload);
+
+    // Notify agent about new RDV request
+    try {
+      const io = req.app.get('io');
+      if (io && rdv?.annonce?.proprietaire?.clerkId) {
+        io.emit('rdv_update', {
+          type: 'rdv_request',
+          rdvId: rdv.id,
+          agentClerkId: rdv.annonce.proprietaire.clerkId,
+          prospectClerkId: rdv.prospect?.clerkId,
+          status: rdv.status,
+        });
       }
+    } catch (e) {
+      // best-effort
+    }
 
-          // remove frontend-only fields
-      delete payload.prospectClerkId;
-      delete payload.proprietaireId;
-
-          const rdv: any = await rdvService.createRdv(payload);
-
-          // Notify agent about new RDV request
-          try {
-            const io = req.app.get('io');
-            if (io && rdv?.annonce?.proprietaire?.clerkId) {
-              io.emit('rdv_update', {
-                type: 'rdv_request',
-                rdvId: rdv.id,
-                agentClerkId: rdv.annonce.proprietaire.clerkId,
-                prospectClerkId: rdv.prospect?.clerkId,
-                status: rdv.status,
-              });
-            }
-          } catch (e) {
-            // best-effort
-          }
-
-          res.status(201).json(rdv);
-          } catch (error) {
-            res.status(500).json({message: "Erreur lors de la création", error});
-          }
-        };
+    res.status(201).json(rdv);
+  } catch (error) {
+    res.status(500).json({ message: "Erreur lors de la création", error });
+  }
+};
 
 //  GET /api/rdvs
 export const getAllRdvs = async (req: Request, res: Response) => {
   try {
-    const {prospectClerkId, agentClerkId, annonceId }= req.query as any ;
-let filter: any = {};
+    const { prospectClerkId, agentClerkId, annonceId } = req.query as any;
+    let filter: any = {};
 
-if (prospectClerkId) {
-  const dbId = await getDbUserIdByClerkId(prospectClerkId as string);
-  if (!dbId) return res.status(400).json({ message: 'Utilisateur Clerk introuvable dans la base.(prospectClerkId)' });
-  filter.prospectId = dbId;
-}
+    if (prospectClerkId) {
+      const dbId = await getDbUserIdByClerkId(prospectClerkId as string);
+      if (!dbId) return res.status(400).json({ message: 'Utilisateur Clerk introuvable dans la base.(prospectClerkId)' });
+      filter.prospectId = dbId;
+    }
 
-if (agentClerkId) {
-  const dbId = await getDbUserIdByClerkId(agentClerkId as string);
-  if (!dbId) return res.status(400).json({ message: 'Utilisateur Clerk introuvable dans la base.(agentClerkId)' });
-  filter.agentId = dbId;
-}
+    if (agentClerkId) {
+      const dbId = await getDbUserIdByClerkId(agentClerkId as string);
+      if (!dbId) return res.status(400).json({ message: 'Utilisateur Clerk introuvable dans la base.(agentClerkId)' });
+      filter.agentId = dbId;
+    }
 
-if (annonceId) {
-  filter.annonceId =Number(annonceId);
-}
+    if (annonceId) {
+      filter.annonceId = Number(annonceId);
+    }
 
     const rdvs = await rdvService.getAllRdvs(filter);
     res.json(rdvs);
@@ -178,11 +178,20 @@ export const updateRdv = async (req: Request, res: Response) => {
       const updated: any = await rdvService.proposeRdv(id, actorClerkId, new Date(proposedDate));
 
       if (updated?.prospect?.clerkId && updated?.annonce?.proprietaire?.clerkId) {
+        const formattedDate = updated.proposedDate ? new Date(updated.proposedDate).toLocaleString('fr-FR', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        }) : '';
+
         await sendAutoMessage(
           updated.annonce.proprietaire.clerkId,
           updated.prospect.clerkId,
           updated.id,
-          `Bonjour, je vous propose un nouveau créneau pour votre RDV.`
+          `Bonjour, je vous propose un nouveau créneau pour votre RDV : ${formattedDate}.`
         );
       }
 
@@ -261,11 +270,20 @@ export const proposeRdv = async (req: Request, res: Response) => {
     const updated: any = await rdvService.proposeRdv(id, actorClerkId, new Date(proposedDate));
 
     if (updated?.prospect?.clerkId && updated?.annonce?.proprietaire?.clerkId) {
+      const formattedDate = updated.proposedDate ? new Date(updated.proposedDate).toLocaleString('fr-FR', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      }) : '';
+
       await sendAutoMessage(
         updated.annonce.proprietaire.clerkId,
         updated.prospect.clerkId,
         updated.id,
-        `Bonjour, je vous propose un nouveau créneau pour votre RDV.`
+        `Bonjour, je vous propose un nouveau créneau pour votre RDV : ${formattedDate}.`
       );
     }
 

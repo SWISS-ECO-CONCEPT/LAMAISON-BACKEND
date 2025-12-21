@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import * as messageService from "../services/message.service";
 import { prisma } from "../utils/db";
+import { getDbUserIdByClerkId } from "../services/auth.services";
 
 export const createMessage = async (req: Request, res: Response) => {
   try {
@@ -91,5 +92,29 @@ export const getOrCreateConversation = async (req: Request, res: Response) => {
   } catch (error) {
     console.error("Error getting conversation:", error);
     res.status(500).json({ error: "Erreur lors de la récupération de la conversation" });
+  }
+};
+
+/**
+ * GET /messages
+ * Get all conversations for the authenticated user
+ */
+export const getUserConversations = async (req: Request, res: Response) => {
+  try {
+    const clerkId = (req as any).auth?.userId;
+    if (!clerkId) {
+      return res.status(401).json({ error: "Non authentifié" });
+    }
+
+    const dbUserId = await getDbUserIdByClerkId(clerkId);
+    if (!dbUserId) {
+      return res.status(404).json({ error: "Utilisateur non trouvé" });
+    }
+
+    const conversations = await messageService.getConversationsForUser(dbUserId);
+    res.json(conversations);
+  } catch (error) {
+    console.error("Error getting conversations:", error);
+    res.status(500).json({ error: "Erreur lors de la récupération des conversations" });
   }
 };

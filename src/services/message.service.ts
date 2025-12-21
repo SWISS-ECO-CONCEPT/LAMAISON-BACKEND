@@ -1,4 +1,4 @@
-import {prisma} from "../utils/db";
+import { prisma } from "../utils/db";
 import { CreateMessageDto, UpdateMessageDto } from "../dto/message.dto";
 
 
@@ -87,4 +87,53 @@ export const getOrCreateConversation = async (
     console.error("Error getting or creating conversation:", error);
     throw error;
   }
+};
+/**
+ * Get all conversations for a user (grouped by the other participant)
+ */
+export const getConversationsForUser = async (userId: number) => {
+  const messages = await prisma.message.findMany({
+    where: {
+      OR: [
+        { senderId: userId },
+        { receiverId: userId },
+      ],
+    },
+    include: {
+      sender: {
+        select: {
+          id: true,
+          clerkId: true,
+          firstname: true,
+          avatar: true,
+          role: true,
+        }
+      },
+      receiver: {
+        select: {
+          id: true,
+          clerkId: true,
+          firstname: true,
+          avatar: true,
+          role: true,
+        }
+      },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+
+  const conversationsData = new Map();
+
+  for (const msg of messages) {
+    const otherUser = msg.senderId === userId ? msg.receiver : msg.sender;
+    if (!conversationsData.has(otherUser.id)) {
+      conversationsData.set(otherUser.id, {
+        id: otherUser.id,
+        otherUser,
+        lastMessage: msg,
+      });
+    }
+  }
+
+  return Array.from(conversationsData.values());
 };
