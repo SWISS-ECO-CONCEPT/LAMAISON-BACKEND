@@ -12,6 +12,7 @@ import bodyParser from "body-parser";
 import clerkWebhook from './routes/clerkwebhook.routes';
 import { clerkMiddleware } from "@clerk/express";
 import { setupSocketIO } from './services/socket.service';
+import adminAuthRoutes from './routes/adminAuth.routes';
 
 const app = express();
 const httpServer = createServer(app);
@@ -21,7 +22,7 @@ const io = setupSocketIO(httpServer);
 app.set('io', io);
 
 app.use(cors({
-  origin: 'http://localhost:5173', // your frontend URL
+  origin: ['http://localhost:5173', 'http://localhost:5174'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
@@ -43,6 +44,7 @@ app.use("/messages", messageRoutes)
 app.use("/uploads", express.static("uploads"));
 app.use("/images", imageRoutes)
 app.use('/auth/sync', authSyncRoutes)
+app.use('/admin/auth', adminAuthRoutes)
 
 httpServer.listen(5000, () => console.log('Serveur démarre sur le port 5000 avec Socket.io'));
 export default app 
