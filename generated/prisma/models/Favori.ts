@@ -581,23 +581,7 @@ export type FavoriSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   annonce?: boolean | Prisma.AnnonceDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["favori"]>
 
-export type FavoriSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  userId?: boolean
-  annonceId?: boolean
-  createdAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  annonce?: boolean | Prisma.AnnonceDefaultArgs<ExtArgs>
-}, ExtArgs["result"]["favori"]>
 
-export type FavoriSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  userId?: boolean
-  annonceId?: boolean
-  createdAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  annonce?: boolean | Prisma.AnnonceDefaultArgs<ExtArgs>
-}, ExtArgs["result"]["favori"]>
 
 export type FavoriSelectScalar = {
   id?: boolean
@@ -608,14 +592,6 @@ export type FavoriSelectScalar = {
 
 export type FavoriOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "annonceId" | "createdAt", ExtArgs["result"]["favori"]>
 export type FavoriInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  annonce?: boolean | Prisma.AnnonceDefaultArgs<ExtArgs>
-}
-export type FavoriIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  annonce?: boolean | Prisma.AnnonceDefaultArgs<ExtArgs>
-}
-export type FavoriIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   annonce?: boolean | Prisma.AnnonceDefaultArgs<ExtArgs>
 }
@@ -749,30 +725,6 @@ export interface FavoriDelegate<ExtArgs extends runtime.Types.Extensions.Interna
   createMany<T extends FavoriCreateManyArgs>(args?: Prisma.SelectSubset<T, FavoriCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
-   * Create many Favoris and returns the data saved in the database.
-   * @param {FavoriCreateManyAndReturnArgs} args - Arguments to create many Favoris.
-   * @example
-   * // Create many Favoris
-   * const favori = await prisma.favori.createManyAndReturn({
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Create many Favoris and only return the `id`
-   * const favoriWithIdOnly = await prisma.favori.createManyAndReturn({
-   *   select: { id: true },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  createManyAndReturn<T extends FavoriCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, FavoriCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FavoriPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-  /**
    * Delete a Favori.
    * @param {FavoriDeleteArgs} args - Arguments to delete one Favori.
    * @example
@@ -835,36 +787,6 @@ export interface FavoriDelegate<ExtArgs extends runtime.Types.Extensions.Interna
    * 
    */
   updateMany<T extends FavoriUpdateManyArgs>(args: Prisma.SelectSubset<T, FavoriUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
-
-  /**
-   * Update zero or more Favoris and returns the data updated in the database.
-   * @param {FavoriUpdateManyAndReturnArgs} args - Arguments to update many Favoris.
-   * @example
-   * // Update many Favoris
-   * const favori = await prisma.favori.updateManyAndReturn({
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Update zero or more Favoris and only return the `id`
-   * const favoriWithIdOnly = await prisma.favori.updateManyAndReturn({
-   *   select: { id: true },
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  updateManyAndReturn<T extends FavoriUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, FavoriUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FavoriPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Favori.
@@ -1293,29 +1215,6 @@ export type FavoriCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
- * Favori createManyAndReturn
- */
-export type FavoriCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Favori
-   */
-  select?: Prisma.FavoriSelectCreateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the Favori
-   */
-  omit?: Prisma.FavoriOmit<ExtArgs> | null
-  /**
-   * The data used to create many Favoris.
-   */
-  data: Prisma.FavoriCreateManyInput | Prisma.FavoriCreateManyInput[]
-  skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.FavoriIncludeCreateManyAndReturn<ExtArgs> | null
-}
-
-/**
  * Favori update
  */
 export type FavoriUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1357,36 +1256,6 @@ export type FavoriUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Limit how many Favoris to update.
    */
   limit?: number
-}
-
-/**
- * Favori updateManyAndReturn
- */
-export type FavoriUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Favori
-   */
-  select?: Prisma.FavoriSelectUpdateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the Favori
-   */
-  omit?: Prisma.FavoriOmit<ExtArgs> | null
-  /**
-   * The data used to update Favoris.
-   */
-  data: Prisma.XOR<Prisma.FavoriUpdateManyMutationInput, Prisma.FavoriUncheckedUpdateManyInput>
-  /**
-   * Filter which Favoris to update
-   */
-  where?: Prisma.FavoriWhereInput
-  /**
-   * Limit how many Favoris to update.
-   */
-  limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.FavoriIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
