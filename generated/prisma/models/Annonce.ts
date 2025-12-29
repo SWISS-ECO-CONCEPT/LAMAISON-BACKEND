@@ -255,7 +255,7 @@ export type AnnonceGroupByOutputType = {
   type: $Enums.TypeBien | null
   createdAt: Date
   updatedAt: Date
-  images: string[]
+  images: runtime.JsonValue
   proprietaireId: number
   _count: AnnonceCountAggregateOutputType | null
   _avg: AnnonceAvgAggregateOutputType | null
@@ -294,7 +294,7 @@ export type AnnonceWhereInput = {
   type?: Prisma.EnumTypeBienNullableFilter<"Annonce"> | $Enums.TypeBien | null
   createdAt?: Prisma.DateTimeFilter<"Annonce"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Annonce"> | Date | string
-  images?: Prisma.StringNullableListFilter<"Annonce">
+  images?: Prisma.JsonFilter<"Annonce">
   proprietaireId?: Prisma.IntFilter<"Annonce"> | number
   favoris?: Prisma.FavoriListRelationFilter
   proprietaire?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -318,6 +318,7 @@ export type AnnonceOrderByWithRelationInput = {
   favoris?: Prisma.FavoriOrderByRelationAggregateInput
   proprietaire?: Prisma.UserOrderByWithRelationInput
   rendezVous?: Prisma.RendezVousOrderByRelationAggregateInput
+  _relevance?: Prisma.AnnonceOrderByRelevanceInput
 }
 
 export type AnnonceWhereUniqueInput = Prisma.AtLeast<{
@@ -335,7 +336,7 @@ export type AnnonceWhereUniqueInput = Prisma.AtLeast<{
   type?: Prisma.EnumTypeBienNullableFilter<"Annonce"> | $Enums.TypeBien | null
   createdAt?: Prisma.DateTimeFilter<"Annonce"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Annonce"> | Date | string
-  images?: Prisma.StringNullableListFilter<"Annonce">
+  images?: Prisma.JsonFilter<"Annonce">
   proprietaireId?: Prisma.IntFilter<"Annonce"> | number
   favoris?: Prisma.FavoriListRelationFilter
   proprietaire?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -378,7 +379,7 @@ export type AnnonceScalarWhereWithAggregatesInput = {
   type?: Prisma.EnumTypeBienNullableWithAggregatesFilter<"Annonce"> | $Enums.TypeBien | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Annonce"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Annonce"> | Date | string
-  images?: Prisma.StringNullableListFilter<"Annonce">
+  images?: Prisma.JsonWithAggregatesFilter<"Annonce">
   proprietaireId?: Prisma.IntWithAggregatesFilter<"Annonce"> | number
 }
 
@@ -393,7 +394,7 @@ export type AnnonceCreateInput = {
   type?: $Enums.TypeBien | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  images?: Prisma.AnnonceCreateimagesInput | string[]
+  images: Prisma.JsonNullValueInput | runtime.InputJsonValue
   favoris?: Prisma.FavoriCreateNestedManyWithoutAnnonceInput
   proprietaire: Prisma.UserCreateNestedOneWithoutAnnoncesInput
   rendezVous?: Prisma.RendezVousCreateNestedManyWithoutAnnonceInput
@@ -411,7 +412,7 @@ export type AnnonceUncheckedCreateInput = {
   type?: $Enums.TypeBien | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  images?: Prisma.AnnonceCreateimagesInput | string[]
+  images: Prisma.JsonNullValueInput | runtime.InputJsonValue
   proprietaireId: number
   favoris?: Prisma.FavoriUncheckedCreateNestedManyWithoutAnnonceInput
   rendezVous?: Prisma.RendezVousUncheckedCreateNestedManyWithoutAnnonceInput
@@ -428,7 +429,7 @@ export type AnnonceUpdateInput = {
   type?: Prisma.NullableEnumTypeBienFieldUpdateOperationsInput | $Enums.TypeBien | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  images?: Prisma.AnnonceUpdateimagesInput | string[]
+  images?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   favoris?: Prisma.FavoriUpdateManyWithoutAnnonceNestedInput
   proprietaire?: Prisma.UserUpdateOneRequiredWithoutAnnoncesNestedInput
   rendezVous?: Prisma.RendezVousUpdateManyWithoutAnnonceNestedInput
@@ -446,7 +447,7 @@ export type AnnonceUncheckedUpdateInput = {
   type?: Prisma.NullableEnumTypeBienFieldUpdateOperationsInput | $Enums.TypeBien | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  images?: Prisma.AnnonceUpdateimagesInput | string[]
+  images?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   proprietaireId?: Prisma.IntFieldUpdateOperationsInput | number
   favoris?: Prisma.FavoriUncheckedUpdateManyWithoutAnnonceNestedInput
   rendezVous?: Prisma.RendezVousUncheckedUpdateManyWithoutAnnonceNestedInput
@@ -464,7 +465,7 @@ export type AnnonceCreateManyInput = {
   type?: $Enums.TypeBien | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  images?: Prisma.AnnonceCreateimagesInput | string[]
+  images: Prisma.JsonNullValueInput | runtime.InputJsonValue
   proprietaireId: number
 }
 
@@ -479,7 +480,7 @@ export type AnnonceUpdateManyMutationInput = {
   type?: Prisma.NullableEnumTypeBienFieldUpdateOperationsInput | $Enums.TypeBien | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  images?: Prisma.AnnonceUpdateimagesInput | string[]
+  images?: Prisma.JsonNullValueInput | runtime.InputJsonValue
 }
 
 export type AnnonceUncheckedUpdateManyInput = {
@@ -494,7 +495,7 @@ export type AnnonceUncheckedUpdateManyInput = {
   type?: Prisma.NullableEnumTypeBienFieldUpdateOperationsInput | $Enums.TypeBien | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  images?: Prisma.AnnonceUpdateimagesInput | string[]
+  images?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   proprietaireId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
@@ -508,12 +509,10 @@ export type AnnonceOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type StringNullableListFilter<$PrismaModel = never> = {
-  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
-  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
-  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
-  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
-  isEmpty?: boolean
+export type AnnonceOrderByRelevanceInput = {
+  fields: Prisma.AnnonceOrderByRelevanceFieldEnum | Prisma.AnnonceOrderByRelevanceFieldEnum[]
+  sort: Prisma.SortOrder
+  search: string
 }
 
 export type AnnonceCountOrderByAggregateInput = {
@@ -627,10 +626,6 @@ export type AnnonceUncheckedUpdateManyWithoutProprietaireNestedInput = {
   deleteMany?: Prisma.AnnonceScalarWhereInput | Prisma.AnnonceScalarWhereInput[]
 }
 
-export type AnnonceCreateimagesInput = {
-  set: string[]
-}
-
 export type FloatFieldUpdateOperationsInput = {
   set?: number
   increment?: number
@@ -649,11 +644,6 @@ export type NullableIntFieldUpdateOperationsInput = {
 
 export type NullableEnumTypeBienFieldUpdateOperationsInput = {
   set?: $Enums.TypeBien | null
-}
-
-export type AnnonceUpdateimagesInput = {
-  set?: string[]
-  push?: string | string[]
 }
 
 export type AnnonceCreateNestedOneWithoutFavorisInput = {
@@ -695,7 +685,7 @@ export type AnnonceCreateWithoutProprietaireInput = {
   type?: $Enums.TypeBien | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  images?: Prisma.AnnonceCreateimagesInput | string[]
+  images: Prisma.JsonNullValueInput | runtime.InputJsonValue
   favoris?: Prisma.FavoriCreateNestedManyWithoutAnnonceInput
   rendezVous?: Prisma.RendezVousCreateNestedManyWithoutAnnonceInput
 }
@@ -712,7 +702,7 @@ export type AnnonceUncheckedCreateWithoutProprietaireInput = {
   type?: $Enums.TypeBien | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  images?: Prisma.AnnonceCreateimagesInput | string[]
+  images: Prisma.JsonNullValueInput | runtime.InputJsonValue
   favoris?: Prisma.FavoriUncheckedCreateNestedManyWithoutAnnonceInput
   rendezVous?: Prisma.RendezVousUncheckedCreateNestedManyWithoutAnnonceInput
 }
@@ -758,7 +748,7 @@ export type AnnonceScalarWhereInput = {
   type?: Prisma.EnumTypeBienNullableFilter<"Annonce"> | $Enums.TypeBien | null
   createdAt?: Prisma.DateTimeFilter<"Annonce"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Annonce"> | Date | string
-  images?: Prisma.StringNullableListFilter<"Annonce">
+  images?: Prisma.JsonFilter<"Annonce">
   proprietaireId?: Prisma.IntFilter<"Annonce"> | number
 }
 
@@ -773,7 +763,7 @@ export type AnnonceCreateWithoutFavorisInput = {
   type?: $Enums.TypeBien | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  images?: Prisma.AnnonceCreateimagesInput | string[]
+  images: Prisma.JsonNullValueInput | runtime.InputJsonValue
   proprietaire: Prisma.UserCreateNestedOneWithoutAnnoncesInput
   rendezVous?: Prisma.RendezVousCreateNestedManyWithoutAnnonceInput
 }
@@ -790,7 +780,7 @@ export type AnnonceUncheckedCreateWithoutFavorisInput = {
   type?: $Enums.TypeBien | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  images?: Prisma.AnnonceCreateimagesInput | string[]
+  images: Prisma.JsonNullValueInput | runtime.InputJsonValue
   proprietaireId: number
   rendezVous?: Prisma.RendezVousUncheckedCreateNestedManyWithoutAnnonceInput
 }
@@ -822,7 +812,7 @@ export type AnnonceUpdateWithoutFavorisInput = {
   type?: Prisma.NullableEnumTypeBienFieldUpdateOperationsInput | $Enums.TypeBien | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  images?: Prisma.AnnonceUpdateimagesInput | string[]
+  images?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   proprietaire?: Prisma.UserUpdateOneRequiredWithoutAnnoncesNestedInput
   rendezVous?: Prisma.RendezVousUpdateManyWithoutAnnonceNestedInput
 }
@@ -839,7 +829,7 @@ export type AnnonceUncheckedUpdateWithoutFavorisInput = {
   type?: Prisma.NullableEnumTypeBienFieldUpdateOperationsInput | $Enums.TypeBien | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  images?: Prisma.AnnonceUpdateimagesInput | string[]
+  images?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   proprietaireId?: Prisma.IntFieldUpdateOperationsInput | number
   rendezVous?: Prisma.RendezVousUncheckedUpdateManyWithoutAnnonceNestedInput
 }
@@ -855,7 +845,7 @@ export type AnnonceCreateWithoutRendezVousInput = {
   type?: $Enums.TypeBien | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  images?: Prisma.AnnonceCreateimagesInput | string[]
+  images: Prisma.JsonNullValueInput | runtime.InputJsonValue
   favoris?: Prisma.FavoriCreateNestedManyWithoutAnnonceInput
   proprietaire: Prisma.UserCreateNestedOneWithoutAnnoncesInput
 }
@@ -872,7 +862,7 @@ export type AnnonceUncheckedCreateWithoutRendezVousInput = {
   type?: $Enums.TypeBien | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  images?: Prisma.AnnonceCreateimagesInput | string[]
+  images: Prisma.JsonNullValueInput | runtime.InputJsonValue
   proprietaireId: number
   favoris?: Prisma.FavoriUncheckedCreateNestedManyWithoutAnnonceInput
 }
@@ -904,7 +894,7 @@ export type AnnonceUpdateWithoutRendezVousInput = {
   type?: Prisma.NullableEnumTypeBienFieldUpdateOperationsInput | $Enums.TypeBien | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  images?: Prisma.AnnonceUpdateimagesInput | string[]
+  images?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   favoris?: Prisma.FavoriUpdateManyWithoutAnnonceNestedInput
   proprietaire?: Prisma.UserUpdateOneRequiredWithoutAnnoncesNestedInput
 }
@@ -921,7 +911,7 @@ export type AnnonceUncheckedUpdateWithoutRendezVousInput = {
   type?: Prisma.NullableEnumTypeBienFieldUpdateOperationsInput | $Enums.TypeBien | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  images?: Prisma.AnnonceUpdateimagesInput | string[]
+  images?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   proprietaireId?: Prisma.IntFieldUpdateOperationsInput | number
   favoris?: Prisma.FavoriUncheckedUpdateManyWithoutAnnonceNestedInput
 }
@@ -938,7 +928,7 @@ export type AnnonceCreateManyProprietaireInput = {
   type?: $Enums.TypeBien | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  images?: Prisma.AnnonceCreateimagesInput | string[]
+  images: Prisma.JsonNullValueInput | runtime.InputJsonValue
 }
 
 export type AnnonceUpdateWithoutProprietaireInput = {
@@ -952,7 +942,7 @@ export type AnnonceUpdateWithoutProprietaireInput = {
   type?: Prisma.NullableEnumTypeBienFieldUpdateOperationsInput | $Enums.TypeBien | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  images?: Prisma.AnnonceUpdateimagesInput | string[]
+  images?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   favoris?: Prisma.FavoriUpdateManyWithoutAnnonceNestedInput
   rendezVous?: Prisma.RendezVousUpdateManyWithoutAnnonceNestedInput
 }
@@ -969,7 +959,7 @@ export type AnnonceUncheckedUpdateWithoutProprietaireInput = {
   type?: Prisma.NullableEnumTypeBienFieldUpdateOperationsInput | $Enums.TypeBien | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  images?: Prisma.AnnonceUpdateimagesInput | string[]
+  images?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   favoris?: Prisma.FavoriUncheckedUpdateManyWithoutAnnonceNestedInput
   rendezVous?: Prisma.RendezVousUncheckedUpdateManyWithoutAnnonceNestedInput
 }
@@ -986,7 +976,7 @@ export type AnnonceUncheckedUpdateManyWithoutProprietaireInput = {
   type?: Prisma.NullableEnumTypeBienFieldUpdateOperationsInput | $Enums.TypeBien | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  images?: Prisma.AnnonceUpdateimagesInput | string[]
+  images?: Prisma.JsonNullValueInput | runtime.InputJsonValue
 }
 
 
@@ -1049,39 +1039,7 @@ export type AnnonceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   _count?: boolean | Prisma.AnnonceCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["annonce"]>
 
-export type AnnonceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  titre?: boolean
-  description?: boolean
-  prix?: boolean
-  ville?: boolean
-  surface?: boolean
-  chambres?: boolean
-  douches?: boolean
-  type?: boolean
-  createdAt?: boolean
-  updatedAt?: boolean
-  images?: boolean
-  proprietaireId?: boolean
-  proprietaire?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}, ExtArgs["result"]["annonce"]>
 
-export type AnnonceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  titre?: boolean
-  description?: boolean
-  prix?: boolean
-  ville?: boolean
-  surface?: boolean
-  chambres?: boolean
-  douches?: boolean
-  type?: boolean
-  createdAt?: boolean
-  updatedAt?: boolean
-  images?: boolean
-  proprietaireId?: boolean
-  proprietaire?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}, ExtArgs["result"]["annonce"]>
 
 export type AnnonceSelectScalar = {
   id?: boolean
@@ -1106,12 +1064,6 @@ export type AnnonceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   rendezVous?: boolean | Prisma.Annonce$rendezVousArgs<ExtArgs>
   _count?: boolean | Prisma.AnnonceCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type AnnonceIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  proprietaire?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}
-export type AnnonceIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  proprietaire?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}
 
 export type $AnnoncePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Annonce"
@@ -1132,7 +1084,7 @@ export type $AnnoncePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     type: $Enums.TypeBien | null
     createdAt: Date
     updatedAt: Date
-    images: string[]
+    images: runtime.JsonValue
     proprietaireId: number
   }, ExtArgs["result"]["annonce"]>
   composites: {}
@@ -1252,30 +1204,6 @@ export interface AnnonceDelegate<ExtArgs extends runtime.Types.Extensions.Intern
   createMany<T extends AnnonceCreateManyArgs>(args?: Prisma.SelectSubset<T, AnnonceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
-   * Create many Annonces and returns the data saved in the database.
-   * @param {AnnonceCreateManyAndReturnArgs} args - Arguments to create many Annonces.
-   * @example
-   * // Create many Annonces
-   * const annonce = await prisma.annonce.createManyAndReturn({
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Create many Annonces and only return the `id`
-   * const annonceWithIdOnly = await prisma.annonce.createManyAndReturn({
-   *   select: { id: true },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  createManyAndReturn<T extends AnnonceCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, AnnonceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AnnoncePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-  /**
    * Delete a Annonce.
    * @param {AnnonceDeleteArgs} args - Arguments to delete one Annonce.
    * @example
@@ -1338,36 +1266,6 @@ export interface AnnonceDelegate<ExtArgs extends runtime.Types.Extensions.Intern
    * 
    */
   updateMany<T extends AnnonceUpdateManyArgs>(args: Prisma.SelectSubset<T, AnnonceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
-
-  /**
-   * Update zero or more Annonces and returns the data updated in the database.
-   * @param {AnnonceUpdateManyAndReturnArgs} args - Arguments to update many Annonces.
-   * @example
-   * // Update many Annonces
-   * const annonce = await prisma.annonce.updateManyAndReturn({
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Update zero or more Annonces and only return the `id`
-   * const annonceWithIdOnly = await prisma.annonce.updateManyAndReturn({
-   *   select: { id: true },
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  updateManyAndReturn<T extends AnnonceUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, AnnonceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AnnoncePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Annonce.
@@ -1571,7 +1469,7 @@ export interface AnnonceFieldRefs {
   readonly type: Prisma.FieldRef<"Annonce", 'TypeBien'>
   readonly createdAt: Prisma.FieldRef<"Annonce", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Annonce", 'DateTime'>
-  readonly images: Prisma.FieldRef<"Annonce", 'String[]'>
+  readonly images: Prisma.FieldRef<"Annonce", 'Json'>
   readonly proprietaireId: Prisma.FieldRef<"Annonce", 'Int'>
 }
     
@@ -1806,29 +1704,6 @@ export type AnnonceCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
- * Annonce createManyAndReturn
- */
-export type AnnonceCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Annonce
-   */
-  select?: Prisma.AnnonceSelectCreateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the Annonce
-   */
-  omit?: Prisma.AnnonceOmit<ExtArgs> | null
-  /**
-   * The data used to create many Annonces.
-   */
-  data: Prisma.AnnonceCreateManyInput | Prisma.AnnonceCreateManyInput[]
-  skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.AnnonceIncludeCreateManyAndReturn<ExtArgs> | null
-}
-
-/**
  * Annonce update
  */
 export type AnnonceUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1870,36 +1745,6 @@ export type AnnonceUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Limit how many Annonces to update.
    */
   limit?: number
-}
-
-/**
- * Annonce updateManyAndReturn
- */
-export type AnnonceUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Annonce
-   */
-  select?: Prisma.AnnonceSelectUpdateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the Annonce
-   */
-  omit?: Prisma.AnnonceOmit<ExtArgs> | null
-  /**
-   * The data used to update Annonces.
-   */
-  data: Prisma.XOR<Prisma.AnnonceUpdateManyMutationInput, Prisma.AnnonceUncheckedUpdateManyInput>
-  /**
-   * Filter which Annonces to update
-   */
-  where?: Prisma.AnnonceWhereInput
-  /**
-   * Limit how many Annonces to update.
-   */
-  limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.AnnonceIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

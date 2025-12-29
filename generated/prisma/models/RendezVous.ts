@@ -299,6 +299,7 @@ export type RendezVousOrderByWithRelationInput = {
   annonceId?: Prisma.SortOrder
   prospect?: Prisma.UserOrderByWithRelationInput
   annonce?: Prisma.AnnonceOrderByWithRelationInput
+  _relevance?: Prisma.RendezVousOrderByRelevanceInput
 }
 
 export type RendezVousWhereUniqueInput = Prisma.AtLeast<{
@@ -467,6 +468,12 @@ export type RendezVousListRelationFilter = {
 
 export type RendezVousOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type RendezVousOrderByRelevanceInput = {
+  fields: Prisma.RendezVousOrderByRelevanceFieldEnum | Prisma.RendezVousOrderByRelevanceFieldEnum[]
+  sort: Prisma.SortOrder
+  search: string
 }
 
 export type RendezVousCountOrderByAggregateInput = {
@@ -871,39 +878,7 @@ export type RendezVousSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   annonce?: boolean | Prisma.AnnonceDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["rendezVous"]>
 
-export type RendezVousSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  date?: boolean
-  proposedDate?: boolean
-  nom?: boolean
-  prenom?: boolean
-  email?: boolean
-  telephone?: boolean
-  message?: boolean
-  status?: boolean
-  createdAt?: boolean
-  prospectId?: boolean
-  annonceId?: boolean
-  prospect?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  annonce?: boolean | Prisma.AnnonceDefaultArgs<ExtArgs>
-}, ExtArgs["result"]["rendezVous"]>
 
-export type RendezVousSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  date?: boolean
-  proposedDate?: boolean
-  nom?: boolean
-  prenom?: boolean
-  email?: boolean
-  telephone?: boolean
-  message?: boolean
-  status?: boolean
-  createdAt?: boolean
-  prospectId?: boolean
-  annonceId?: boolean
-  prospect?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  annonce?: boolean | Prisma.AnnonceDefaultArgs<ExtArgs>
-}, ExtArgs["result"]["rendezVous"]>
 
 export type RendezVousSelectScalar = {
   id?: boolean
@@ -922,14 +897,6 @@ export type RendezVousSelectScalar = {
 
 export type RendezVousOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "date" | "proposedDate" | "nom" | "prenom" | "email" | "telephone" | "message" | "status" | "createdAt" | "prospectId" | "annonceId", ExtArgs["result"]["rendezVous"]>
 export type RendezVousInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  prospect?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  annonce?: boolean | Prisma.AnnonceDefaultArgs<ExtArgs>
-}
-export type RendezVousIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  prospect?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  annonce?: boolean | Prisma.AnnonceDefaultArgs<ExtArgs>
-}
-export type RendezVousIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   prospect?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   annonce?: boolean | Prisma.AnnonceDefaultArgs<ExtArgs>
 }
@@ -1071,30 +1038,6 @@ export interface RendezVousDelegate<ExtArgs extends runtime.Types.Extensions.Int
   createMany<T extends RendezVousCreateManyArgs>(args?: Prisma.SelectSubset<T, RendezVousCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
-   * Create many RendezVous and returns the data saved in the database.
-   * @param {RendezVousCreateManyAndReturnArgs} args - Arguments to create many RendezVous.
-   * @example
-   * // Create many RendezVous
-   * const rendezVous = await prisma.rendezVous.createManyAndReturn({
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Create many RendezVous and only return the `id`
-   * const rendezVousWithIdOnly = await prisma.rendezVous.createManyAndReturn({
-   *   select: { id: true },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  createManyAndReturn<T extends RendezVousCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, RendezVousCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RendezVousPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-  /**
    * Delete a RendezVous.
    * @param {RendezVousDeleteArgs} args - Arguments to delete one RendezVous.
    * @example
@@ -1157,36 +1100,6 @@ export interface RendezVousDelegate<ExtArgs extends runtime.Types.Extensions.Int
    * 
    */
   updateMany<T extends RendezVousUpdateManyArgs>(args: Prisma.SelectSubset<T, RendezVousUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
-
-  /**
-   * Update zero or more RendezVous and returns the data updated in the database.
-   * @param {RendezVousUpdateManyAndReturnArgs} args - Arguments to update many RendezVous.
-   * @example
-   * // Update many RendezVous
-   * const rendezVous = await prisma.rendezVous.updateManyAndReturn({
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Update zero or more RendezVous and only return the `id`
-   * const rendezVousWithIdOnly = await prisma.rendezVous.updateManyAndReturn({
-   *   select: { id: true },
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  updateManyAndReturn<T extends RendezVousUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, RendezVousUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RendezVousPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one RendezVous.
@@ -1623,29 +1536,6 @@ export type RendezVousCreateManyArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
- * RendezVous createManyAndReturn
- */
-export type RendezVousCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the RendezVous
-   */
-  select?: Prisma.RendezVousSelectCreateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the RendezVous
-   */
-  omit?: Prisma.RendezVousOmit<ExtArgs> | null
-  /**
-   * The data used to create many RendezVous.
-   */
-  data: Prisma.RendezVousCreateManyInput | Prisma.RendezVousCreateManyInput[]
-  skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.RendezVousIncludeCreateManyAndReturn<ExtArgs> | null
-}
-
-/**
  * RendezVous update
  */
 export type RendezVousUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1687,36 +1577,6 @@ export type RendezVousUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Limit how many RendezVous to update.
    */
   limit?: number
-}
-
-/**
- * RendezVous updateManyAndReturn
- */
-export type RendezVousUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the RendezVous
-   */
-  select?: Prisma.RendezVousSelectUpdateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the RendezVous
-   */
-  omit?: Prisma.RendezVousOmit<ExtArgs> | null
-  /**
-   * The data used to update RendezVous.
-   */
-  data: Prisma.XOR<Prisma.RendezVousUpdateManyMutationInput, Prisma.RendezVousUncheckedUpdateManyInput>
-  /**
-   * Filter which RendezVous to update
-   */
-  where?: Prisma.RendezVousWhereInput
-  /**
-   * Limit how many RendezVous to update.
-   */
-  limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.RendezVousIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
