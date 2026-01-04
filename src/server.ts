@@ -12,7 +12,7 @@ import bodyParser from "body-parser";
 import clerkWebhook from './routes/clerkwebhook.routes';
 import { clerkMiddleware } from "@clerk/express";
 import { setupSocketIO } from './services/socket.service';
-import adminAuthRoutes from './routes/adminAuth.routes';
+import adminRoutes from './routes/adminRoutes.routes';
 
 const app = express();
 const httpServer = createServer(app);
@@ -44,7 +44,9 @@ app.use("/messages", messageRoutes)
 app.use("/uploads", express.static("uploads"));
 app.use("/images", imageRoutes)
 app.use('/auth/sync', authSyncRoutes)
-app.use('/admin/auth', adminAuthRoutes)
+app.use('/admin', adminRoutes)
+
+
 
 httpServer.listen(5000, () => console.log('Serveur démarre sur le port 5000 avec Socket.io'));
 export default app 
