@@ -5,15 +5,14 @@ export interface SignInDto {
 export type Role = 'ADMIN' | 'AGENT' | 'PROSPECT'
 
 export interface SignUpDto {
-  clerkId: string   // l’ID unique retourné par Clerk
+  clerkId: string   // l'ID unique retourné par Clerk
   firstname: string
   role: Role
+  phone: string
 }
 
 
-
-
-
+//
 
 
 

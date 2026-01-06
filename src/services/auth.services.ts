@@ -41,11 +41,11 @@ const SALT_ROUNDS = 10;
 //Fonction de connexion
 
 export async function signUp(dto: SignUpDto) {
-  const { clerkId, firstname, role } = dto;
+  const { clerkId, firstname, role, phone } = dto;
 
   // Vérification des champs
-  if (!clerkId || !firstname) {
-    throw new Error("Les champs clerkId, email et prénom sont requis.");
+  if (!clerkId || !firstname || !phone) {
+    throw new Error("Les champs clerkId, prénom et téléphone sont requis.");
   }
 
   // Vérification si l’utilisateur existe déjà
@@ -60,6 +60,7 @@ export async function signUp(dto: SignUpDto) {
         clerkId: existingUser.clerkId,
         firstname: existingUser.firstname,
         role: existingUser.role,
+        phone: existingUser.phone,
       },
     };
   }
@@ -70,6 +71,7 @@ export async function signUp(dto: SignUpDto) {
       clerkId,
       firstname,
       role: role ?? "PROSPECT", // par défaut si rien n’est fourni
+      phone,
     },
   });
 
@@ -79,6 +81,7 @@ export async function signUp(dto: SignUpDto) {
       clerkId: user.clerkId,
       firstname: user.firstname,
       role: user.role,
+      phone: user.phone,
     },
   };
 }
