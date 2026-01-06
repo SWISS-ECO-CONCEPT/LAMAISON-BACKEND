@@ -69,6 +69,9 @@ route.post(
       // try multiple places for firstname
       const derivedFirstName = (unsafeMetadata?.firstname as string) || firstNameTop || (publicMetadata?.firstname as string) || firstFromEmail || 'Unknown';
 
+      // Extract phone from unsafe_metadata
+      const derivedPhone = (unsafeMetadata?.phone as string) || null;
+
       // Try to extract role from multiple places, permissive parsing
       const roleCandidates = [
         unsafeMetadata?.role,
@@ -102,11 +105,13 @@ route.post(
             update: {
               firstname: derivedFirstName,
               role: derivedRole as any,
+              phone: derivedPhone,
             },
             create: {
               clerkId: clerkUserId,
               firstname: derivedFirstName,
               role: derivedRole as any,
+              phone: derivedPhone,
             },
           });
           console.log(`User upsert completed for ${clerkUserId}`);
