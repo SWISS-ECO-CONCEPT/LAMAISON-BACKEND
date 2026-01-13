@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `annonce` ADD COLUMN `vues` INTEGER NOT NULL DEFAULT 0;

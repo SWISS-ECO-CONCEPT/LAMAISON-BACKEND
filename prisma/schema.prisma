@@ -63,9 +63,10 @@ model Annonce {
   description    String
   prix           Float
   ville          String
-   surface        Int?         
+  surface        Int?         
   chambres       Int?         
   douches        Int?         
+  vues           Int          @default(0)
   type         TypeBien?
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt

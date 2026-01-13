@@ -32,6 +32,7 @@ export type AnnonceAvgAggregateOutputType = {
   surface: number | null
   chambres: number | null
   douches: number | null
+  vues: number | null
   proprietaireId: number | null
 }
 
@@ -41,6 +42,7 @@ export type AnnonceSumAggregateOutputType = {
   surface: number | null
   chambres: number | null
   douches: number | null
+  vues: number | null
   proprietaireId: number | null
 }
 
@@ -53,6 +55,7 @@ export type AnnonceMinAggregateOutputType = {
   surface: number | null
   chambres: number | null
   douches: number | null
+  vues: number | null
   type: $Enums.TypeBien | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -68,6 +71,7 @@ export type AnnonceMaxAggregateOutputType = {
   surface: number | null
   chambres: number | null
   douches: number | null
+  vues: number | null
   type: $Enums.TypeBien | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -83,6 +87,7 @@ export type AnnonceCountAggregateOutputType = {
   surface: number
   chambres: number
   douches: number
+  vues: number
   type: number
   createdAt: number
   updatedAt: number
@@ -98,6 +103,7 @@ export type AnnonceAvgAggregateInputType = {
   surface?: true
   chambres?: true
   douches?: true
+  vues?: true
   proprietaireId?: true
 }
 
@@ -107,6 +113,7 @@ export type AnnonceSumAggregateInputType = {
   surface?: true
   chambres?: true
   douches?: true
+  vues?: true
   proprietaireId?: true
 }
 
@@ -119,6 +126,7 @@ export type AnnonceMinAggregateInputType = {
   surface?: true
   chambres?: true
   douches?: true
+  vues?: true
   type?: true
   createdAt?: true
   updatedAt?: true
@@ -134,6 +142,7 @@ export type AnnonceMaxAggregateInputType = {
   surface?: true
   chambres?: true
   douches?: true
+  vues?: true
   type?: true
   createdAt?: true
   updatedAt?: true
@@ -149,6 +158,7 @@ export type AnnonceCountAggregateInputType = {
   surface?: true
   chambres?: true
   douches?: true
+  vues?: true
   type?: true
   createdAt?: true
   updatedAt?: true
@@ -252,6 +262,7 @@ export type AnnonceGroupByOutputType = {
   surface: number | null
   chambres: number | null
   douches: number | null
+  vues: number
   type: $Enums.TypeBien | null
   createdAt: Date
   updatedAt: Date
@@ -291,6 +302,7 @@ export type AnnonceWhereInput = {
   surface?: Prisma.IntNullableFilter<"Annonce"> | number | null
   chambres?: Prisma.IntNullableFilter<"Annonce"> | number | null
   douches?: Prisma.IntNullableFilter<"Annonce"> | number | null
+  vues?: Prisma.IntFilter<"Annonce"> | number
   type?: Prisma.EnumTypeBienNullableFilter<"Annonce"> | $Enums.TypeBien | null
   createdAt?: Prisma.DateTimeFilter<"Annonce"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Annonce"> | Date | string
@@ -310,6 +322,7 @@ export type AnnonceOrderByWithRelationInput = {
   surface?: Prisma.SortOrderInput | Prisma.SortOrder
   chambres?: Prisma.SortOrderInput | Prisma.SortOrder
   douches?: Prisma.SortOrderInput | Prisma.SortOrder
+  vues?: Prisma.SortOrder
   type?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -333,6 +346,7 @@ export type AnnonceWhereUniqueInput = Prisma.AtLeast<{
   surface?: Prisma.IntNullableFilter<"Annonce"> | number | null
   chambres?: Prisma.IntNullableFilter<"Annonce"> | number | null
   douches?: Prisma.IntNullableFilter<"Annonce"> | number | null
+  vues?: Prisma.IntFilter<"Annonce"> | number
   type?: Prisma.EnumTypeBienNullableFilter<"Annonce"> | $Enums.TypeBien | null
   createdAt?: Prisma.DateTimeFilter<"Annonce"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Annonce"> | Date | string
@@ -352,6 +366,7 @@ export type AnnonceOrderByWithAggregationInput = {
   surface?: Prisma.SortOrderInput | Prisma.SortOrder
   chambres?: Prisma.SortOrderInput | Prisma.SortOrder
   douches?: Prisma.SortOrderInput | Prisma.SortOrder
+  vues?: Prisma.SortOrder
   type?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -376,6 +391,7 @@ export type AnnonceScalarWhereWithAggregatesInput = {
   surface?: Prisma.IntNullableWithAggregatesFilter<"Annonce"> | number | null
   chambres?: Prisma.IntNullableWithAggregatesFilter<"Annonce"> | number | null
   douches?: Prisma.IntNullableWithAggregatesFilter<"Annonce"> | number | null
+  vues?: Prisma.IntWithAggregatesFilter<"Annonce"> | number
   type?: Prisma.EnumTypeBienNullableWithAggregatesFilter<"Annonce"> | $Enums.TypeBien | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Annonce"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Annonce"> | Date | string
@@ -391,6 +407,7 @@ export type AnnonceCreateInput = {
   surface?: number | null
   chambres?: number | null
   douches?: number | null
+  vues?: number
   type?: $Enums.TypeBien | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -409,6 +426,7 @@ export type AnnonceUncheckedCreateInput = {
   surface?: number | null
   chambres?: number | null
   douches?: number | null
+  vues?: number
   type?: $Enums.TypeBien | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -426,6 +444,7 @@ export type AnnonceUpdateInput = {
   surface?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   chambres?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   douches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  vues?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.NullableEnumTypeBienFieldUpdateOperationsInput | $Enums.TypeBien | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -444,6 +463,7 @@ export type AnnonceUncheckedUpdateInput = {
   surface?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   chambres?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   douches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  vues?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.NullableEnumTypeBienFieldUpdateOperationsInput | $Enums.TypeBien | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -462,6 +482,7 @@ export type AnnonceCreateManyInput = {
   surface?: number | null
   chambres?: number | null
   douches?: number | null
+  vues?: number
   type?: $Enums.TypeBien | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -477,6 +498,7 @@ export type AnnonceUpdateManyMutationInput = {
   surface?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   chambres?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   douches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  vues?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.NullableEnumTypeBienFieldUpdateOperationsInput | $Enums.TypeBien | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -492,6 +514,7 @@ export type AnnonceUncheckedUpdateManyInput = {
   surface?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   chambres?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   douches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  vues?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.NullableEnumTypeBienFieldUpdateOperationsInput | $Enums.TypeBien | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -524,6 +547,7 @@ export type AnnonceCountOrderByAggregateInput = {
   surface?: Prisma.SortOrder
   chambres?: Prisma.SortOrder
   douches?: Prisma.SortOrder
+  vues?: Prisma.SortOrder
   type?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -537,6 +561,7 @@ export type AnnonceAvgOrderByAggregateInput = {
   surface?: Prisma.SortOrder
   chambres?: Prisma.SortOrder
   douches?: Prisma.SortOrder
+  vues?: Prisma.SortOrder
   proprietaireId?: Prisma.SortOrder
 }
 
@@ -549,6 +574,7 @@ export type AnnonceMaxOrderByAggregateInput = {
   surface?: Prisma.SortOrder
   chambres?: Prisma.SortOrder
   douches?: Prisma.SortOrder
+  vues?: Prisma.SortOrder
   type?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -564,6 +590,7 @@ export type AnnonceMinOrderByAggregateInput = {
   surface?: Prisma.SortOrder
   chambres?: Prisma.SortOrder
   douches?: Prisma.SortOrder
+  vues?: Prisma.SortOrder
   type?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -576,6 +603,7 @@ export type AnnonceSumOrderByAggregateInput = {
   surface?: Prisma.SortOrder
   chambres?: Prisma.SortOrder
   douches?: Prisma.SortOrder
+  vues?: Prisma.SortOrder
   proprietaireId?: Prisma.SortOrder
 }
 
@@ -682,6 +710,7 @@ export type AnnonceCreateWithoutProprietaireInput = {
   surface?: number | null
   chambres?: number | null
   douches?: number | null
+  vues?: number
   type?: $Enums.TypeBien | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -699,6 +728,7 @@ export type AnnonceUncheckedCreateWithoutProprietaireInput = {
   surface?: number | null
   chambres?: number | null
   douches?: number | null
+  vues?: number
   type?: $Enums.TypeBien | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -745,6 +775,7 @@ export type AnnonceScalarWhereInput = {
   surface?: Prisma.IntNullableFilter<"Annonce"> | number | null
   chambres?: Prisma.IntNullableFilter<"Annonce"> | number | null
   douches?: Prisma.IntNullableFilter<"Annonce"> | number | null
+  vues?: Prisma.IntFilter<"Annonce"> | number
   type?: Prisma.EnumTypeBienNullableFilter<"Annonce"> | $Enums.TypeBien | null
   createdAt?: Prisma.DateTimeFilter<"Annonce"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Annonce"> | Date | string
@@ -760,6 +791,7 @@ export type AnnonceCreateWithoutFavorisInput = {
   surface?: number | null
   chambres?: number | null
   douches?: number | null
+  vues?: number
   type?: $Enums.TypeBien | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -777,6 +809,7 @@ export type AnnonceUncheckedCreateWithoutFavorisInput = {
   surface?: number | null
   chambres?: number | null
   douches?: number | null
+  vues?: number
   type?: $Enums.TypeBien | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -809,6 +842,7 @@ export type AnnonceUpdateWithoutFavorisInput = {
   surface?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   chambres?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   douches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  vues?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.NullableEnumTypeBienFieldUpdateOperationsInput | $Enums.TypeBien | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -826,6 +860,7 @@ export type AnnonceUncheckedUpdateWithoutFavorisInput = {
   surface?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   chambres?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   douches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  vues?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.NullableEnumTypeBienFieldUpdateOperationsInput | $Enums.TypeBien | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -842,6 +877,7 @@ export type AnnonceCreateWithoutRendezVousInput = {
   surface?: number | null
   chambres?: number | null
   douches?: number | null
+  vues?: number
   type?: $Enums.TypeBien | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -859,6 +895,7 @@ export type AnnonceUncheckedCreateWithoutRendezVousInput = {
   surface?: number | null
   chambres?: number | null
   douches?: number | null
+  vues?: number
   type?: $Enums.TypeBien | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -891,6 +928,7 @@ export type AnnonceUpdateWithoutRendezVousInput = {
   surface?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   chambres?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   douches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  vues?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.NullableEnumTypeBienFieldUpdateOperationsInput | $Enums.TypeBien | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -908,6 +946,7 @@ export type AnnonceUncheckedUpdateWithoutRendezVousInput = {
   surface?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   chambres?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   douches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  vues?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.NullableEnumTypeBienFieldUpdateOperationsInput | $Enums.TypeBien | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -925,6 +964,7 @@ export type AnnonceCreateManyProprietaireInput = {
   surface?: number | null
   chambres?: number | null
   douches?: number | null
+  vues?: number
   type?: $Enums.TypeBien | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -939,6 +979,7 @@ export type AnnonceUpdateWithoutProprietaireInput = {
   surface?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   chambres?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   douches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  vues?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.NullableEnumTypeBienFieldUpdateOperationsInput | $Enums.TypeBien | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -956,6 +997,7 @@ export type AnnonceUncheckedUpdateWithoutProprietaireInput = {
   surface?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   chambres?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   douches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  vues?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.NullableEnumTypeBienFieldUpdateOperationsInput | $Enums.TypeBien | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -973,6 +1015,7 @@ export type AnnonceUncheckedUpdateManyWithoutProprietaireInput = {
   surface?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   chambres?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   douches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  vues?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.NullableEnumTypeBienFieldUpdateOperationsInput | $Enums.TypeBien | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1028,6 +1071,7 @@ export type AnnonceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   surface?: boolean
   chambres?: boolean
   douches?: boolean
+  vues?: boolean
   type?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1050,6 +1094,7 @@ export type AnnonceSelectScalar = {
   surface?: boolean
   chambres?: boolean
   douches?: boolean
+  vues?: boolean
   type?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1057,7 +1102,7 @@ export type AnnonceSelectScalar = {
   proprietaireId?: boolean
 }
 
-export type AnnonceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "titre" | "description" | "prix" | "ville" | "surface" | "chambres" | "douches" | "type" | "createdAt" | "updatedAt" | "images" | "proprietaireId", ExtArgs["result"]["annonce"]>
+export type AnnonceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "titre" | "description" | "prix" | "ville" | "surface" | "chambres" | "douches" | "vues" | "type" | "createdAt" | "updatedAt" | "images" | "proprietaireId", ExtArgs["result"]["annonce"]>
 export type AnnonceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   favoris?: boolean | Prisma.Annonce$favorisArgs<ExtArgs>
   proprietaire?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1081,6 +1126,7 @@ export type $AnnoncePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     surface: number | null
     chambres: number | null
     douches: number | null
+    vues: number
     type: $Enums.TypeBien | null
     createdAt: Date
     updatedAt: Date
@@ -1466,6 +1512,7 @@ export interface AnnonceFieldRefs {
   readonly surface: Prisma.FieldRef<"Annonce", 'Int'>
   readonly chambres: Prisma.FieldRef<"Annonce", 'Int'>
   readonly douches: Prisma.FieldRef<"Annonce", 'Int'>
+  readonly vues: Prisma.FieldRef<"Annonce", 'Int'>
   readonly type: Prisma.FieldRef<"Annonce", 'TypeBien'>
   readonly createdAt: Prisma.FieldRef<"Annonce", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Annonce", 'DateTime'>

@@ -878,6 +878,7 @@ export const AnnonceScalarFieldEnum = {
   surface: 'surface',
   chambres: 'chambres',
   douches: 'douches',
+  vues: 'vues',
   type: 'type',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import {prisma} from "../utils/db";
-import { TypeBien } from "../../generated/prisma/client";
+import { TypeBien, Prisma } from "../../generated/prisma/client";
 import { CreateAnnonceDto, UpdateAnnonceDto } from "../dto/annonce.dto";
 import { getDbUserIdByClerkId } from "../services/auth.services";
 // ✅ Créer une annonce
@@ -167,6 +167,41 @@ export const deleteAnnonce = async (req: Request, res: Response) => {
     res.status(500).json({ 
       message: "Erreur lors de la suppression", 
       error: error.message || error 
+    });
+  }
+};
+
+// ✅ Incrémenter le nombre de vues d'une annonce
+export const incrementAnnonceViews = async (req: Request, res: Response) => {
+  try {
+    const id = Number(req.params.id);
+    if (Number.isNaN(id)) {
+      return res.status(400).json({ message: "ID d'annonce invalide" });
+    }
+
+    const updated = await prisma.annonce.update({
+      where: { id },
+      data: {
+        vues: {
+          increment: 1,
+        } as Prisma.IntFieldUpdateOperationsInput,
+      },
+      select: {
+        id: true,
+        vues: true,
+      },
+    });
+
+    return res.json(updated);
+  } catch (error: any) {
+    console.error("Erreur lors de l'incrémentation des vues :", error);
+    // Gestion du cas où l'annonce n'existe pas
+    if (error?.code === "P2025") {
+      return res.status(404).json({ message: "Annonce non trouvée" });
+    }
+    return res.status(500).json({
+      message: "Erreur lors de l'incrémentation des vues",
+      error: error.message || error,
     });
   }
 };

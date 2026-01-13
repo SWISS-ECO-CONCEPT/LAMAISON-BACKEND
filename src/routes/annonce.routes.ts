@@ -7,6 +7,7 @@ const router = Router();
 router.get("/", annonceController.getAllAnnonces);
 router.get("/user/:clerkId", annonceController.getAnnoncesByUser);
 router.get("/:id", annonceController.getAnnonceById);
+router.post("/:id/view", annonceController.incrementAnnonceViews);
 
 // Routes protégées (création, modification, suppression)
 // We accept the Clerk user id as a route parameter and map it to our DB id server-side
