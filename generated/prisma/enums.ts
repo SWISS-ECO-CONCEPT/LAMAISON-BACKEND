@@ -29,6 +29,14 @@ export const RdvStatus = {
 export type RdvStatus = (typeof RdvStatus)[keyof typeof RdvStatus]
 
 
+export const ProjetType = {
+  achat: 'achat',
+  location: 'location'
+} as const
+
+export type ProjetType = (typeof ProjetType)[keyof typeof ProjetType]
+
+
 export const TypeBien = {
   maison: 'maison',
   appartement: 'appartement',

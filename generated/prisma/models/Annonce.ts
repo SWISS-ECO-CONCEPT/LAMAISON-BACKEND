@@ -57,6 +57,7 @@ export type AnnonceMinAggregateOutputType = {
   douches: number | null
   vues: number | null
   type: $Enums.TypeBien | null
+  projet: $Enums.ProjetType | null
   createdAt: Date | null
   updatedAt: Date | null
   proprietaireId: number | null
@@ -73,6 +74,7 @@ export type AnnonceMaxAggregateOutputType = {
   douches: number | null
   vues: number | null
   type: $Enums.TypeBien | null
+  projet: $Enums.ProjetType | null
   createdAt: Date | null
   updatedAt: Date | null
   proprietaireId: number | null
@@ -89,6 +91,7 @@ export type AnnonceCountAggregateOutputType = {
   douches: number
   vues: number
   type: number
+  projet: number
   createdAt: number
   updatedAt: number
   images: number
@@ -128,6 +131,7 @@ export type AnnonceMinAggregateInputType = {
   douches?: true
   vues?: true
   type?: true
+  projet?: true
   createdAt?: true
   updatedAt?: true
   proprietaireId?: true
@@ -144,6 +148,7 @@ export type AnnonceMaxAggregateInputType = {
   douches?: true
   vues?: true
   type?: true
+  projet?: true
   createdAt?: true
   updatedAt?: true
   proprietaireId?: true
@@ -160,6 +165,7 @@ export type AnnonceCountAggregateInputType = {
   douches?: true
   vues?: true
   type?: true
+  projet?: true
   createdAt?: true
   updatedAt?: true
   images?: true
@@ -264,6 +270,7 @@ export type AnnonceGroupByOutputType = {
   douches: number | null
   vues: number
   type: $Enums.TypeBien | null
+  projet: $Enums.ProjetType | null
   createdAt: Date
   updatedAt: Date
   images: runtime.JsonValue
@@ -304,6 +311,7 @@ export type AnnonceWhereInput = {
   douches?: Prisma.IntNullableFilter<"Annonce"> | number | null
   vues?: Prisma.IntFilter<"Annonce"> | number
   type?: Prisma.EnumTypeBienNullableFilter<"Annonce"> | $Enums.TypeBien | null
+  projet?: Prisma.EnumProjetTypeNullableFilter<"Annonce"> | $Enums.ProjetType | null
   createdAt?: Prisma.DateTimeFilter<"Annonce"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Annonce"> | Date | string
   images?: Prisma.JsonFilter<"Annonce">
@@ -324,6 +332,7 @@ export type AnnonceOrderByWithRelationInput = {
   douches?: Prisma.SortOrderInput | Prisma.SortOrder
   vues?: Prisma.SortOrder
   type?: Prisma.SortOrderInput | Prisma.SortOrder
+  projet?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   images?: Prisma.SortOrder
@@ -348,6 +357,7 @@ export type AnnonceWhereUniqueInput = Prisma.AtLeast<{
   douches?: Prisma.IntNullableFilter<"Annonce"> | number | null
   vues?: Prisma.IntFilter<"Annonce"> | number
   type?: Prisma.EnumTypeBienNullableFilter<"Annonce"> | $Enums.TypeBien | null
+  projet?: Prisma.EnumProjetTypeNullableFilter<"Annonce"> | $Enums.ProjetType | null
   createdAt?: Prisma.DateTimeFilter<"Annonce"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Annonce"> | Date | string
   images?: Prisma.JsonFilter<"Annonce">
@@ -368,6 +378,7 @@ export type AnnonceOrderByWithAggregationInput = {
   douches?: Prisma.SortOrderInput | Prisma.SortOrder
   vues?: Prisma.SortOrder
   type?: Prisma.SortOrderInput | Prisma.SortOrder
+  projet?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   images?: Prisma.SortOrder
@@ -393,6 +404,7 @@ export type AnnonceScalarWhereWithAggregatesInput = {
   douches?: Prisma.IntNullableWithAggregatesFilter<"Annonce"> | number | null
   vues?: Prisma.IntWithAggregatesFilter<"Annonce"> | number
   type?: Prisma.EnumTypeBienNullableWithAggregatesFilter<"Annonce"> | $Enums.TypeBien | null
+  projet?: Prisma.EnumProjetTypeNullableWithAggregatesFilter<"Annonce"> | $Enums.ProjetType | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Annonce"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Annonce"> | Date | string
   images?: Prisma.JsonWithAggregatesFilter<"Annonce">
@@ -409,6 +421,7 @@ export type AnnonceCreateInput = {
   douches?: number | null
   vues?: number
   type?: $Enums.TypeBien | null
+  projet?: $Enums.ProjetType | null
   createdAt?: Date | string
   updatedAt?: Date | string
   images: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -428,6 +441,7 @@ export type AnnonceUncheckedCreateInput = {
   douches?: number | null
   vues?: number
   type?: $Enums.TypeBien | null
+  projet?: $Enums.ProjetType | null
   createdAt?: Date | string
   updatedAt?: Date | string
   images: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -446,6 +460,7 @@ export type AnnonceUpdateInput = {
   douches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   vues?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.NullableEnumTypeBienFieldUpdateOperationsInput | $Enums.TypeBien | null
+  projet?: Prisma.NullableEnumProjetTypeFieldUpdateOperationsInput | $Enums.ProjetType | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   images?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -465,6 +480,7 @@ export type AnnonceUncheckedUpdateInput = {
   douches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   vues?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.NullableEnumTypeBienFieldUpdateOperationsInput | $Enums.TypeBien | null
+  projet?: Prisma.NullableEnumProjetTypeFieldUpdateOperationsInput | $Enums.ProjetType | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   images?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -484,6 +500,7 @@ export type AnnonceCreateManyInput = {
   douches?: number | null
   vues?: number
   type?: $Enums.TypeBien | null
+  projet?: $Enums.ProjetType | null
   createdAt?: Date | string
   updatedAt?: Date | string
   images: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -500,6 +517,7 @@ export type AnnonceUpdateManyMutationInput = {
   douches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   vues?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.NullableEnumTypeBienFieldUpdateOperationsInput | $Enums.TypeBien | null
+  projet?: Prisma.NullableEnumProjetTypeFieldUpdateOperationsInput | $Enums.ProjetType | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   images?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -516,6 +534,7 @@ export type AnnonceUncheckedUpdateManyInput = {
   douches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   vues?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.NullableEnumTypeBienFieldUpdateOperationsInput | $Enums.TypeBien | null
+  projet?: Prisma.NullableEnumProjetTypeFieldUpdateOperationsInput | $Enums.ProjetType | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   images?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -549,6 +568,7 @@ export type AnnonceCountOrderByAggregateInput = {
   douches?: Prisma.SortOrder
   vues?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  projet?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   images?: Prisma.SortOrder
@@ -576,6 +596,7 @@ export type AnnonceMaxOrderByAggregateInput = {
   douches?: Prisma.SortOrder
   vues?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  projet?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   proprietaireId?: Prisma.SortOrder
@@ -592,6 +613,7 @@ export type AnnonceMinOrderByAggregateInput = {
   douches?: Prisma.SortOrder
   vues?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  projet?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   proprietaireId?: Prisma.SortOrder
@@ -674,6 +696,10 @@ export type NullableEnumTypeBienFieldUpdateOperationsInput = {
   set?: $Enums.TypeBien | null
 }
 
+export type NullableEnumProjetTypeFieldUpdateOperationsInput = {
+  set?: $Enums.ProjetType | null
+}
+
 export type AnnonceCreateNestedOneWithoutFavorisInput = {
   create?: Prisma.XOR<Prisma.AnnonceCreateWithoutFavorisInput, Prisma.AnnonceUncheckedCreateWithoutFavorisInput>
   connectOrCreate?: Prisma.AnnonceCreateOrConnectWithoutFavorisInput
@@ -712,6 +738,7 @@ export type AnnonceCreateWithoutProprietaireInput = {
   douches?: number | null
   vues?: number
   type?: $Enums.TypeBien | null
+  projet?: $Enums.ProjetType | null
   createdAt?: Date | string
   updatedAt?: Date | string
   images: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -730,6 +757,7 @@ export type AnnonceUncheckedCreateWithoutProprietaireInput = {
   douches?: number | null
   vues?: number
   type?: $Enums.TypeBien | null
+  projet?: $Enums.ProjetType | null
   createdAt?: Date | string
   updatedAt?: Date | string
   images: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -777,6 +805,7 @@ export type AnnonceScalarWhereInput = {
   douches?: Prisma.IntNullableFilter<"Annonce"> | number | null
   vues?: Prisma.IntFilter<"Annonce"> | number
   type?: Prisma.EnumTypeBienNullableFilter<"Annonce"> | $Enums.TypeBien | null
+  projet?: Prisma.EnumProjetTypeNullableFilter<"Annonce"> | $Enums.ProjetType | null
   createdAt?: Prisma.DateTimeFilter<"Annonce"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Annonce"> | Date | string
   images?: Prisma.JsonFilter<"Annonce">
@@ -793,6 +822,7 @@ export type AnnonceCreateWithoutFavorisInput = {
   douches?: number | null
   vues?: number
   type?: $Enums.TypeBien | null
+  projet?: $Enums.ProjetType | null
   createdAt?: Date | string
   updatedAt?: Date | string
   images: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -811,6 +841,7 @@ export type AnnonceUncheckedCreateWithoutFavorisInput = {
   douches?: number | null
   vues?: number
   type?: $Enums.TypeBien | null
+  projet?: $Enums.ProjetType | null
   createdAt?: Date | string
   updatedAt?: Date | string
   images: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -844,6 +875,7 @@ export type AnnonceUpdateWithoutFavorisInput = {
   douches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   vues?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.NullableEnumTypeBienFieldUpdateOperationsInput | $Enums.TypeBien | null
+  projet?: Prisma.NullableEnumProjetTypeFieldUpdateOperationsInput | $Enums.ProjetType | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   images?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -862,6 +894,7 @@ export type AnnonceUncheckedUpdateWithoutFavorisInput = {
   douches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   vues?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.NullableEnumTypeBienFieldUpdateOperationsInput | $Enums.TypeBien | null
+  projet?: Prisma.NullableEnumProjetTypeFieldUpdateOperationsInput | $Enums.ProjetType | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   images?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -879,6 +912,7 @@ export type AnnonceCreateWithoutRendezVousInput = {
   douches?: number | null
   vues?: number
   type?: $Enums.TypeBien | null
+  projet?: $Enums.ProjetType | null
   createdAt?: Date | string
   updatedAt?: Date | string
   images: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -897,6 +931,7 @@ export type AnnonceUncheckedCreateWithoutRendezVousInput = {
   douches?: number | null
   vues?: number
   type?: $Enums.TypeBien | null
+  projet?: $Enums.ProjetType | null
   createdAt?: Date | string
   updatedAt?: Date | string
   images: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -930,6 +965,7 @@ export type AnnonceUpdateWithoutRendezVousInput = {
   douches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   vues?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.NullableEnumTypeBienFieldUpdateOperationsInput | $Enums.TypeBien | null
+  projet?: Prisma.NullableEnumProjetTypeFieldUpdateOperationsInput | $Enums.ProjetType | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   images?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -948,6 +984,7 @@ export type AnnonceUncheckedUpdateWithoutRendezVousInput = {
   douches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   vues?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.NullableEnumTypeBienFieldUpdateOperationsInput | $Enums.TypeBien | null
+  projet?: Prisma.NullableEnumProjetTypeFieldUpdateOperationsInput | $Enums.ProjetType | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   images?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -966,6 +1003,7 @@ export type AnnonceCreateManyProprietaireInput = {
   douches?: number | null
   vues?: number
   type?: $Enums.TypeBien | null
+  projet?: $Enums.ProjetType | null
   createdAt?: Date | string
   updatedAt?: Date | string
   images: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -981,6 +1019,7 @@ export type AnnonceUpdateWithoutProprietaireInput = {
   douches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   vues?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.NullableEnumTypeBienFieldUpdateOperationsInput | $Enums.TypeBien | null
+  projet?: Prisma.NullableEnumProjetTypeFieldUpdateOperationsInput | $Enums.ProjetType | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   images?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -999,6 +1038,7 @@ export type AnnonceUncheckedUpdateWithoutProprietaireInput = {
   douches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   vues?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.NullableEnumTypeBienFieldUpdateOperationsInput | $Enums.TypeBien | null
+  projet?: Prisma.NullableEnumProjetTypeFieldUpdateOperationsInput | $Enums.ProjetType | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   images?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -1017,6 +1057,7 @@ export type AnnonceUncheckedUpdateManyWithoutProprietaireInput = {
   douches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   vues?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.NullableEnumTypeBienFieldUpdateOperationsInput | $Enums.TypeBien | null
+  projet?: Prisma.NullableEnumProjetTypeFieldUpdateOperationsInput | $Enums.ProjetType | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   images?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -1073,6 +1114,7 @@ export type AnnonceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   douches?: boolean
   vues?: boolean
   type?: boolean
+  projet?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   images?: boolean
@@ -1096,13 +1138,14 @@ export type AnnonceSelectScalar = {
   douches?: boolean
   vues?: boolean
   type?: boolean
+  projet?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   images?: boolean
   proprietaireId?: boolean
 }
 
-export type AnnonceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "titre" | "description" | "prix" | "ville" | "surface" | "chambres" | "douches" | "vues" | "type" | "createdAt" | "updatedAt" | "images" | "proprietaireId", ExtArgs["result"]["annonce"]>
+export type AnnonceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "titre" | "description" | "prix" | "ville" | "surface" | "chambres" | "douches" | "vues" | "type" | "projet" | "createdAt" | "updatedAt" | "images" | "proprietaireId", ExtArgs["result"]["annonce"]>
 export type AnnonceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   favoris?: boolean | Prisma.Annonce$favorisArgs<ExtArgs>
   proprietaire?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1128,6 +1171,7 @@ export type $AnnoncePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     douches: number | null
     vues: number
     type: $Enums.TypeBien | null
+    projet: $Enums.ProjetType | null
     createdAt: Date
     updatedAt: Date
     images: runtime.JsonValue
@@ -1514,6 +1558,7 @@ export interface AnnonceFieldRefs {
   readonly douches: Prisma.FieldRef<"Annonce", 'Int'>
   readonly vues: Prisma.FieldRef<"Annonce", 'Int'>
   readonly type: Prisma.FieldRef<"Annonce", 'TypeBien'>
+  readonly projet: Prisma.FieldRef<"Annonce", 'ProjetType'>
   readonly createdAt: Prisma.FieldRef<"Annonce", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Annonce", 'DateTime'>
   readonly images: Prisma.FieldRef<"Annonce", 'Json'>

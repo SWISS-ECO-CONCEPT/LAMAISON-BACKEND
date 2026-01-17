@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import {prisma} from "../utils/db";
+import { prisma } from "../utils/db";
 import { TypeBien, Prisma } from "../../generated/prisma/client";
 import { CreateAnnonceDto, UpdateAnnonceDto } from "../dto/annonce.dto";
 import { getDbUserIdByClerkId } from "../services/auth.services";
@@ -21,8 +21,8 @@ export const createAnnonce = async (req: Request, res: Response) => {
     // Normalize and validate images
     const normalizedImages: string[] = Array.isArray(data.images)
       ? data.images
-          .map((img: any) => (typeof img === 'string' ? img : img?.url))
-          .filter(Boolean)
+        .map((img: any) => (typeof img === 'string' ? img : img?.url))
+        .filter(Boolean)
       : [];
     if (!normalizedImages.length) {
       return res.status(400).json({ message: 'Au moins une image est requise.' });
@@ -38,6 +38,7 @@ export const createAnnonce = async (req: Request, res: Response) => {
       chambres: data.chambres ?? null,
       douches: data.douches ?? null,
       type: data.type ? data.type as TypeBien : null,
+      projet: data.projet ?? null,
       proprietaire: { connect: { id: Number(dbUserId) } },
       images: normalizedImages,
     };
@@ -54,15 +55,93 @@ export const createAnnonce = async (req: Request, res: Response) => {
   }
 };
 
-// ✅ Récupérer toutes les annonces
+// ✅ Récupérer toutes les annonces avec recherche et filtres
 export const getAllAnnonces = async (req: Request, res: Response) => {
   try {
+    const {
+      search,        // Recherche textuelle dans titre et description
+      ville,         // Filtrer par ville exacte
+      prixMin,       // Prix minimum
+      prixMax,       // Prix maximum
+      surfaceMin,    // Surface minimum
+      surfaceMax,    // Surface maximum
+      chambres,      // Nombre minimum de chambres
+      douches,       // Nombre minimum de douches
+      type,          // Type de bien (TypeBien)
+      projet,        // Projet (achat/location)
+    } = req.query;
+
+    // Construction des filtres Prisma
+    const where: any = {};
+
+    // Recherche textuelle (titre ou description)
+    if (search && typeof search === 'string') {
+      where.OR = [
+        { titre: { contains: search } },
+        { description: { contains: search } },
+      ];
+    }
+
+    // Filtre par ville
+    if (ville && typeof ville === 'string') {
+      where.ville = { contains: ville };
+    }
+
+    // Filtre par projet
+    if (projet && typeof projet === 'string') {
+      where.projet = projet;
+    }
+
+    // Filtre par prix (min et/ou max)
+    if (prixMin || prixMax) {
+      where.prix = {};
+      if (prixMin) {
+        where.prix.gte = Number(prixMin);
+      }
+      if (prixMax) {
+        where.prix.lte = Number(prixMax);
+      }
+    }
+
+    // Filtre par surface (min et/ou max)
+    if (surfaceMin || surfaceMax) {
+      where.surface = {};
+      if (surfaceMin) {
+        where.surface.gte = Number(surfaceMin);
+      }
+      if (surfaceMax) {
+        where.surface.lte = Number(surfaceMax);
+      }
+    }
+
+    // Filtre par nombre de chambres (minimum)
+    if (chambres) {
+      where.chambres = { gte: Number(chambres) };
+    }
+
+    // Filtre par nombre de douches (minimum)
+    if (douches) {
+      where.douches = { gte: Number(douches) };
+    }
+
+    // Filtre par type de bien
+    if (type && typeof type === 'string') {
+      where.type = type;
+    }
+
     const annonces = await prisma.annonce.findMany({
+      where,
       include: { proprietaire: true },
+      orderBy: { createdAt: 'desc' },
     });
+
     res.json(annonces);
-  } catch (error) {
-    res.status(500).json({ message: "Erreur lors de la récupération", error });
+  } catch (error: any) {
+    console.error("Erreur lors de la récupération des annonces:", error);
+    res.status(500).json({
+      message: "Erreur lors de la récupération",
+      error: error.message || error
+    });
   }
 };
 
@@ -125,6 +204,7 @@ export const updateAnnonce = async (req: Request, res: Response) => {
         chambres: data.chambres ?? undefined,
         douches: data.douches ?? undefined,
         type: data.type ? data.type as TypeBien : undefined,
+        projet: data.projet ?? undefined,
         images: Array.isArray(data.images)
           ? data.images.map((img: any) => (typeof img === 'string' ? img : img?.url)).filter(Boolean)
           : undefined,
@@ -149,7 +229,7 @@ export const updateAnnonce = async (req: Request, res: Response) => {
 export const deleteAnnonce = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
-    
+
     // Vérifier que l'annonce existe
     const annonceExistante = await prisma.annonce.findUnique({ where: { id } });
     if (!annonceExistante) {
@@ -164,9 +244,9 @@ export const deleteAnnonce = async (req: Request, res: Response) => {
     res.json({ message: "Annonce supprimée avec succès" });
   } catch (error: any) {
     console.error("Erreur lors de la suppression :", error);
-    res.status(500).json({ 
-      message: "Erreur lors de la suppression", 
-      error: error.message || error 
+    res.status(500).json({
+      message: "Erreur lors de la suppression",
+      error: error.message || error
     });
   }
 };

@@ -183,6 +183,13 @@ export type EnumTypeBienNullableFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumTypeBienNullableFilter<$PrismaModel> | $Enums.TypeBien | null
 }
 
+export type EnumProjetTypeNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.ProjetType | Prisma.EnumProjetTypeFieldRefInput<$PrismaModel> | null
+  in?: $Enums.ProjetType[] | null
+  notIn?: $Enums.ProjetType[] | null
+  not?: Prisma.NestedEnumProjetTypeNullableFilter<$PrismaModel> | $Enums.ProjetType | null
+}
+
 export type JsonFilter<$PrismaModel = never> =
 | Prisma.PatchUndefined<
     Prisma.Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
@@ -247,6 +254,16 @@ export type EnumTypeBienNullableWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
   _min?: Prisma.NestedEnumTypeBienNullableFilter<$PrismaModel>
   _max?: Prisma.NestedEnumTypeBienNullableFilter<$PrismaModel>
+}
+
+export type EnumProjetTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ProjetType | Prisma.EnumProjetTypeFieldRefInput<$PrismaModel> | null
+  in?: $Enums.ProjetType[] | null
+  notIn?: $Enums.ProjetType[] | null
+  not?: Prisma.NestedEnumProjetTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.ProjetType | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumProjetTypeNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumProjetTypeNullableFilter<$PrismaModel>
 }
 
 export type JsonWithAggregatesFilter<$PrismaModel = never> =
@@ -482,6 +499,13 @@ export type NestedEnumTypeBienNullableFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumTypeBienNullableFilter<$PrismaModel> | $Enums.TypeBien | null
 }
 
+export type NestedEnumProjetTypeNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.ProjetType | Prisma.EnumProjetTypeFieldRefInput<$PrismaModel> | null
+  in?: $Enums.ProjetType[] | null
+  notIn?: $Enums.ProjetType[] | null
+  not?: Prisma.NestedEnumProjetTypeNullableFilter<$PrismaModel> | $Enums.ProjetType | null
+}
+
 export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
   equals?: number | Prisma.FloatFieldRefInput<$PrismaModel>
   in?: number[]
@@ -533,6 +557,16 @@ export type NestedEnumTypeBienNullableWithAggregatesFilter<$PrismaModel = never>
   _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
   _min?: Prisma.NestedEnumTypeBienNullableFilter<$PrismaModel>
   _max?: Prisma.NestedEnumTypeBienNullableFilter<$PrismaModel>
+}
+
+export type NestedEnumProjetTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ProjetType | Prisma.EnumProjetTypeFieldRefInput<$PrismaModel> | null
+  in?: $Enums.ProjetType[] | null
+  notIn?: $Enums.ProjetType[] | null
+  not?: Prisma.NestedEnumProjetTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.ProjetType | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumProjetTypeNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumProjetTypeNullableFilter<$PrismaModel>
 }
 
 export type NestedJsonFilter<$PrismaModel = never> =

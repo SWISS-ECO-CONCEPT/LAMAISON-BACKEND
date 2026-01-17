@@ -880,6 +880,7 @@ export const AnnonceScalarFieldEnum = {
   douches: 'douches',
   vues: 'vues',
   type: 'type',
+  projet: 'projet',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   images: 'images',
@@ -1060,6 +1061,13 @@ export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, '
  * Reference to a field of type 'TypeBien'
  */
 export type EnumTypeBienFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TypeBien'>
+    
+
+
+/**
+ * Reference to a field of type 'ProjetType'
+ */
+export type EnumProjetTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjetType'>
     
 
 
