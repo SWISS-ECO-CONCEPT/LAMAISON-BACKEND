@@ -9,7 +9,8 @@ export const createRdv = async (req: Request, res: Response) => {
   try {
     // Map clerkId -> our DB user id
     const payload = { ...req.body } as any;
-    const actorClerkId = (req as any).auth?.userId as string | undefined;
+    const auth = req.auth();
+    const actorClerkId = auth?.userId as string | undefined;
     if (!actorClerkId) {
       return res.status(401).json({ message: "Non authentifié" });
     }
@@ -102,7 +103,8 @@ export const getRdvById = async (req: Request, res: Response) => {
 //  PATCH /api/rdvs/:id
 export const updateRdv = async (req: Request, res: Response) => {
   try {
-    const actorClerkId = (req as any).auth?.userId as string | undefined;
+    const auth = req.auth();
+    const actorClerkId = auth?.userId as string | undefined;
     if (!actorClerkId) {
       return res.status(401).json({ message: "Non authentifié" });
     }
@@ -258,7 +260,8 @@ function emitRdvUpdate(req: Request, payload: Record<string, unknown>) {
 
 export const proposeRdv = async (req: Request, res: Response) => {
   try {
-    const actorClerkId = (req as any).auth?.userId as string | undefined;
+    const auth = req.auth();
+    const actorClerkId = auth?.userId as string | undefined;
     if (!actorClerkId) return res.status(401).json({ message: "Non authentifié" });
 
     const id = Number(req.params.id);
@@ -304,7 +307,8 @@ export const proposeRdv = async (req: Request, res: Response) => {
 
 export const acceptRdv = async (req: Request, res: Response) => {
   try {
-    const actorClerkId = (req as any).auth?.userId as string | undefined;
+    const auth = req.auth();
+    const actorClerkId = auth?.userId as string | undefined;
     if (!actorClerkId) return res.status(401).json({ message: "Non authentifié" });
 
     const id = Number(req.params.id);
@@ -335,7 +339,8 @@ export const acceptRdv = async (req: Request, res: Response) => {
 
 export const rejectRdv = async (req: Request, res: Response) => {
   try {
-    const actorClerkId = (req as any).auth?.userId as string | undefined;
+    const auth = req.auth();
+    const actorClerkId = auth?.userId as string | undefined;
     if (!actorClerkId) return res.status(401).json({ message: "Non authentifié" });
 
     const id = Number(req.params.id);
@@ -366,7 +371,8 @@ export const rejectRdv = async (req: Request, res: Response) => {
 
 export const acceptProposal = async (req: Request, res: Response) => {
   try {
-    const actorClerkId = (req as any).auth?.userId as string | undefined;
+    const auth = req.auth();
+    const actorClerkId = auth?.userId as string | undefined;
     if (!actorClerkId) return res.status(401).json({ message: "Non authentifié" });
 
     const id = Number(req.params.id);
@@ -397,7 +403,8 @@ export const acceptProposal = async (req: Request, res: Response) => {
 
 export const rejectProposal = async (req: Request, res: Response) => {
   try {
-    const actorClerkId = (req as any).auth?.userId as string | undefined;
+    const auth = req.auth();
+    const actorClerkId = auth?.userId as string | undefined;
     if (!actorClerkId) return res.status(401).json({ message: "Non authentifié" });
 
     const id = Number(req.params.id);

@@ -12,7 +12,8 @@ userRouter.put('/update-role', updateUserRoleController)
 
 userRouter.get('/me', requireAuth(), async (req: Request, res: Response) => {
     try {
-        const clerkId = (req as any).auth?.userId as string | undefined;
+        const auth = req.auth();
+        const clerkId = auth?.userId;
         if (!clerkId) {
             return res.status(401).json({ message: "Non authentifié" });
         }

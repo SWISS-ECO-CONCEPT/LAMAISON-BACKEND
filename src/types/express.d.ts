@@ -12,6 +12,11 @@ declare global {
 
     interface Request {
       user?: AuthUser;           // <-- On ajoute user sur Request
+      auth: () => {
+        userId: string;
+        sub?: string;
+        // Add other Clerk auth properties as needed
+      } | null;  // <-- Clerk auth method
     }
   }
 }

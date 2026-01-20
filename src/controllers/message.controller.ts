@@ -30,7 +30,8 @@ export const getConversation = async (req: Request, res: Response) => {
 export const initiateMessaging = async (req: Request, res: Response) => {
   try {
     const { recipientClerkId, rdvId, initialMessage } = req.body;
-    const senderClerkId = (req as any).auth?.userId;
+    const auth = req.auth();
+    const senderClerkId = auth?.userId;
 
     if (!senderClerkId || !recipientClerkId || !initialMessage) {
       return res.status(400).json({
@@ -101,7 +102,8 @@ export const getOrCreateConversation = async (req: Request, res: Response) => {
  */
 export const getUserConversations = async (req: Request, res: Response) => {
   try {
-    const clerkId = (req as any).auth?.userId;
+    const auth = req.auth();
+    const clerkId = auth?.userId;
     if (!clerkId) {
       return res.status(401).json({ error: "Non authentifié" });
     }
