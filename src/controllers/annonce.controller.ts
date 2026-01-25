@@ -2,7 +2,9 @@ import { Request, Response } from "express";
 import { prisma } from "../utils/db";
 import { TypeBien, Prisma } from "../../generated/prisma/client";
 import { CreateAnnonceDto, UpdateAnnonceDto } from "../dto/annonce.dto";
+import { ProjetType } from "../../generated/prisma/client";
 import { getDbUserIdByClerkId } from "../services/auth.services";
+import * as annonceService from "../services/annonce.service";
 // ✅ Créer une annonce
 export const createAnnonce = async (req: Request, res: Response) => {
   try {
@@ -38,7 +40,7 @@ export const createAnnonce = async (req: Request, res: Response) => {
       chambres: data.chambres ?? null,
       douches: data.douches ?? null,
       type: data.type ? data.type as TypeBien : null,
-      projet: data.projet ?? null,
+      projet: data.projet ? (data.projet as ProjetType) : undefined,
       proprietaire: { connect: { id: Number(dbUserId) } },
       images: normalizedImages,
     };
@@ -129,11 +131,7 @@ export const getAllAnnonces = async (req: Request, res: Response) => {
       where.type = type;
     }
 
-    const annonces = await prisma.annonce.findMany({
-      where,
-      include: { proprietaire: true },
-      orderBy: { createdAt: 'desc' },
-    });
+    const annonces = await annonceService.getAllAnnonces(where);
 
     res.json(annonces);
   } catch (error: any) {
@@ -153,14 +151,38 @@ export const getAnnoncesByUser = async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'clerkId parameter is required in the route.' });
     }
 
-    // Option A: filtrer par relation sur clerkId directement
-    const annonces = await prisma.annonce.findMany({
-      where: { proprietaire: { clerkId } },
-      orderBy: { createdAt: 'desc' },
-      include: { proprietaire: true },
-    });
+    const {
+      search, ville, prixMin, prixMax, surfaceMin, surfaceMax, chambres, douches, type, projet,
+    } = req.query;
 
-    return res.json(annonces);
+    const where: any = {
+      proprietaire: { clerkId },
+    };
+
+    if (search && typeof search === 'string') {
+      where.OR = [
+        { titre: { contains: search } },
+        { description: { contains: search } },
+      ];
+    }
+    if (ville && typeof ville === 'string') { where.ville = { contains: ville }; }
+    if (projet && typeof projet === 'string') { where.projet = projet; }
+    if (prixMin || prixMax) {
+      where.prix = {};
+      if (prixMin) { where.prix.gte = Number(prixMin); }
+      if (prixMax) { where.prix.lte = Number(prixMax); }
+    }
+    if (surfaceMin || surfaceMax) {
+      where.surface = {};
+      if (surfaceMin) { where.surface.gte = Number(surfaceMin); }
+      if (surfaceMax) { where.surface.lte = Number(surfaceMax); }
+    }
+    if (chambres) { where.chambres = { gte: Number(chambres) }; }
+    if (douches) { where.douches = { gte: Number(douches) }; }
+    if (type && typeof type === 'string') { where.type = type; }
+
+    const annonces = await annonceService.getAnnoncesByUser(clerkId, where);
+    res.json(annonces);
   } catch (error: any) {
     console.error('Erreur lors de la récupération des annonces utilisateur:', error);
     return res.status(500).json({ message: 'Erreur lors de la récupération', error: error.message || error });
