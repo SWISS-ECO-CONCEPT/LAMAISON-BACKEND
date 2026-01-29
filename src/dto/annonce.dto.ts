@@ -1,4 +1,4 @@
-type TypeBien = "maison" | "appartement" | "terrain" | "chambre" | "meublé";
+type TypeBien = "maison" | "appartement" | "terrain" | "chambre" | "meublé" | "studio";
 type ProjetType = "achat" | "location";
 
 export interface CreateAnnonceDto {
@@ -13,6 +13,7 @@ export interface CreateAnnonceDto {
   chambres?: number;
   douches?: number;
   images: string[];
+  negotiable?: boolean;
 }
 
 export interface UpdateAnnonceDto {
@@ -26,4 +27,5 @@ export interface UpdateAnnonceDto {
   chambres?: number;
   douches?: number;
   images?: string[];
+  negotiable?: boolean;
 }

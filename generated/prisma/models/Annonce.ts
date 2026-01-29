@@ -60,6 +60,7 @@ export type AnnonceMinAggregateOutputType = {
   projet: $Enums.ProjetType | null
   createdAt: Date | null
   updatedAt: Date | null
+  negotiable: boolean | null
   proprietaireId: number | null
 }
 
@@ -77,6 +78,7 @@ export type AnnonceMaxAggregateOutputType = {
   projet: $Enums.ProjetType | null
   createdAt: Date | null
   updatedAt: Date | null
+  negotiable: boolean | null
   proprietaireId: number | null
 }
 
@@ -95,6 +97,7 @@ export type AnnonceCountAggregateOutputType = {
   createdAt: number
   updatedAt: number
   images: number
+  negotiable: number
   proprietaireId: number
   _all: number
 }
@@ -134,6 +137,7 @@ export type AnnonceMinAggregateInputType = {
   projet?: true
   createdAt?: true
   updatedAt?: true
+  negotiable?: true
   proprietaireId?: true
 }
 
@@ -151,6 +155,7 @@ export type AnnonceMaxAggregateInputType = {
   projet?: true
   createdAt?: true
   updatedAt?: true
+  negotiable?: true
   proprietaireId?: true
 }
 
@@ -169,6 +174,7 @@ export type AnnonceCountAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   images?: true
+  negotiable?: true
   proprietaireId?: true
   _all?: true
 }
@@ -274,6 +280,7 @@ export type AnnonceGroupByOutputType = {
   createdAt: Date
   updatedAt: Date
   images: runtime.JsonValue
+  negotiable: boolean | null
   proprietaireId: number
   _count: AnnonceCountAggregateOutputType | null
   _avg: AnnonceAvgAggregateOutputType | null
@@ -315,6 +322,7 @@ export type AnnonceWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Annonce"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Annonce"> | Date | string
   images?: Prisma.JsonFilter<"Annonce">
+  negotiable?: Prisma.BoolNullableFilter<"Annonce"> | boolean | null
   proprietaireId?: Prisma.IntFilter<"Annonce"> | number
   favoris?: Prisma.FavoriListRelationFilter
   proprietaire?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -336,6 +344,7 @@ export type AnnonceOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   images?: Prisma.SortOrder
+  negotiable?: Prisma.SortOrderInput | Prisma.SortOrder
   proprietaireId?: Prisma.SortOrder
   favoris?: Prisma.FavoriOrderByRelationAggregateInput
   proprietaire?: Prisma.UserOrderByWithRelationInput
@@ -361,6 +370,7 @@ export type AnnonceWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Annonce"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Annonce"> | Date | string
   images?: Prisma.JsonFilter<"Annonce">
+  negotiable?: Prisma.BoolNullableFilter<"Annonce"> | boolean | null
   proprietaireId?: Prisma.IntFilter<"Annonce"> | number
   favoris?: Prisma.FavoriListRelationFilter
   proprietaire?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -382,6 +392,7 @@ export type AnnonceOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   images?: Prisma.SortOrder
+  negotiable?: Prisma.SortOrderInput | Prisma.SortOrder
   proprietaireId?: Prisma.SortOrder
   _count?: Prisma.AnnonceCountOrderByAggregateInput
   _avg?: Prisma.AnnonceAvgOrderByAggregateInput
@@ -408,6 +419,7 @@ export type AnnonceScalarWhereWithAggregatesInput = {
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Annonce"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Annonce"> | Date | string
   images?: Prisma.JsonWithAggregatesFilter<"Annonce">
+  negotiable?: Prisma.BoolNullableWithAggregatesFilter<"Annonce"> | boolean | null
   proprietaireId?: Prisma.IntWithAggregatesFilter<"Annonce"> | number
 }
 
@@ -425,6 +437,7 @@ export type AnnonceCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   images: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  negotiable?: boolean | null
   favoris?: Prisma.FavoriCreateNestedManyWithoutAnnonceInput
   proprietaire: Prisma.UserCreateNestedOneWithoutAnnoncesInput
   rendezVous?: Prisma.RendezVousCreateNestedManyWithoutAnnonceInput
@@ -445,6 +458,7 @@ export type AnnonceUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   images: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  negotiable?: boolean | null
   proprietaireId: number
   favoris?: Prisma.FavoriUncheckedCreateNestedManyWithoutAnnonceInput
   rendezVous?: Prisma.RendezVousUncheckedCreateNestedManyWithoutAnnonceInput
@@ -464,6 +478,7 @@ export type AnnonceUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   images?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  negotiable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   favoris?: Prisma.FavoriUpdateManyWithoutAnnonceNestedInput
   proprietaire?: Prisma.UserUpdateOneRequiredWithoutAnnoncesNestedInput
   rendezVous?: Prisma.RendezVousUpdateManyWithoutAnnonceNestedInput
@@ -484,6 +499,7 @@ export type AnnonceUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   images?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  negotiable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   proprietaireId?: Prisma.IntFieldUpdateOperationsInput | number
   favoris?: Prisma.FavoriUncheckedUpdateManyWithoutAnnonceNestedInput
   rendezVous?: Prisma.RendezVousUncheckedUpdateManyWithoutAnnonceNestedInput
@@ -504,6 +520,7 @@ export type AnnonceCreateManyInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   images: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  negotiable?: boolean | null
   proprietaireId: number
 }
 
@@ -521,6 +538,7 @@ export type AnnonceUpdateManyMutationInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   images?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  negotiable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
 }
 
 export type AnnonceUncheckedUpdateManyInput = {
@@ -538,6 +556,7 @@ export type AnnonceUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   images?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  negotiable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   proprietaireId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
@@ -572,6 +591,7 @@ export type AnnonceCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   images?: Prisma.SortOrder
+  negotiable?: Prisma.SortOrder
   proprietaireId?: Prisma.SortOrder
 }
 
@@ -599,6 +619,7 @@ export type AnnonceMaxOrderByAggregateInput = {
   projet?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  negotiable?: Prisma.SortOrder
   proprietaireId?: Prisma.SortOrder
 }
 
@@ -616,6 +637,7 @@ export type AnnonceMinOrderByAggregateInput = {
   projet?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  negotiable?: Prisma.SortOrder
   proprietaireId?: Prisma.SortOrder
 }
 
@@ -700,6 +722,10 @@ export type NullableEnumProjetTypeFieldUpdateOperationsInput = {
   set?: $Enums.ProjetType | null
 }
 
+export type NullableBoolFieldUpdateOperationsInput = {
+  set?: boolean | null
+}
+
 export type AnnonceCreateNestedOneWithoutFavorisInput = {
   create?: Prisma.XOR<Prisma.AnnonceCreateWithoutFavorisInput, Prisma.AnnonceUncheckedCreateWithoutFavorisInput>
   connectOrCreate?: Prisma.AnnonceCreateOrConnectWithoutFavorisInput
@@ -742,6 +768,7 @@ export type AnnonceCreateWithoutProprietaireInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   images: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  negotiable?: boolean | null
   favoris?: Prisma.FavoriCreateNestedManyWithoutAnnonceInput
   rendezVous?: Prisma.RendezVousCreateNestedManyWithoutAnnonceInput
 }
@@ -761,6 +788,7 @@ export type AnnonceUncheckedCreateWithoutProprietaireInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   images: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  negotiable?: boolean | null
   favoris?: Prisma.FavoriUncheckedCreateNestedManyWithoutAnnonceInput
   rendezVous?: Prisma.RendezVousUncheckedCreateNestedManyWithoutAnnonceInput
 }
@@ -809,6 +837,7 @@ export type AnnonceScalarWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Annonce"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Annonce"> | Date | string
   images?: Prisma.JsonFilter<"Annonce">
+  negotiable?: Prisma.BoolNullableFilter<"Annonce"> | boolean | null
   proprietaireId?: Prisma.IntFilter<"Annonce"> | number
 }
 
@@ -826,6 +855,7 @@ export type AnnonceCreateWithoutFavorisInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   images: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  negotiable?: boolean | null
   proprietaire: Prisma.UserCreateNestedOneWithoutAnnoncesInput
   rendezVous?: Prisma.RendezVousCreateNestedManyWithoutAnnonceInput
 }
@@ -845,6 +875,7 @@ export type AnnonceUncheckedCreateWithoutFavorisInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   images: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  negotiable?: boolean | null
   proprietaireId: number
   rendezVous?: Prisma.RendezVousUncheckedCreateNestedManyWithoutAnnonceInput
 }
@@ -879,6 +910,7 @@ export type AnnonceUpdateWithoutFavorisInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   images?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  negotiable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   proprietaire?: Prisma.UserUpdateOneRequiredWithoutAnnoncesNestedInput
   rendezVous?: Prisma.RendezVousUpdateManyWithoutAnnonceNestedInput
 }
@@ -898,6 +930,7 @@ export type AnnonceUncheckedUpdateWithoutFavorisInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   images?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  negotiable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   proprietaireId?: Prisma.IntFieldUpdateOperationsInput | number
   rendezVous?: Prisma.RendezVousUncheckedUpdateManyWithoutAnnonceNestedInput
 }
@@ -916,6 +949,7 @@ export type AnnonceCreateWithoutRendezVousInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   images: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  negotiable?: boolean | null
   favoris?: Prisma.FavoriCreateNestedManyWithoutAnnonceInput
   proprietaire: Prisma.UserCreateNestedOneWithoutAnnoncesInput
 }
@@ -935,6 +969,7 @@ export type AnnonceUncheckedCreateWithoutRendezVousInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   images: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  negotiable?: boolean | null
   proprietaireId: number
   favoris?: Prisma.FavoriUncheckedCreateNestedManyWithoutAnnonceInput
 }
@@ -969,6 +1004,7 @@ export type AnnonceUpdateWithoutRendezVousInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   images?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  negotiable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   favoris?: Prisma.FavoriUpdateManyWithoutAnnonceNestedInput
   proprietaire?: Prisma.UserUpdateOneRequiredWithoutAnnoncesNestedInput
 }
@@ -988,6 +1024,7 @@ export type AnnonceUncheckedUpdateWithoutRendezVousInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   images?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  negotiable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   proprietaireId?: Prisma.IntFieldUpdateOperationsInput | number
   favoris?: Prisma.FavoriUncheckedUpdateManyWithoutAnnonceNestedInput
 }
@@ -1007,6 +1044,7 @@ export type AnnonceCreateManyProprietaireInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   images: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  negotiable?: boolean | null
 }
 
 export type AnnonceUpdateWithoutProprietaireInput = {
@@ -1023,6 +1061,7 @@ export type AnnonceUpdateWithoutProprietaireInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   images?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  negotiable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   favoris?: Prisma.FavoriUpdateManyWithoutAnnonceNestedInput
   rendezVous?: Prisma.RendezVousUpdateManyWithoutAnnonceNestedInput
 }
@@ -1042,6 +1081,7 @@ export type AnnonceUncheckedUpdateWithoutProprietaireInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   images?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  negotiable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   favoris?: Prisma.FavoriUncheckedUpdateManyWithoutAnnonceNestedInput
   rendezVous?: Prisma.RendezVousUncheckedUpdateManyWithoutAnnonceNestedInput
 }
@@ -1061,6 +1101,7 @@ export type AnnonceUncheckedUpdateManyWithoutProprietaireInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   images?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  negotiable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
 }
 
 
@@ -1118,6 +1159,7 @@ export type AnnonceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   createdAt?: boolean
   updatedAt?: boolean
   images?: boolean
+  negotiable?: boolean
   proprietaireId?: boolean
   favoris?: boolean | Prisma.Annonce$favorisArgs<ExtArgs>
   proprietaire?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1142,10 +1184,11 @@ export type AnnonceSelectScalar = {
   createdAt?: boolean
   updatedAt?: boolean
   images?: boolean
+  negotiable?: boolean
   proprietaireId?: boolean
 }
 
-export type AnnonceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "titre" | "description" | "prix" | "ville" | "surface" | "chambres" | "douches" | "vues" | "type" | "projet" | "createdAt" | "updatedAt" | "images" | "proprietaireId", ExtArgs["result"]["annonce"]>
+export type AnnonceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "titre" | "description" | "prix" | "ville" | "surface" | "chambres" | "douches" | "vues" | "type" | "projet" | "createdAt" | "updatedAt" | "images" | "negotiable" | "proprietaireId", ExtArgs["result"]["annonce"]>
 export type AnnonceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   favoris?: boolean | Prisma.Annonce$favorisArgs<ExtArgs>
   proprietaire?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1175,6 +1218,7 @@ export type $AnnoncePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     createdAt: Date
     updatedAt: Date
     images: runtime.JsonValue
+    negotiable: boolean | null
     proprietaireId: number
   }, ExtArgs["result"]["annonce"]>
   composites: {}
@@ -1562,6 +1606,7 @@ export interface AnnonceFieldRefs {
   readonly createdAt: Prisma.FieldRef<"Annonce", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Annonce", 'DateTime'>
   readonly images: Prisma.FieldRef<"Annonce", 'Json'>
+  readonly negotiable: Prisma.FieldRef<"Annonce", 'Boolean'>
   readonly proprietaireId: Prisma.FieldRef<"Annonce", 'Int'>
 }
     

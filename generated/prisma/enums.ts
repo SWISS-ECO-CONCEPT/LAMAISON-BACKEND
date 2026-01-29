@@ -42,7 +42,8 @@ export const TypeBien = {
   appartement: 'appartement',
   terrain: 'terrain',
   chambre: 'chambre',
-  meublé: 'meublé'
+  meublé: 'meublé',
+  studio: 'studio'
 } as const
 
 export type TypeBien = (typeof TypeBien)[keyof typeof TypeBien]

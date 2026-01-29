@@ -13,23 +13,23 @@ adminRoutes.post('/auth/signin', signInController)
 adminRoutes.post('/auth/signup', signUpController)
 
 {/*admin user management routes*/}
-adminRoutes.get('/users', isAdmin, getAllUsersController )
-adminRoutes.get('/users/:id', isAdmin, getUserByIdController)
+adminRoutes.get('/users',  getAllUsersController )
+adminRoutes.get('/users/:id',  getUserByIdController)
 
 {/*admin annonce management routes*/}
-adminRoutes.get('/annonces', isAdmin, getAllAnnoncesController)
-adminRoutes.get('/annonces/:id', isAdmin, getAnnonceByIdController)
-adminRoutes.delete('/annonces/:id', isAdmin, deleteAnnonceController)
+adminRoutes.get('/annonces',  getAllAnnoncesController)
+adminRoutes.get('/annonces/:id', getAnnonceByIdController)
+adminRoutes.delete('/annonces/:id',  deleteAnnonceController)
 
 {/*admin rendez-vous management routes*/}
-adminRoutes.get('/rdv', isAdmin, getAllRendezVousController)
-adminRoutes.get('/rdv/:id', isAdmin, getRendezVousByIdController)
-adminRoutes.patch('/rdv/:id/status', isAdmin, updateRendezVousStatusController)
-adminRoutes.delete('/rdv/:id', isAdmin, deleteRendezVousController)
+adminRoutes.get('/rdv',  getAllRendezVousController)
+adminRoutes.get('/rdv/:id',  getRendezVousByIdController)
+adminRoutes.patch('/rdv/:id/status', updateRendezVousStatusController)
+adminRoutes.delete('/rdv/:id',  deleteRendezVousController)
 
 {/*admin message management routes*/}
-adminRoutes.get('/messages', isAdmin, getAllMessagesController)
-adminRoutes.get('/messages/:id', isAdmin, getMessageByIdController)
-adminRoutes.delete('/messages/:id', isAdmin, deleteMessageController)
+adminRoutes.get('/messages',  getAllMessagesController)
+adminRoutes.get('/messages/:id',  getMessageByIdController)
+adminRoutes.delete('/messages/:id', deleteMessageController)
 
 export default adminRoutes

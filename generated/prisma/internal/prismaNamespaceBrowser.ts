@@ -115,6 +115,7 @@ export const AnnonceScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   images: 'images',
+  negotiable: 'negotiable',
   proprietaireId: 'proprietaireId'
 } as const
 

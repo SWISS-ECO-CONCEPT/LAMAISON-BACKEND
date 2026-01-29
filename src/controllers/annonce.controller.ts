@@ -5,6 +5,27 @@ import { CreateAnnonceDto, UpdateAnnonceDto } from "../dto/annonce.dto";
 import { ProjetType } from "../../generated/prisma/client";
 import { getDbUserIdByClerkId } from "../services/auth.services";
 import * as annonceService from "../services/annonce.service";
+
+// Fonction de normalisation pour les types de bien
+const normalizeTypeBien = (type: string): TypeBien | null => {
+  const typeMap: { [key: string]: TypeBien } = {
+    "maison": "maison",
+    "appartement": "appartement", 
+    "terrain": "terrain",
+    "chambre": "chambre",
+    "studio": "studio",
+    "meublé": "meublé",
+    // Gérer les variations avec majuscules
+    "Maison": "maison",
+    "Appartement": "appartement",
+    "Terrain": "terrain", 
+    "Chambre": "chambre",
+    "Studio": "studio",
+    "Meublé": "meublé"
+  };
+  
+  return typeMap[type] || null;
+};
 // ✅ Créer une annonce
 export const createAnnonce = async (req: Request, res: Response) => {
   try {
@@ -39,10 +60,11 @@ export const createAnnonce = async (req: Request, res: Response) => {
       surface: data.surface ?? null,
       chambres: data.chambres ?? null,
       douches: data.douches ?? null,
-      type: data.type ? data.type as TypeBien : null,
+      type: data.type ? normalizeTypeBien(data.type) : null,
       projet: data.projet ? (data.projet as ProjetType) : undefined,
       proprietaire: { connect: { id: Number(dbUserId) } },
       images: normalizedImages,
+      negotiable: data.negotiable ?? false,
     };
 
     const annonce = await prisma.annonce.create({
@@ -225,11 +247,12 @@ export const updateAnnonce = async (req: Request, res: Response) => {
         surface: data.surface ?? undefined,
         chambres: data.chambres ?? undefined,
         douches: data.douches ?? undefined,
-        type: data.type ? data.type as TypeBien : undefined,
+        type: data.type ? normalizeTypeBien(data.type) : undefined,
         projet: data.projet ?? undefined,
         images: Array.isArray(data.images)
           ? data.images.map((img: any) => (typeof img === 'string' ? img : img?.url)).filter(Boolean)
           : undefined,
+        negotiable: data.negotiable ?? undefined,
       } as any),
       include: { proprietaire: true },
     });
