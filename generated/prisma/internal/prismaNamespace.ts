@@ -871,6 +871,7 @@ export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof User
 
 export const AnnonceScalarFieldEnum = {
   id: 'id',
+  bn_reference: 'bn_reference',
   titre: 'titre',
   description: 'description',
   prix: 'prix',
@@ -991,6 +992,7 @@ export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
 export const AnnonceOrderByRelevanceFieldEnum = {
+  bn_reference: 'bn_reference',
   titre: 'titre',
   description: 'description',
   ville: 'ville'

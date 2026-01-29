@@ -65,6 +65,7 @@ model User {
 
 model Annonce {
   id             Int          @id @default(autoincrement())
+  bn_reference   String?      @unique
   titre          String
   description    String
   prix           Float

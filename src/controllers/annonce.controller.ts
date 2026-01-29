@@ -72,7 +72,15 @@ export const createAnnonce = async (req: Request, res: Response) => {
       include: { proprietaire: true },
     });
 
-    res.status(201).json({ message: 'Annonce créée avec succès.', data: annonce });
+    // Generate and save bn_reference
+    const bn_reference = `BN${annonce.id}`;
+    const updatedAnnonce = await prisma.annonce.update({
+      where: { id: annonce.id },
+      data: { bn_reference },
+      include: { proprietaire: true },
+    });
+
+    res.status(201).json({ message: 'Annonce créée avec succès.', data: updatedAnnonce });
   } catch (error: any) {
     console.error("Erreur lors de la création de l'annonce :", error);
     res.status(500).json({ message: 'Erreur lors de la création', error: error.message || error });
@@ -330,6 +338,7 @@ export const incrementAnnonceViews = async (req: Request, res: Response) => {
     });
   }
 };
+
 
 
 

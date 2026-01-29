@@ -48,6 +48,7 @@ export type AnnonceSumAggregateOutputType = {
 
 export type AnnonceMinAggregateOutputType = {
   id: number | null
+  bn_reference: string | null
   titre: string | null
   description: string | null
   prix: number | null
@@ -66,6 +67,7 @@ export type AnnonceMinAggregateOutputType = {
 
 export type AnnonceMaxAggregateOutputType = {
   id: number | null
+  bn_reference: string | null
   titre: string | null
   description: string | null
   prix: number | null
@@ -84,6 +86,7 @@ export type AnnonceMaxAggregateOutputType = {
 
 export type AnnonceCountAggregateOutputType = {
   id: number
+  bn_reference: number
   titre: number
   description: number
   prix: number
@@ -125,6 +128,7 @@ export type AnnonceSumAggregateInputType = {
 
 export type AnnonceMinAggregateInputType = {
   id?: true
+  bn_reference?: true
   titre?: true
   description?: true
   prix?: true
@@ -143,6 +147,7 @@ export type AnnonceMinAggregateInputType = {
 
 export type AnnonceMaxAggregateInputType = {
   id?: true
+  bn_reference?: true
   titre?: true
   description?: true
   prix?: true
@@ -161,6 +166,7 @@ export type AnnonceMaxAggregateInputType = {
 
 export type AnnonceCountAggregateInputType = {
   id?: true
+  bn_reference?: true
   titre?: true
   description?: true
   prix?: true
@@ -267,6 +273,7 @@ export type AnnonceGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 
 export type AnnonceGroupByOutputType = {
   id: number
+  bn_reference: string | null
   titre: string
   description: string
   prix: number
@@ -309,6 +316,7 @@ export type AnnonceWhereInput = {
   OR?: Prisma.AnnonceWhereInput[]
   NOT?: Prisma.AnnonceWhereInput | Prisma.AnnonceWhereInput[]
   id?: Prisma.IntFilter<"Annonce"> | number
+  bn_reference?: Prisma.StringNullableFilter<"Annonce"> | string | null
   titre?: Prisma.StringFilter<"Annonce"> | string
   description?: Prisma.StringFilter<"Annonce"> | string
   prix?: Prisma.FloatFilter<"Annonce"> | number
@@ -331,6 +339,7 @@ export type AnnonceWhereInput = {
 
 export type AnnonceOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  bn_reference?: Prisma.SortOrderInput | Prisma.SortOrder
   titre?: Prisma.SortOrder
   description?: Prisma.SortOrder
   prix?: Prisma.SortOrder
@@ -354,6 +363,7 @@ export type AnnonceOrderByWithRelationInput = {
 
 export type AnnonceWhereUniqueInput = Prisma.AtLeast<{
   id?: number
+  bn_reference?: string
   AND?: Prisma.AnnonceWhereInput | Prisma.AnnonceWhereInput[]
   OR?: Prisma.AnnonceWhereInput[]
   NOT?: Prisma.AnnonceWhereInput | Prisma.AnnonceWhereInput[]
@@ -375,10 +385,11 @@ export type AnnonceWhereUniqueInput = Prisma.AtLeast<{
   favoris?: Prisma.FavoriListRelationFilter
   proprietaire?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   rendezVous?: Prisma.RendezVousListRelationFilter
-}, "id">
+}, "id" | "bn_reference">
 
 export type AnnonceOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  bn_reference?: Prisma.SortOrderInput | Prisma.SortOrder
   titre?: Prisma.SortOrder
   description?: Prisma.SortOrder
   prix?: Prisma.SortOrder
@@ -406,6 +417,7 @@ export type AnnonceScalarWhereWithAggregatesInput = {
   OR?: Prisma.AnnonceScalarWhereWithAggregatesInput[]
   NOT?: Prisma.AnnonceScalarWhereWithAggregatesInput | Prisma.AnnonceScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Annonce"> | number
+  bn_reference?: Prisma.StringNullableWithAggregatesFilter<"Annonce"> | string | null
   titre?: Prisma.StringWithAggregatesFilter<"Annonce"> | string
   description?: Prisma.StringWithAggregatesFilter<"Annonce"> | string
   prix?: Prisma.FloatWithAggregatesFilter<"Annonce"> | number
@@ -424,6 +436,7 @@ export type AnnonceScalarWhereWithAggregatesInput = {
 }
 
 export type AnnonceCreateInput = {
+  bn_reference?: string | null
   titre: string
   description: string
   prix: number
@@ -445,6 +458,7 @@ export type AnnonceCreateInput = {
 
 export type AnnonceUncheckedCreateInput = {
   id?: number
+  bn_reference?: string | null
   titre: string
   description: string
   prix: number
@@ -465,6 +479,7 @@ export type AnnonceUncheckedCreateInput = {
 }
 
 export type AnnonceUpdateInput = {
+  bn_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   titre?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   prix?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -486,6 +501,7 @@ export type AnnonceUpdateInput = {
 
 export type AnnonceUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  bn_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   titre?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   prix?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -507,6 +523,7 @@ export type AnnonceUncheckedUpdateInput = {
 
 export type AnnonceCreateManyInput = {
   id?: number
+  bn_reference?: string | null
   titre: string
   description: string
   prix: number
@@ -525,6 +542,7 @@ export type AnnonceCreateManyInput = {
 }
 
 export type AnnonceUpdateManyMutationInput = {
+  bn_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   titre?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   prix?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -543,6 +561,7 @@ export type AnnonceUpdateManyMutationInput = {
 
 export type AnnonceUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  bn_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   titre?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   prix?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -578,6 +597,7 @@ export type AnnonceOrderByRelevanceInput = {
 
 export type AnnonceCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  bn_reference?: Prisma.SortOrder
   titre?: Prisma.SortOrder
   description?: Prisma.SortOrder
   prix?: Prisma.SortOrder
@@ -607,6 +627,7 @@ export type AnnonceAvgOrderByAggregateInput = {
 
 export type AnnonceMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  bn_reference?: Prisma.SortOrder
   titre?: Prisma.SortOrder
   description?: Prisma.SortOrder
   prix?: Prisma.SortOrder
@@ -625,6 +646,7 @@ export type AnnonceMaxOrderByAggregateInput = {
 
 export type AnnonceMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  bn_reference?: Prisma.SortOrder
   titre?: Prisma.SortOrder
   description?: Prisma.SortOrder
   prix?: Prisma.SortOrder
@@ -755,6 +777,7 @@ export type AnnonceUpdateOneRequiredWithoutRendezVousNestedInput = {
 }
 
 export type AnnonceCreateWithoutProprietaireInput = {
+  bn_reference?: string | null
   titre: string
   description: string
   prix: number
@@ -775,6 +798,7 @@ export type AnnonceCreateWithoutProprietaireInput = {
 
 export type AnnonceUncheckedCreateWithoutProprietaireInput = {
   id?: number
+  bn_reference?: string | null
   titre: string
   description: string
   prix: number
@@ -824,6 +848,7 @@ export type AnnonceScalarWhereInput = {
   OR?: Prisma.AnnonceScalarWhereInput[]
   NOT?: Prisma.AnnonceScalarWhereInput | Prisma.AnnonceScalarWhereInput[]
   id?: Prisma.IntFilter<"Annonce"> | number
+  bn_reference?: Prisma.StringNullableFilter<"Annonce"> | string | null
   titre?: Prisma.StringFilter<"Annonce"> | string
   description?: Prisma.StringFilter<"Annonce"> | string
   prix?: Prisma.FloatFilter<"Annonce"> | number
@@ -842,6 +867,7 @@ export type AnnonceScalarWhereInput = {
 }
 
 export type AnnonceCreateWithoutFavorisInput = {
+  bn_reference?: string | null
   titre: string
   description: string
   prix: number
@@ -862,6 +888,7 @@ export type AnnonceCreateWithoutFavorisInput = {
 
 export type AnnonceUncheckedCreateWithoutFavorisInput = {
   id?: number
+  bn_reference?: string | null
   titre: string
   description: string
   prix: number
@@ -897,6 +924,7 @@ export type AnnonceUpdateToOneWithWhereWithoutFavorisInput = {
 }
 
 export type AnnonceUpdateWithoutFavorisInput = {
+  bn_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   titre?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   prix?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -917,6 +945,7 @@ export type AnnonceUpdateWithoutFavorisInput = {
 
 export type AnnonceUncheckedUpdateWithoutFavorisInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  bn_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   titre?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   prix?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -936,6 +965,7 @@ export type AnnonceUncheckedUpdateWithoutFavorisInput = {
 }
 
 export type AnnonceCreateWithoutRendezVousInput = {
+  bn_reference?: string | null
   titre: string
   description: string
   prix: number
@@ -956,6 +986,7 @@ export type AnnonceCreateWithoutRendezVousInput = {
 
 export type AnnonceUncheckedCreateWithoutRendezVousInput = {
   id?: number
+  bn_reference?: string | null
   titre: string
   description: string
   prix: number
@@ -991,6 +1022,7 @@ export type AnnonceUpdateToOneWithWhereWithoutRendezVousInput = {
 }
 
 export type AnnonceUpdateWithoutRendezVousInput = {
+  bn_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   titre?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   prix?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1011,6 +1043,7 @@ export type AnnonceUpdateWithoutRendezVousInput = {
 
 export type AnnonceUncheckedUpdateWithoutRendezVousInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  bn_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   titre?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   prix?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1031,6 +1064,7 @@ export type AnnonceUncheckedUpdateWithoutRendezVousInput = {
 
 export type AnnonceCreateManyProprietaireInput = {
   id?: number
+  bn_reference?: string | null
   titre: string
   description: string
   prix: number
@@ -1048,6 +1082,7 @@ export type AnnonceCreateManyProprietaireInput = {
 }
 
 export type AnnonceUpdateWithoutProprietaireInput = {
+  bn_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   titre?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   prix?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1068,6 +1103,7 @@ export type AnnonceUpdateWithoutProprietaireInput = {
 
 export type AnnonceUncheckedUpdateWithoutProprietaireInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  bn_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   titre?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   prix?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1088,6 +1124,7 @@ export type AnnonceUncheckedUpdateWithoutProprietaireInput = {
 
 export type AnnonceUncheckedUpdateManyWithoutProprietaireInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  bn_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   titre?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   prix?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1146,6 +1183,7 @@ export type AnnonceCountOutputTypeCountRendezVousArgs<ExtArgs extends runtime.Ty
 
 export type AnnonceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  bn_reference?: boolean
   titre?: boolean
   description?: boolean
   prix?: boolean
@@ -1171,6 +1209,7 @@ export type AnnonceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 
 export type AnnonceSelectScalar = {
   id?: boolean
+  bn_reference?: boolean
   titre?: boolean
   description?: boolean
   prix?: boolean
@@ -1188,7 +1227,7 @@ export type AnnonceSelectScalar = {
   proprietaireId?: boolean
 }
 
-export type AnnonceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "titre" | "description" | "prix" | "ville" | "surface" | "chambres" | "douches" | "vues" | "type" | "projet" | "createdAt" | "updatedAt" | "images" | "negotiable" | "proprietaireId", ExtArgs["result"]["annonce"]>
+export type AnnonceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "bn_reference" | "titre" | "description" | "prix" | "ville" | "surface" | "chambres" | "douches" | "vues" | "type" | "projet" | "createdAt" | "updatedAt" | "images" | "negotiable" | "proprietaireId", ExtArgs["result"]["annonce"]>
 export type AnnonceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   favoris?: boolean | Prisma.Annonce$favorisArgs<ExtArgs>
   proprietaire?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1205,6 +1244,7 @@ export type $AnnoncePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
+    bn_reference: string | null
     titre: string
     description: string
     prix: number
@@ -1593,6 +1633,7 @@ export interface Prisma__AnnonceClient<T, Null = never, ExtArgs extends runtime.
  */
 export interface AnnonceFieldRefs {
   readonly id: Prisma.FieldRef<"Annonce", 'Int'>
+  readonly bn_reference: Prisma.FieldRef<"Annonce", 'String'>
   readonly titre: Prisma.FieldRef<"Annonce", 'String'>
   readonly description: Prisma.FieldRef<"Annonce", 'String'>
   readonly prix: Prisma.FieldRef<"Annonce", 'Float'>
