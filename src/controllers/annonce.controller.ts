@@ -57,6 +57,7 @@ export const createAnnonce = async (req: Request, res: Response) => {
       description: data.description,
       prix: Number(data.prix),
       ville: data.ville,
+      quartier: data.quartier ?? null,
       surface: data.surface ?? null,
       chambres: data.chambres ?? null,
       douches: data.douches ?? null,
@@ -93,6 +94,7 @@ export const getAllAnnonces = async (req: Request, res: Response) => {
     const {
       search,        // Recherche textuelle dans titre et description
       ville,         // Filtrer par ville exacte
+      quartier,      // Filtrer par quartier
       prixMin,       // Prix minimum
       prixMax,       // Prix maximum
       surfaceMin,    // Surface minimum
@@ -117,6 +119,11 @@ export const getAllAnnonces = async (req: Request, res: Response) => {
     // Filtre par ville
     if (ville && typeof ville === 'string') {
       where.ville = { contains: ville };
+    }
+
+    // Filtre par quartier
+    if (quartier && typeof quartier === 'string') {
+      where.quartier = { contains: quartier };
     }
 
     // Filtre par projet

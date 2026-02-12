@@ -70,6 +70,7 @@ model Annonce {
   description    String
   prix           Float
   ville          String
+  quartier       String?
   surface        Int?         
   chambres       Int?         
   douches        Int?         
