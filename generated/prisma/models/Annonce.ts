@@ -53,6 +53,7 @@ export type AnnonceMinAggregateOutputType = {
   description: string | null
   prix: number | null
   ville: string | null
+  quartier: string | null
   surface: number | null
   chambres: number | null
   douches: number | null
@@ -72,6 +73,7 @@ export type AnnonceMaxAggregateOutputType = {
   description: string | null
   prix: number | null
   ville: string | null
+  quartier: string | null
   surface: number | null
   chambres: number | null
   douches: number | null
@@ -91,6 +93,7 @@ export type AnnonceCountAggregateOutputType = {
   description: number
   prix: number
   ville: number
+  quartier: number
   surface: number
   chambres: number
   douches: number
@@ -133,6 +136,7 @@ export type AnnonceMinAggregateInputType = {
   description?: true
   prix?: true
   ville?: true
+  quartier?: true
   surface?: true
   chambres?: true
   douches?: true
@@ -152,6 +156,7 @@ export type AnnonceMaxAggregateInputType = {
   description?: true
   prix?: true
   ville?: true
+  quartier?: true
   surface?: true
   chambres?: true
   douches?: true
@@ -171,6 +176,7 @@ export type AnnonceCountAggregateInputType = {
   description?: true
   prix?: true
   ville?: true
+  quartier?: true
   surface?: true
   chambres?: true
   douches?: true
@@ -278,6 +284,7 @@ export type AnnonceGroupByOutputType = {
   description: string
   prix: number
   ville: string
+  quartier: string | null
   surface: number | null
   chambres: number | null
   douches: number | null
@@ -321,6 +328,7 @@ export type AnnonceWhereInput = {
   description?: Prisma.StringFilter<"Annonce"> | string
   prix?: Prisma.FloatFilter<"Annonce"> | number
   ville?: Prisma.StringFilter<"Annonce"> | string
+  quartier?: Prisma.StringNullableFilter<"Annonce"> | string | null
   surface?: Prisma.IntNullableFilter<"Annonce"> | number | null
   chambres?: Prisma.IntNullableFilter<"Annonce"> | number | null
   douches?: Prisma.IntNullableFilter<"Annonce"> | number | null
@@ -344,6 +352,7 @@ export type AnnonceOrderByWithRelationInput = {
   description?: Prisma.SortOrder
   prix?: Prisma.SortOrder
   ville?: Prisma.SortOrder
+  quartier?: Prisma.SortOrderInput | Prisma.SortOrder
   surface?: Prisma.SortOrderInput | Prisma.SortOrder
   chambres?: Prisma.SortOrderInput | Prisma.SortOrder
   douches?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -371,6 +380,7 @@ export type AnnonceWhereUniqueInput = Prisma.AtLeast<{
   description?: Prisma.StringFilter<"Annonce"> | string
   prix?: Prisma.FloatFilter<"Annonce"> | number
   ville?: Prisma.StringFilter<"Annonce"> | string
+  quartier?: Prisma.StringNullableFilter<"Annonce"> | string | null
   surface?: Prisma.IntNullableFilter<"Annonce"> | number | null
   chambres?: Prisma.IntNullableFilter<"Annonce"> | number | null
   douches?: Prisma.IntNullableFilter<"Annonce"> | number | null
@@ -394,6 +404,7 @@ export type AnnonceOrderByWithAggregationInput = {
   description?: Prisma.SortOrder
   prix?: Prisma.SortOrder
   ville?: Prisma.SortOrder
+  quartier?: Prisma.SortOrderInput | Prisma.SortOrder
   surface?: Prisma.SortOrderInput | Prisma.SortOrder
   chambres?: Prisma.SortOrderInput | Prisma.SortOrder
   douches?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -422,6 +433,7 @@ export type AnnonceScalarWhereWithAggregatesInput = {
   description?: Prisma.StringWithAggregatesFilter<"Annonce"> | string
   prix?: Prisma.FloatWithAggregatesFilter<"Annonce"> | number
   ville?: Prisma.StringWithAggregatesFilter<"Annonce"> | string
+  quartier?: Prisma.StringNullableWithAggregatesFilter<"Annonce"> | string | null
   surface?: Prisma.IntNullableWithAggregatesFilter<"Annonce"> | number | null
   chambres?: Prisma.IntNullableWithAggregatesFilter<"Annonce"> | number | null
   douches?: Prisma.IntNullableWithAggregatesFilter<"Annonce"> | number | null
@@ -441,6 +453,7 @@ export type AnnonceCreateInput = {
   description: string
   prix: number
   ville: string
+  quartier?: string | null
   surface?: number | null
   chambres?: number | null
   douches?: number | null
@@ -463,6 +476,7 @@ export type AnnonceUncheckedCreateInput = {
   description: string
   prix: number
   ville: string
+  quartier?: string | null
   surface?: number | null
   chambres?: number | null
   douches?: number | null
@@ -484,6 +498,7 @@ export type AnnonceUpdateInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   prix?: Prisma.FloatFieldUpdateOperationsInput | number
   ville?: Prisma.StringFieldUpdateOperationsInput | string
+  quartier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   surface?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   chambres?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   douches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -506,6 +521,7 @@ export type AnnonceUncheckedUpdateInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   prix?: Prisma.FloatFieldUpdateOperationsInput | number
   ville?: Prisma.StringFieldUpdateOperationsInput | string
+  quartier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   surface?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   chambres?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   douches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -528,6 +544,7 @@ export type AnnonceCreateManyInput = {
   description: string
   prix: number
   ville: string
+  quartier?: string | null
   surface?: number | null
   chambres?: number | null
   douches?: number | null
@@ -547,6 +564,7 @@ export type AnnonceUpdateManyMutationInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   prix?: Prisma.FloatFieldUpdateOperationsInput | number
   ville?: Prisma.StringFieldUpdateOperationsInput | string
+  quartier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   surface?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   chambres?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   douches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -566,6 +584,7 @@ export type AnnonceUncheckedUpdateManyInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   prix?: Prisma.FloatFieldUpdateOperationsInput | number
   ville?: Prisma.StringFieldUpdateOperationsInput | string
+  quartier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   surface?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   chambres?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   douches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -602,6 +621,7 @@ export type AnnonceCountOrderByAggregateInput = {
   description?: Prisma.SortOrder
   prix?: Prisma.SortOrder
   ville?: Prisma.SortOrder
+  quartier?: Prisma.SortOrder
   surface?: Prisma.SortOrder
   chambres?: Prisma.SortOrder
   douches?: Prisma.SortOrder
@@ -632,6 +652,7 @@ export type AnnonceMaxOrderByAggregateInput = {
   description?: Prisma.SortOrder
   prix?: Prisma.SortOrder
   ville?: Prisma.SortOrder
+  quartier?: Prisma.SortOrder
   surface?: Prisma.SortOrder
   chambres?: Prisma.SortOrder
   douches?: Prisma.SortOrder
@@ -651,6 +672,7 @@ export type AnnonceMinOrderByAggregateInput = {
   description?: Prisma.SortOrder
   prix?: Prisma.SortOrder
   ville?: Prisma.SortOrder
+  quartier?: Prisma.SortOrder
   surface?: Prisma.SortOrder
   chambres?: Prisma.SortOrder
   douches?: Prisma.SortOrder
@@ -782,6 +804,7 @@ export type AnnonceCreateWithoutProprietaireInput = {
   description: string
   prix: number
   ville: string
+  quartier?: string | null
   surface?: number | null
   chambres?: number | null
   douches?: number | null
@@ -803,6 +826,7 @@ export type AnnonceUncheckedCreateWithoutProprietaireInput = {
   description: string
   prix: number
   ville: string
+  quartier?: string | null
   surface?: number | null
   chambres?: number | null
   douches?: number | null
@@ -853,6 +877,7 @@ export type AnnonceScalarWhereInput = {
   description?: Prisma.StringFilter<"Annonce"> | string
   prix?: Prisma.FloatFilter<"Annonce"> | number
   ville?: Prisma.StringFilter<"Annonce"> | string
+  quartier?: Prisma.StringNullableFilter<"Annonce"> | string | null
   surface?: Prisma.IntNullableFilter<"Annonce"> | number | null
   chambres?: Prisma.IntNullableFilter<"Annonce"> | number | null
   douches?: Prisma.IntNullableFilter<"Annonce"> | number | null
@@ -872,6 +897,7 @@ export type AnnonceCreateWithoutFavorisInput = {
   description: string
   prix: number
   ville: string
+  quartier?: string | null
   surface?: number | null
   chambres?: number | null
   douches?: number | null
@@ -893,6 +919,7 @@ export type AnnonceUncheckedCreateWithoutFavorisInput = {
   description: string
   prix: number
   ville: string
+  quartier?: string | null
   surface?: number | null
   chambres?: number | null
   douches?: number | null
@@ -929,6 +956,7 @@ export type AnnonceUpdateWithoutFavorisInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   prix?: Prisma.FloatFieldUpdateOperationsInput | number
   ville?: Prisma.StringFieldUpdateOperationsInput | string
+  quartier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   surface?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   chambres?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   douches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -950,6 +978,7 @@ export type AnnonceUncheckedUpdateWithoutFavorisInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   prix?: Prisma.FloatFieldUpdateOperationsInput | number
   ville?: Prisma.StringFieldUpdateOperationsInput | string
+  quartier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   surface?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   chambres?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   douches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -970,6 +999,7 @@ export type AnnonceCreateWithoutRendezVousInput = {
   description: string
   prix: number
   ville: string
+  quartier?: string | null
   surface?: number | null
   chambres?: number | null
   douches?: number | null
@@ -991,6 +1021,7 @@ export type AnnonceUncheckedCreateWithoutRendezVousInput = {
   description: string
   prix: number
   ville: string
+  quartier?: string | null
   surface?: number | null
   chambres?: number | null
   douches?: number | null
@@ -1027,6 +1058,7 @@ export type AnnonceUpdateWithoutRendezVousInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   prix?: Prisma.FloatFieldUpdateOperationsInput | number
   ville?: Prisma.StringFieldUpdateOperationsInput | string
+  quartier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   surface?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   chambres?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   douches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1048,6 +1080,7 @@ export type AnnonceUncheckedUpdateWithoutRendezVousInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   prix?: Prisma.FloatFieldUpdateOperationsInput | number
   ville?: Prisma.StringFieldUpdateOperationsInput | string
+  quartier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   surface?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   chambres?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   douches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1069,6 +1102,7 @@ export type AnnonceCreateManyProprietaireInput = {
   description: string
   prix: number
   ville: string
+  quartier?: string | null
   surface?: number | null
   chambres?: number | null
   douches?: number | null
@@ -1087,6 +1121,7 @@ export type AnnonceUpdateWithoutProprietaireInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   prix?: Prisma.FloatFieldUpdateOperationsInput | number
   ville?: Prisma.StringFieldUpdateOperationsInput | string
+  quartier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   surface?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   chambres?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   douches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1108,6 +1143,7 @@ export type AnnonceUncheckedUpdateWithoutProprietaireInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   prix?: Prisma.FloatFieldUpdateOperationsInput | number
   ville?: Prisma.StringFieldUpdateOperationsInput | string
+  quartier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   surface?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   chambres?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   douches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1129,6 +1165,7 @@ export type AnnonceUncheckedUpdateManyWithoutProprietaireInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   prix?: Prisma.FloatFieldUpdateOperationsInput | number
   ville?: Prisma.StringFieldUpdateOperationsInput | string
+  quartier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   surface?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   chambres?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   douches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1188,6 +1225,7 @@ export type AnnonceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   description?: boolean
   prix?: boolean
   ville?: boolean
+  quartier?: boolean
   surface?: boolean
   chambres?: boolean
   douches?: boolean
@@ -1214,6 +1252,7 @@ export type AnnonceSelectScalar = {
   description?: boolean
   prix?: boolean
   ville?: boolean
+  quartier?: boolean
   surface?: boolean
   chambres?: boolean
   douches?: boolean
@@ -1227,7 +1266,7 @@ export type AnnonceSelectScalar = {
   proprietaireId?: boolean
 }
 
-export type AnnonceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "bn_reference" | "titre" | "description" | "prix" | "ville" | "surface" | "chambres" | "douches" | "vues" | "type" | "projet" | "createdAt" | "updatedAt" | "images" | "negotiable" | "proprietaireId", ExtArgs["result"]["annonce"]>
+export type AnnonceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "bn_reference" | "titre" | "description" | "prix" | "ville" | "quartier" | "surface" | "chambres" | "douches" | "vues" | "type" | "projet" | "createdAt" | "updatedAt" | "images" | "negotiable" | "proprietaireId", ExtArgs["result"]["annonce"]>
 export type AnnonceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   favoris?: boolean | Prisma.Annonce$favorisArgs<ExtArgs>
   proprietaire?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1249,6 +1288,7 @@ export type $AnnoncePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     description: string
     prix: number
     ville: string
+    quartier: string | null
     surface: number | null
     chambres: number | null
     douches: number | null
@@ -1638,6 +1678,7 @@ export interface AnnonceFieldRefs {
   readonly description: Prisma.FieldRef<"Annonce", 'String'>
   readonly prix: Prisma.FieldRef<"Annonce", 'Float'>
   readonly ville: Prisma.FieldRef<"Annonce", 'String'>
+  readonly quartier: Prisma.FieldRef<"Annonce", 'String'>
   readonly surface: Prisma.FieldRef<"Annonce", 'Int'>
   readonly chambres: Prisma.FieldRef<"Annonce", 'Int'>
   readonly douches: Prisma.FieldRef<"Annonce", 'Int'>

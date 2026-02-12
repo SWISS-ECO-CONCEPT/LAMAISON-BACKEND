@@ -6,6 +6,7 @@ export interface CreateAnnonceDto {
   description: string;
   prix: number;
   ville: string;
+  quartier?: string;
   proprietaireId: number;
   type?: TypeBien;
   projet?: ProjetType;
@@ -21,6 +22,7 @@ export interface UpdateAnnonceDto {
   description?: string;
   prix?: number;
   ville?: string;
+  quartier?: string;
   type?: TypeBien;
   projet?: ProjetType;
   surface?: number;

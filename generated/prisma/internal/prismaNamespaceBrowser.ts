@@ -107,6 +107,7 @@ export const AnnonceScalarFieldEnum = {
   description: 'description',
   prix: 'prix',
   ville: 'ville',
+  quartier: 'quartier',
   surface: 'surface',
   chambres: 'chambres',
   douches: 'douches',
@@ -226,7 +227,8 @@ export const AnnonceOrderByRelevanceFieldEnum = {
   bn_reference: 'bn_reference',
   titre: 'titre',
   description: 'description',
-  ville: 'ville'
+  ville: 'ville',
+  quartier: 'quartier'
 } as const
 
 export type AnnonceOrderByRelevanceFieldEnum = (typeof AnnonceOrderByRelevanceFieldEnum)[keyof typeof AnnonceOrderByRelevanceFieldEnum]
