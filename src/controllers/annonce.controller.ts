@@ -15,13 +15,15 @@ const normalizeTypeBien = (type: string): TypeBien | null => {
     "chambre": "chambre",
     "studio": "studio",
     "meublé": "meublé",
+    "duplex": "duplex",
     // Gérer les variations avec majuscules
     "Maison": "maison",
     "Appartement": "appartement",
     "Terrain": "terrain", 
     "Chambre": "chambre",
     "Studio": "studio",
-    "Meublé": "meublé"
+    "Meublé": "meublé",
+    "Duplex": "duplex"
   };
   
   return typeMap[type] || null;
@@ -165,7 +167,10 @@ export const getAllAnnonces = async (req: Request, res: Response) => {
 
     // Filtre par type de bien
     if (type && typeof type === 'string') {
-      where.type = type;
+      const normalized = normalizeTypeBien(type);
+      if (normalized) {
+        where.type = normalized;
+      }
     }
 
     const annonces = await annonceService.getAllAnnonces(where);
@@ -216,7 +221,12 @@ export const getAnnoncesByUser = async (req: Request, res: Response) => {
     }
     if (chambres) { where.chambres = { gte: Number(chambres) }; }
     if (douches) { where.douches = { gte: Number(douches) }; }
-    if (type && typeof type === 'string') { where.type = type; }
+    if (type && typeof type === 'string') {
+      const normalized = normalizeTypeBien(type);
+      if (normalized) {
+        where.type = normalized;
+      }
+    }
 
     const annonces = await annonceService.getAnnoncesByUser(clerkId, where);
     res.json(annonces);

@@ -34,6 +34,7 @@ enum TypeBien {
   chambre
   meublé
   studio
+  duplex
 }
 
 model Admin  {
@@ -67,7 +68,7 @@ model Annonce {
   id             Int          @id @default(autoincrement())
   bn_reference   String?      @unique
   titre          String
-  description    String
+  description    String       @db.Text
   prix           Float
   ville          String
   quartier       String?
