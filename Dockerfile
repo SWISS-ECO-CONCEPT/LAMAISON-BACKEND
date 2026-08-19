@@ -7,6 +7,10 @@ FROM node:20-slim AS base
 # suivantes (COPY, RUN, CMD) s'exécutent depuis /app.
 WORKDIR /app
 
+# Prisma a besoin de l'outil openssl (pas seulement des bibliothèques déjà
+# présentes) pour détecter la bonne version et choisir le bon moteur binaire.
+RUN apt-get update -y && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
+
 # On copie d'abord SEULEMENT les fichiers de dépendances, pas tout le code.
 # Astuce Docker : tant que package.json ne change pas, Docker réutilise le
 # cache et ne refait pas `npm install` à chaque petite modif de code.
