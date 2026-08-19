@@ -550,14 +550,46 @@ describe('AnnonceService', () => {
 });
 ```
 
-##  Déploiement
+## Déploiement
 
- npm run build
+### Avec Docker (recommandé)
 
-EXPOSE 5000
+Le backend est conteneurisé via un `Dockerfile` multi-étape (Node.js 20 slim) :
 
-CMD ["npm", "start"]
+```bash
+cd deploy
+cp .env.example .env   # Configurer les variables
+docker compose up --build
+```
 
+Le conteneur backend :
+1. Installe les dépendances et génère le client Prisma
+2. Au démarrage, applique les migrations (`prisma migrate deploy`)
+3. Lance le serveur TypeScript via `tsx`
+
+Le `DATABASE_URL` est automatiquement construit par docker-compose pour pointer vers le service `db` (MariaDB) du réseau interne Docker.
+
+Les fichiers uploadés sont persistés dans un volume Docker `uploads_data`.
+
+### Sans Docker
+
+```bash
+npm run build
+npx prisma migrate deploy
+npm start
+```
+
+### Variables d'environnement
+
+| Variable | Requis | Description |
+|----------|--------|-------------|
+| `DATABASE_URL` | oui | URL de connexion MySQL/MariaDB |
+| `CLERK_SECRET_KEY` | oui | Clé secrète Clerk |
+| `CLERK_PUBLISHABLE_KEY` | oui | Clé publique Clerk |
+| `CLERK_WEBHOOK_SIGNING_SECRET` | oui | Secret de vérification des webhooks Clerk |
+| `CORS_ORIGIN` | oui | Origines autorisées (séparées par `,`) |
+| `PORT` | non | Port du serveur (défaut : `5000`) |
+| `JWT_SECRET` | non | Secret JWT pour l'admin (défaut : `dev-secret`) |
 
 #### Erreur Clerk
 ```bash
@@ -600,7 +632,9 @@ grep "ERROR" logs/combined.log
 
 ---
 
- CI-DESSOUS EST UNE PRESENTATION GLOBALE DE L'APPLICATION (BACKEND+FRONTEND)
+---
+
+CI-DESSOUS EST UNE PRESENTATION GLOBALE DE L'APPLICATION (BACKEND+FRONTEND)
 # LAMAISON - Application Immobilière
 
 LAMAISON est une application web immobilière complète permettant la gestion d'annonces immobilières, la prise de rendez-vous, la messagerie entre utilisateurs et la gestion des favoris. L'application est structurée avec un backend Node.js/Express et un frontend React/TypeScript.

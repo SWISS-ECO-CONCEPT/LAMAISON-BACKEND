@@ -1,2 +1,2 @@
 -- AlterTable
-ALTER TABLE `annonce` ADD COLUMN `projet` ENUM('achat', 'location') NULL;
+ALTER TABLE `Annonce` ADD COLUMN `projet` ENUM('achat', 'location') NULL;

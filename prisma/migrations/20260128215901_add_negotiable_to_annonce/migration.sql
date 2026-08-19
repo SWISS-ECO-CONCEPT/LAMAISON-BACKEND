@@ -1,2 +1,2 @@
 -- AlterTable
-ALTER TABLE `annonce` ADD COLUMN `negotiable` BOOLEAN NULL;
+ALTER TABLE `Annonce` ADD COLUMN `negotiable` BOOLEAN NULL;
