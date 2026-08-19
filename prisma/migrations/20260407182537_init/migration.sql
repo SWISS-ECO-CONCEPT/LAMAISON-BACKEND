@@ -1,2 +1,2 @@
 -- AlterTable
-ALTER TABLE `annonce` MODIFY `description` TEXT NOT NULL;
+ALTER TABLE `Annonce` MODIFY `description` TEXT NOT NULL;

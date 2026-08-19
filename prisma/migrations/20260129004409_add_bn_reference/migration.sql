@@ -5,7 +5,7 @@
 
 */
 -- AlterTable
-ALTER TABLE `annonce` ADD COLUMN `bn_reference` VARCHAR(191) NULL,
+ALTER TABLE `Annonce` ADD COLUMN `bn_reference` VARCHAR(191) NULL,
     MODIFY `type` ENUM('maison', 'appartement', 'terrain', 'chambre', 'meublé', 'studio') NULL;
 
 -- CreateIndex

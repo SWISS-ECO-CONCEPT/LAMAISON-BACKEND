@@ -1,2 +1,2 @@
 -- AlterTable
-ALTER TABLE `annonce` MODIFY `type` ENUM('maison', 'appartement', 'terrain', 'chambre', 'meublé', 'studio', 'duplex') NULL;
+ALTER TABLE `Annonce` MODIFY `type` ENUM('maison', 'appartement', 'terrain', 'chambre', 'meublé', 'studio', 'duplex') NULL;
