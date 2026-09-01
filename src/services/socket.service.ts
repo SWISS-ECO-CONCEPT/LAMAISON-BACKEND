@@ -1,10 +1,10 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
 import { Server as HTTPServer } from 'http';
 
-export const setupSocketIO = (httpServer: HTTPServer) => {
+export const setupSocketIO = (httpServer: HTTPServer, allowedOrigins?: string[]) => {
   const io = new SocketIOServer(httpServer, {
     cors: {
-      origin: ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5000'],
+      origin: allowedOrigins ?? ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5000'],
       methods: ['GET', 'POST'],
       credentials: true,
     },
