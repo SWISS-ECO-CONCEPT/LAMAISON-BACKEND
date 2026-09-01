@@ -9,27 +9,33 @@ import { isAdmin } from "../middlewares/admin.middleware";
 const adminRoutes = Router()
 
 {/*admin authentification*/}
+// Ces deux routes DOIVENT rester publiques : c'est justement elles qui délivrent
+// le token — impossible d'exiger un token admin pour... obtenir un token admin.
 adminRoutes.post('/auth/signin', signInController)
 adminRoutes.post('/auth/signup', signUpController)
 
+// Toutes les routes ci-dessous exigent maintenant isAdmin : avant ce correctif,
+// n'importe qui pouvait lister/supprimer utilisateurs, annonces, RDV et messages
+// sans la moindre authentification.
+
 {/*admin user management routes*/}
-adminRoutes.get('/users',  getAllUsersController )
-adminRoutes.get('/users/:id',  getUserByIdController)
+adminRoutes.get('/users',  isAdmin, getAllUsersController )
+adminRoutes.get('/users/:id',  isAdmin, getUserByIdController)
 
 {/*admin annonce management routes*/}
-adminRoutes.get('/annonces',  getAllAnnoncesController)
-adminRoutes.get('/annonces/:id', getAnnonceByIdController)
-adminRoutes.delete('/annonces/:id',  deleteAnnonceController)
+adminRoutes.get('/annonces',  isAdmin, getAllAnnoncesController)
+adminRoutes.get('/annonces/:id', isAdmin, getAnnonceByIdController)
+adminRoutes.delete('/annonces/:id',  isAdmin, deleteAnnonceController)
 
 {/*admin rendez-vous management routes*/}
-adminRoutes.get('/rdv',  getAllRendezVousController)
-adminRoutes.get('/rdv/:id',  getRendezVousByIdController)
-adminRoutes.patch('/rdv/:id/status', updateRendezVousStatusController)
-adminRoutes.delete('/rdv/:id',  deleteRendezVousController)
+adminRoutes.get('/rdv',  isAdmin, getAllRendezVousController)
+adminRoutes.get('/rdv/:id',  isAdmin, getRendezVousByIdController)
+adminRoutes.patch('/rdv/:id/status', isAdmin, updateRendezVousStatusController)
+adminRoutes.delete('/rdv/:id',  isAdmin, deleteRendezVousController)
 
 {/*admin message management routes*/}
-adminRoutes.get('/messages',  getAllMessagesController)
-adminRoutes.get('/messages/:id',  getMessageByIdController)
-adminRoutes.delete('/messages/:id', deleteMessageController)
+adminRoutes.get('/messages',  isAdmin, getAllMessagesController)
+adminRoutes.get('/messages/:id',  isAdmin, getMessageByIdController)
+adminRoutes.delete('/messages/:id', isAdmin, deleteMessageController)
 
 export default adminRoutes
