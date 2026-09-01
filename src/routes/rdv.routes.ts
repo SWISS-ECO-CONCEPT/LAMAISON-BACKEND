@@ -5,8 +5,8 @@ import { requireAuth } from "@clerk/express";
 const router = Router();
 
 router.post("/", requireAuth(), rdvController.createRdv);
-router.get("/", rdvController.getAllRdvs);
-router.get("/:id", rdvController.getRdvById);
+router.get("/", requireAuth(), rdvController.getAllRdvs);
+router.get("/:id", requireAuth(), rdvController.getRdvById);
 router.patch("/:id", requireAuth(), rdvController.updateRdv);
 router.delete("/:id", requireAuth(), rdvController.deleteRdv);
 

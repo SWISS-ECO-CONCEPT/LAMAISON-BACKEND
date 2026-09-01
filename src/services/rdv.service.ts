@@ -230,7 +230,22 @@ export const rejectProposal = async (id: number, actorClerkId: string): Promise<
   });
 };
 
-export const deleteRdv = async (id: number) => {
+// deleteRdv reçoit maintenant actorClerkId : on vérifie que la personne qui supprime
+// est SOIT l'agent (propriétaire de l'annonce concernée), SOIT le prospect du RDV —
+// exactement comme pour accepter/refuser/proposer un créneau juste au-dessus.
+// Avant ce correctif, n'importe quel compte connecté pouvait supprimer le RDV de
+// n'importe qui d'autre, juste en devinant son ID.
+export const deleteRdv = async (id: number, actorClerkId: string) => {
+  const actor = await getActorOrThrow(actorClerkId);
+  const rdv: any = await getRdvWithRelationsOrThrow(id);
+
+  const isAgent = rdv?.annonce?.proprietaireId === actor.id;
+  const isProspect = rdv?.prospectId === actor.id;
+
+  if (!isAgent && !isProspect) {
+    throw new Error("Accès refusé: vous ne participez pas à ce rendez-vous");
+  }
+
   return await prisma.rendezVous.delete({
     where: { id },
   });

@@ -32,21 +32,6 @@ const app = express();
 // un serveur HTTP "brut" sur lequel on peut brancher à la fois Express ET
 // Socket.io. C'est pour ça qu'on ne fait pas juste `app.listen(...)`.
 const httpServer = createServer(app);
-const io = setupSocketIO(httpServer);
-
-// On stocke l'instance Socket.io dans l'app Express pour pouvoir
-// y accéder depuis n'importe quel contrôleur/route via `req.app.get('io')`
-// (utile par ex. pour notifier un utilisateur en temps réel après une action).
-app.set('io', io);
-
-// ---- Ancienne config CORS, gardée en commentaire pour référence ----
-// On pourra la supprimer une fois qu'on aura vérifié que la nouvelle marche.
-// app.use(cors({
-//   origin: ['http://localhost:5173', 'http://localhost:5174'],
-//   credentials: true,
-//   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-//   allowedHeaders: ['Content-Type', 'Authorization']
-// }))
 
 // CORS = règle de sécurité du navigateur qui bloque par défaut les requêtes
 // entre deux origines différentes (ex: frontend sur le port 5173 qui appelle
@@ -64,6 +49,25 @@ app.set('io', io);
 const allowedOrigins = process.env.CORS_ORIGIN
   ? process.env.CORS_ORIGIN.split(',')
   : ['http://localhost:5173', 'http://localhost:5174'];
+
+// On réutilise la même liste d'origines autorisées que pour Express (CORS_ORIGIN),
+// au lieu de laisser Socket.io avec sa propre liste figée sur les ports de dev Vite —
+// c'est ce décalage qui empêchait les notifications temps réel de fonctionner.
+const io = setupSocketIO(httpServer, allowedOrigins);
+
+// On stocke l'instance Socket.io dans l'app Express pour pouvoir
+// y accéder depuis n'importe quel contrôleur/route via `req.app.get('io')`
+// (utile par ex. pour notifier un utilisateur en temps réel après une action).
+app.set('io', io);
+
+// ---- Ancienne config CORS, gardée en commentaire pour référence ----
+// On pourra la supprimer une fois qu'on aura vérifié que la nouvelle marche.
+// app.use(cors({
+//   origin: ['http://localhost:5173', 'http://localhost:5174'],
+//   credentials: true,
+//   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+//   allowedHeaders: ['Content-Type', 'Authorization']
+// }))
 
 app.use(cors({
   origin: allowedOrigins,       // qui a le droit d'appeler cette API

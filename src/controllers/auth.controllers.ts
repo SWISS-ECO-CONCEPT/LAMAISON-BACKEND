@@ -30,6 +30,15 @@ export async function updateUserRoleController (req:Request, res:Response) {
             return;
         }
 
+        // On ne peut changer QUE son propre rôle — sinon n'importe quel compte
+        // connecté aurait pu promouvoir/rétrograder n'importe quel autre utilisateur
+        // juste en connaissant son clerkId.
+        const auth = req.auth();
+        if (!auth?.userId || auth.userId !== clerkId) {
+            res.status(403).json({ error: "Vous ne pouvez modifier que votre propre rôle" });
+            return;
+        }
+
         const validRoles = [ "AGENT", "PROSPECT"];
         if (!validRoles.includes(newRole)) {
             res.status(400).json({error: "Le rôle doit être ADMIN, AGENT ou PROSPECT"});
@@ -42,7 +51,6 @@ export async function updateUserRoleController (req:Request, res:Response) {
         res.status(400).json({error: error.message})
     }
 }
-
 export async function userClerkWebhook (req:Request, res:Response) {
     
 }
