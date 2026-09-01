@@ -11,7 +11,12 @@ router.post("/:id/view", annonceController.incrementAnnonceViews);
 
 // Routes protégées (création, modification, suppression)
 // We accept the Clerk user id as a route parameter and map it to our DB id server-side
-router.post("/:clerkId", annonceController.createAnnonce);
+//
+// requireAuth() : exige un token Clerk valide dans la requête. Sans lui, N'IMPORTE QUI
+// pouvait créer une annonce en se faisant passer pour n'importe quel utilisateur juste
+// en mettant son clerkId dans l'URL — requireAuth() est la première barrière, mais elle
+// ne suffit pas à elle seule (voir la vérification supplémentaire dans le contrôleur).
+router.post("/:clerkId", requireAuth(), annonceController.createAnnonce);
 router.put("/:id", requireAuth(), annonceController.updateAnnonce);
 router.delete("/:id", requireAuth(), annonceController.deleteAnnonce);
 

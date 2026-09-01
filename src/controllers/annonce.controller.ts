@@ -10,7 +10,7 @@ import * as annonceService from "../services/annonce.service";
 const normalizeTypeBien = (type: string): TypeBien | null => {
   const typeMap: { [key: string]: TypeBien } = {
     "maison": "maison",
-    "appartement": "appartement", 
+    "appartement": "appartement",
     "terrain": "terrain",
     "chambre": "chambre",
     "studio": "studio",
@@ -19,13 +19,13 @@ const normalizeTypeBien = (type: string): TypeBien | null => {
     // Gérer les variations avec majuscules
     "Maison": "maison",
     "Appartement": "appartement",
-    "Terrain": "terrain", 
+    "Terrain": "terrain",
     "Chambre": "chambre",
     "Studio": "studio",
     "Meublé": "meublé",
     "Duplex": "duplex"
   };
-  
+
   return typeMap[type] || null;
 };
 // ✅ Créer une annonce
@@ -34,6 +34,22 @@ export const createAnnonce = async (req: Request, res: Response) => {
     const clerkId = req.params.clerkId as string | undefined;
     if (!clerkId) {
       return res.status(400).json({ message: 'clerkId parameter is required in the route.' });
+    }
+
+    // ---- Vérification d'identité (anti-usurpation) ----
+    // requireAuth() a déjà vérifié que la requête vient d'un utilisateur connecté et
+    // authentique, et a rempli req.auth() avec SON vrai clerkId (impossible à falsifier,
+    // contrairement au paramètre d'URL ci-dessus qui n'est qu'un texte que n'importe qui
+    // peut écrire).
+    //
+    // On compare les deux : si quelqu'un essaie de créer une annonce en mettant le
+    // clerkId d'un AUTRE utilisateur dans l'URL, req.auth().userId (le vrai, vérifié)
+    // ne correspondra pas — on refuse avec un 403 (Forbidden).
+    const auth = req.auth();
+    if (!auth?.userId || auth.userId !== clerkId) {
+      return res.status(403).json({
+        message: "Vous ne pouvez créer une annonce qu'en votre propre nom.",
+      });
     }
 
     // Map clerkId -> our DB user id
