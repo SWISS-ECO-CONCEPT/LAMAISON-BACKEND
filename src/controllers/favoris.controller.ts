@@ -3,12 +3,24 @@ import { favoriService } from "../services/favoris.service";
 import { CreateFavoriDTO } from "../dto/favoris.dto";
 import { getDbUserIdByClerkId } from "../services/auth.services";
 
+// Petite fonction réutilisée dans les 3 contrôleurs ci-dessous : compare le clerkId
+// pris dans l'URL avec le VRAI clerkId de la personne connectée (celui que Clerk a
+// vérifié via le token, disponible dans req.auth().userId). Si ça ne correspond pas,
+// quelqu'un essaie d'agir sur les favoris de quelqu'un d'autre — on refuse.
+function assertIsOwnClerkId(req: Request, clerkId: string): boolean {
+  const auth = req.auth();
+  return !!auth?.userId && auth.userId === clerkId;
+}
+
 // Ajouter un favori
 export const createFavori = async (req: Request, res: Response) => {
   try {
     const clerkId = req.params.clerkId as string | undefined;
     if (!clerkId) {
       return res.status(400).json({ message: 'clerkId parameter is required in the route.' });
+    }
+    if (!assertIsOwnClerkId(req, clerkId)) {
+      return res.status(403).json({ message: "Vous ne pouvez modifier que vos propres favoris." });
     }
     const dbUserId = await getDbUserIdByClerkId(clerkId);
     if (!dbUserId) {
@@ -22,12 +34,15 @@ export const createFavori = async (req: Request, res: Response) => {
   }
 };
 
-// Récupérer tous les favoris d’un user
+// Récupérer tous les favoris d'un user
 export const getUserFavoris = async (req: Request, res: Response) => {
   try {
     const clerkId = req.params.clerkId as string | undefined;
     if (!clerkId) {
       return res.status(400).json({ message: 'clerkId parameter is required in the route.' });
+    }
+    if (!assertIsOwnClerkId(req, clerkId)) {
+      return res.status(403).json({ message: "Vous ne pouvez consulter que vos propres favoris." });
     }
     const dbUserId = await getDbUserIdByClerkId(clerkId);
     if (!dbUserId) {
@@ -46,6 +61,9 @@ export const deleteFavori = async (req: Request, res: Response) => {
     const clerkId = req.params.clerkId as string | undefined;
     if (!clerkId) {
       return res.status(400).json({ message: 'clerkId parameter is required in the route.' });
+    }
+    if (!assertIsOwnClerkId(req, clerkId)) {
+      return res.status(403).json({ message: "Vous ne pouvez supprimer que vos propres favoris." });
     }
     const dbUserId = await getDbUserIdByClerkId(clerkId);
     if (!dbUserId) {
