@@ -436,7 +436,16 @@ export const rejectProposal = async (req: Request, res: Response) => {
 // DELETE /api/rdvs/:id
 export const deleteRdv = async (req: Request, res: Response) => {
   try {
-    await rdvService.deleteRdv(Number(req.params.id));
+    // On récupère l'identité vérifiée par Clerk (pas question de faire confiance
+    // à un id envoyé par le client) et on la transmet au service, qui vérifie
+    // que cette personne a bien le droit de supprimer CE rendez-vous précis.
+    const auth = req.auth();
+    const actorClerkId = auth?.userId as string | undefined;
+    if (!actorClerkId) {
+      return res.status(401).json({ message: "Non authentifié" });
+    }
+
+    await rdvService.deleteRdv(Number(req.params.id), actorClerkId);
     res.json({ message: "RDV supprimé" });
   } catch (error) {
     res.status(500).json({ message: "Erreur lors de la suppression", error });
