@@ -5,11 +5,11 @@ import { requireAuth } from "@clerk/express";
 const router = Router();
 
 router.get("/", requireAuth(), getUserConversations);
-router.post("/", createMessage);
-router.get("/:userId1/:userId2", getConversation);
+router.post("/", requireAuth(),createMessage);
+router.get("/:userId1/:userId2", requireAuth(), getConversation);
 
 // New endpoints for auto-messaging system
 router.post("/initiate", requireAuth(), initiateMessaging);
-router.get("/conversation", getOrCreateConversation);
+router.get("/conversation", requireAuth(), getOrCreateConversation);
 
 export default router;
