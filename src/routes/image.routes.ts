@@ -3,6 +3,7 @@ import multer from "multer";
 import path from "path";
 import { requireAuth } from "@clerk/express";
 import { createImage } from "../controllers/image.controller"
+import { sendError } from "../utils/apiResponse";
 
 const router = Router();
 
@@ -31,6 +32,39 @@ const upload = multer({
 });
 
 // requireAuth() : seul un utilisateur connecté peut uploader un fichier sur le serveur.
+
+/**
+ * @openapi
+ * /images:
+ *   post:
+ *     summary: Uploader une image
+ *     tags: [Images]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       201:
+ *         description: Image uploadée, URL renvoyée
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ApiSuccess'
+ *       400:
+ *         description: Aucun fichier, type non autorisé ou fichier trop volumineux (> 5 Mo)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ApiError'
+ */
 router.post("/", requireAuth(), upload.single("file"), createImage);
 
 // Convertit les erreurs de multer (fichier trop gros, type refusé) en réponse JSON
@@ -38,8 +72,7 @@ router.post("/", requireAuth(), upload.single("file"), createImage);
 // le frontend ne saurait pas parser.
 router.use((err: any, req: any, res: any, next: any) => {
   if (err) {
-    return res.status(400).json({ message: err.message || "Erreur lors de l'upload" });
-  }
+   return sendError(res, 400, err.message || "Erreur lors de l'upload");  }
   next();
 });
 

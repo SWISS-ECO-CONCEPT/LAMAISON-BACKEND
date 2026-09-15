@@ -3,21 +3,20 @@ import * as rdvService from "../services/rdv.service";
 import { getDbUserIdByClerkId } from "../services/auth.services";
 import * as messageService from "../services/message.service";
 import { prisma } from "../utils/db";
+import { sendSuccess, sendError } from "../utils/apiResponse";
 
 //  POST /api/rdvs
 export const createRdv = async (req: Request, res: Response) => {
   try {
-    // Map clerkId -> our DB user id
     const payload = { ...req.body } as any;
     const auth = req.auth();
     const actorClerkId = auth?.userId as string | undefined;
     if (!actorClerkId) {
-      return res.status(401).json({ message: "Non authentifié" });
+      return sendError(res, 401, "Non authentifié");
     }
 
-    // Si frontend envoie clerkId (prospectClerkId), le mapper en prospectId DB
     if (payload.prospectClerkId && payload.prospectClerkId !== actorClerkId) {
-      return res.status(403).json({ message: "Accès refusé" });
+      return sendError(res, 403, "Accès refusé");
     }
 
     if (!payload.prospectClerkId) {
@@ -27,18 +26,16 @@ export const createRdv = async (req: Request, res: Response) => {
     if (payload.prospectClerkId) {
       const dbId = await getDbUserIdByClerkId(payload.prospectClerkId as string);
       if (!dbId) {
-        return res.status(404).json({ message: 'Utilisateur Clerk introuvable dans la base.(clerkId)' });
+        return sendError(res, 404, "Utilisateur Clerk introuvable dans la base.(clerkId)");
       }
       payload.prospectId = dbId;
     }
 
-    // remove frontend-only fields
     delete payload.prospectClerkId;
     delete payload.proprietaireId;
 
     const rdv: any = await rdvService.createRdv(payload);
 
-    // Notify agent about new RDV request
     try {
       const io = req.app.get('io');
       if (io && rdv?.annonce?.proprietaire?.clerkId) {
@@ -54,9 +51,9 @@ export const createRdv = async (req: Request, res: Response) => {
       // best-effort
     }
 
-    res.status(201).json(rdv);
-  } catch (error) {
-    res.status(500).json({ message: "Erreur lors de la création", error });
+    return sendSuccess(res, rdv, 201);
+  } catch (error: any) {
+    return sendError(res, 500, "Erreur lors de la création", undefined, error);
   }
 };
 
@@ -68,13 +65,13 @@ export const getAllRdvs = async (req: Request, res: Response) => {
 
     if (prospectClerkId) {
       const dbId = await getDbUserIdByClerkId(prospectClerkId as string);
-      if (!dbId) return res.status(400).json({ message: 'Utilisateur Clerk introuvable dans la base.(prospectClerkId)' });
+      if (!dbId) return sendError(res, 400, "Utilisateur Clerk introuvable dans la base.(prospectClerkId)");
       filter.prospectId = dbId;
     }
 
     if (agentClerkId) {
       const dbId = await getDbUserIdByClerkId(agentClerkId as string);
-      if (!dbId) return res.status(400).json({ message: 'Utilisateur Clerk introuvable dans la base.(agentClerkId)' });
+      if (!dbId) return sendError(res, 400, "Utilisateur Clerk introuvable dans la base.(agentClerkId)");
       filter.agentId = dbId;
     }
 
@@ -83,9 +80,9 @@ export const getAllRdvs = async (req: Request, res: Response) => {
     }
 
     const rdvs = await rdvService.getAllRdvs(filter);
-    res.json(rdvs);
-  } catch (error) {
-    res.status(500).json({ message: "Erreur lors de la récupération", error });
+    return sendSuccess(res, rdvs);
+  } catch (error: any) {
+    return sendError(res, 500, "Erreur lors de la récupération", undefined, error);
   }
 };
 
@@ -93,10 +90,10 @@ export const getAllRdvs = async (req: Request, res: Response) => {
 export const getRdvById = async (req: Request, res: Response) => {
   try {
     const rdv = await rdvService.getRdvById(Number(req.params.id));
-    if (!rdv) return res.status(404).json({ message: "RDV non trouvé" });
-    res.json(rdv);
-  } catch (error) {
-    res.status(500).json({ message: "Erreur lors de la récupération", error });
+    if (!rdv) return sendError(res, 404, "RDV non trouvé");
+    return sendSuccess(res, rdv);
+  } catch (error: any) {
+    return sendError(res, 500, "Erreur lors de la récupération", undefined, error);
   }
 };
 
@@ -106,7 +103,7 @@ export const updateRdv = async (req: Request, res: Response) => {
     const auth = req.auth();
     const actorClerkId = auth?.userId as string | undefined;
     if (!actorClerkId) {
-      return res.status(401).json({ message: "Non authentifié" });
+      return sendError(res, 401, "Non authentifié");
     }
 
     const id = Number(req.params.id);
@@ -114,10 +111,9 @@ export const updateRdv = async (req: Request, res: Response) => {
 
     const actor = await prisma.user.findUnique({ where: { clerkId: actorClerkId } });
     if (!actor) {
-      return res.status(404).json({ message: "Utilisateur introuvable" });
+      return sendError(res, 404, "Utilisateur introuvable");
     }
 
-    // Backward compatibility: route PATCH used by existing frontend
     if (status === 'ACCEPTE') {
       const updated: any = actor.role === 'PROSPECT'
         ? await rdvService.acceptProposal(id, actorClerkId)
@@ -149,7 +145,7 @@ export const updateRdv = async (req: Request, res: Response) => {
         agentClerkId: updated.annonce?.proprietaire?.clerkId,
       });
 
-      return res.json(updated);
+      return sendSuccess(res, updated);
     }
     if (status === 'REFUSE') {
       const updated: any = await rdvService.rejectRdv(id, actorClerkId);
@@ -171,11 +167,11 @@ export const updateRdv = async (req: Request, res: Response) => {
         agentClerkId: updated.annonce?.proprietaire?.clerkId,
       });
 
-      return res.json(updated);
+      return sendSuccess(res, updated);
     }
     if (status === 'PROPOSE') {
       if (!proposedDate) {
-        return res.status(400).json({ message: "proposedDate requis" });
+        return sendError(res, 400, "proposedDate requis");
       }
       const updated: any = await rdvService.proposeRdv(id, actorClerkId, new Date(proposedDate));
 
@@ -206,7 +202,7 @@ export const updateRdv = async (req: Request, res: Response) => {
         proposedDate: updated.proposedDate,
       });
 
-      return res.json(updated);
+      return sendSuccess(res, updated);
     }
     if (status === 'EN_ATTENTE') {
       const updated: any = await rdvService.rejectProposal(id, actorClerkId);
@@ -228,13 +224,13 @@ export const updateRdv = async (req: Request, res: Response) => {
         agentClerkId: updated.annonce?.proprietaire?.clerkId,
       });
 
-      return res.json(updated);
+      return sendSuccess(res, updated);
     }
 
     const rdv = await rdvService.updateRdv(id, req.body);
-    res.json(rdv);
-  } catch (error) {
-    res.status(500).json({ message: "Erreur lors de la mise à jour", error });
+    return sendSuccess(res, rdv);
+  } catch (error: any) {
+    return sendError(res, 500, "Erreur lors de la mise à jour", undefined, error);
   }
 };
 
@@ -262,12 +258,12 @@ export const proposeRdv = async (req: Request, res: Response) => {
   try {
     const auth = req.auth();
     const actorClerkId = auth?.userId as string | undefined;
-    if (!actorClerkId) return res.status(401).json({ message: "Non authentifié" });
+    if (!actorClerkId) return sendError(res, 401, "Non authentifié");
 
     const id = Number(req.params.id);
     const { proposedDate } = req.body as any;
     if (!proposedDate) {
-      return res.status(400).json({ message: "proposedDate requis" });
+      return sendError(res, 400, "proposedDate requis");
     }
 
     const updated: any = await rdvService.proposeRdv(id, actorClerkId, new Date(proposedDate));
@@ -299,9 +295,9 @@ export const proposeRdv = async (req: Request, res: Response) => {
       proposedDate: updated.proposedDate,
     });
 
-    res.json(updated);
-  } catch (error) {
-    res.status(500).json({ message: "Erreur lors de la proposition", error });
+    return sendSuccess(res, updated);
+  } catch (error: any) {
+    return sendError(res, 500, "Erreur lors de la proposition", undefined, error);
   }
 };
 
@@ -309,7 +305,7 @@ export const acceptRdv = async (req: Request, res: Response) => {
   try {
     const auth = req.auth();
     const actorClerkId = auth?.userId as string | undefined;
-    if (!actorClerkId) return res.status(401).json({ message: "Non authentifié" });
+    if (!actorClerkId) return sendError(res, 401, "Non authentifié");
 
     const id = Number(req.params.id);
     const updated: any = await rdvService.acceptRdv(id, actorClerkId);
@@ -331,9 +327,9 @@ export const acceptRdv = async (req: Request, res: Response) => {
       agentClerkId: updated.annonce?.proprietaire?.clerkId,
     });
 
-    res.json(updated);
-  } catch (error) {
-    res.status(500).json({ message: "Erreur lors de l'acceptation", error });
+    return sendSuccess(res, updated);
+  } catch (error: any) {
+    return sendError(res, 500, "Erreur lors de l'acceptation", undefined, error);
   }
 };
 
@@ -341,7 +337,7 @@ export const rejectRdv = async (req: Request, res: Response) => {
   try {
     const auth = req.auth();
     const actorClerkId = auth?.userId as string | undefined;
-    if (!actorClerkId) return res.status(401).json({ message: "Non authentifié" });
+    if (!actorClerkId) return sendError(res, 401, "Non authentifié");
 
     const id = Number(req.params.id);
     const updated: any = await rdvService.rejectRdv(id, actorClerkId);
@@ -363,9 +359,9 @@ export const rejectRdv = async (req: Request, res: Response) => {
       agentClerkId: updated.annonce?.proprietaire?.clerkId,
     });
 
-    res.json(updated);
-  } catch (error) {
-    res.status(500).json({ message: "Erreur lors du refus", error });
+    return sendSuccess(res, updated);
+  } catch (error: any) {
+    return sendError(res, 500, "Erreur lors du refus", undefined, error);
   }
 };
 
@@ -373,7 +369,7 @@ export const acceptProposal = async (req: Request, res: Response) => {
   try {
     const auth = req.auth();
     const actorClerkId = auth?.userId as string | undefined;
-    if (!actorClerkId) return res.status(401).json({ message: "Non authentifié" });
+    if (!actorClerkId) return sendError(res, 401, "Non authentifié");
 
     const id = Number(req.params.id);
     const updated: any = await rdvService.acceptProposal(id, actorClerkId);
@@ -395,9 +391,9 @@ export const acceptProposal = async (req: Request, res: Response) => {
       agentClerkId: updated.annonce?.proprietaire?.clerkId,
     });
 
-    res.json(updated);
-  } catch (error) {
-    res.status(500).json({ message: "Erreur lors de la validation de proposition", error });
+    return sendSuccess(res, updated);
+  } catch (error: any) {
+    return sendError(res, 500, "Erreur lors de la validation de proposition", undefined, error);
   }
 };
 
@@ -405,7 +401,7 @@ export const rejectProposal = async (req: Request, res: Response) => {
   try {
     const auth = req.auth();
     const actorClerkId = auth?.userId as string | undefined;
-    if (!actorClerkId) return res.status(401).json({ message: "Non authentifié" });
+    if (!actorClerkId) return sendError(res, 401, "Non authentifié");
 
     const id = Number(req.params.id);
     const updated: any = await rdvService.rejectProposal(id, actorClerkId);
@@ -427,27 +423,24 @@ export const rejectProposal = async (req: Request, res: Response) => {
       agentClerkId: updated.annonce?.proprietaire?.clerkId,
     });
 
-    res.json(updated);
-  } catch (error) {
-    res.status(500).json({ message: "Erreur lors du refus de proposition", error });
+    return sendSuccess(res, updated);
+  } catch (error: any) {
+    return sendError(res, 500, "Erreur lors du refus de proposition", undefined, error);
   }
 };
 
 // DELETE /api/rdvs/:id
 export const deleteRdv = async (req: Request, res: Response) => {
   try {
-    // On récupère l'identité vérifiée par Clerk (pas question de faire confiance
-    // à un id envoyé par le client) et on la transmet au service, qui vérifie
-    // que cette personne a bien le droit de supprimer CE rendez-vous précis.
     const auth = req.auth();
     const actorClerkId = auth?.userId as string | undefined;
     if (!actorClerkId) {
-      return res.status(401).json({ message: "Non authentifié" });
+      return sendError(res, 401, "Non authentifié");
     }
 
     await rdvService.deleteRdv(Number(req.params.id), actorClerkId);
-    res.json({ message: "RDV supprimé" });
-  } catch (error) {
-    res.status(500).json({ message: "Erreur lors de la suppression", error });
+    return sendSuccess(res, { id: Number(req.params.id) }, 200, "RDV supprimé");
+  } catch (error: any) {
+    return sendError(res, 500, "Erreur lors de la suppression", undefined, error);
   }
 };
