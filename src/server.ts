@@ -5,6 +5,8 @@ import 'dotenv/config';
 
 import express from 'express';
 import { createServer } from 'http';
+import swaggerUi from "swagger-ui-express";
+import { swaggerSpec } from "./config/swagger";
 
 // Chaque fichier "*.routes" regroupe les routes d'une fonctionnalité
 // (auth, annonces, favoris, rendez-vous, messages, images, admin...).
@@ -96,23 +98,38 @@ app.use(express.json())
 // Route de test simple pour vérifier que l'API répond.
 app.get('/', (req, res) => res.send('API LAMAISON fonctionne'));
 
+// Documentation interactive de l'API, accessible sur http://localhost:5000/api-docs
+// Volontairement HORS /api/v1 : c'est un outil de dev/référence, pas un endpoint
+// consommé par le frontend ou le mobile.
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+// Toutes les routes API sont regroupées sous /api/v1 au lieu d'être montées
+// directement à la racine. Objectif : pouvoir introduire un jour /api/v2 sans
+// casser les clients (web, admin, mobile) qui tournent encore sur v1 — chaque
+// version cohabite indépendamment le temps de la migration.
+const apiV1 = express.Router();
+
 // Chaque ligne "branche" un groupe de routes sur un préfixe d'URL.
 // Ex: userRoutes gère tout ce qui commence par /auth
 //     (donc /auth/login, /auth/signup, etc. définis dans auth.routes.ts)
-app.use('/auth', userRoutes)
-app.use('/annonces', annonceRoutes)
-app.use('/favoris', favorisRoutes) 
-app.use('/rdvs', rdvRoutes)
-app.use("/messages", messageRoutes)
+apiV1.use('/auth', userRoutes)
+apiV1.use('/annonces', annonceRoutes)
+apiV1.use('/favoris', favorisRoutes) 
+apiV1.use('/rdvs', rdvRoutes)
+apiV1.use("/messages", messageRoutes)
+apiV1.use("/images", imageRoutes)
+apiV1.use('/auth/sync', authSyncRoutes)
+apiV1.use('/admin', adminRoutes)
+
+app.use('/api/v1', apiV1)
 
 // Sert les fichiers uploadés (images d'annonces, etc.) comme fichiers
 // statiques : un fichier sauvegardé dans uploads/photo.jpg devient
 // accessible via http://.../uploads/photo.jpg
+// Reste HORS /api/v1 : ce n'est pas un endpoint API, c'est un chemin de
+// fichier statique déjà stocké tel quel dans les URLs enregistrées en base
+// (annonce.images) — le préfixer casserait toutes les images existantes.
 app.use("/uploads", express.static("uploads"));
-
-app.use("/images", imageRoutes)
-app.use('/auth/sync', authSyncRoutes)
-app.use('/admin', adminRoutes)
 
 // Le port d'écoute du serveur. En local, si rien n'est précisé dans .env,
 // on utilise 5000 par défaut. En Docker/production, ce sera défini par la

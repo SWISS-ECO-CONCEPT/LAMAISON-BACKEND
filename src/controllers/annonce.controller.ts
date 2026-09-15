@@ -5,6 +5,7 @@ import { CreateAnnonceDto, UpdateAnnonceDto } from "../dto/annonce.dto";
 import { ProjetType } from "../../generated/prisma/client";
 import { getDbUserIdByClerkId } from "../services/auth.services";
 import * as annonceService from "../services/annonce.service";
+import { sendError, sendSuccess } from "../utils/apiResponse";
 
 // Fonction de normalisation pour les types de bien
 const normalizeTypeBien = (type: string): TypeBien | null => {
@@ -33,7 +34,7 @@ export const createAnnonce = async (req: Request, res: Response) => {
   try {
     const clerkId = req.params.clerkId as string | undefined;
     if (!clerkId) {
-      return res.status(400).json({ message: 'clerkId parameter is required in the route.' });
+      return sendError(res, 400, 'clerkId parameter is required in the route.');
     }
 
     // ---- Vérification d'identité (anti-usurpation) ----
@@ -47,15 +48,13 @@ export const createAnnonce = async (req: Request, res: Response) => {
     // ne correspondra pas — on refuse avec un 403 (Forbidden).
     const auth = req.auth();
     if (!auth?.userId || auth.userId !== clerkId) {
-      return res.status(403).json({
-        message: "Vous ne pouvez créer une annonce qu'en votre propre nom.",
-      });
+      return sendError(res, 403, "Vous ne pouvez créer une annonce qu'en votre propre nom.");
     }
 
     // Map clerkId -> our DB user id
     const dbUserId = await getDbUserIdByClerkId(clerkId);
     if (!dbUserId) {
-      return res.status(404).json({ message: 'Utilisateur Clerk introuvable dans la base.' });
+      return sendError(res, 404, 'Utilisateur Clerk introuvable dans la base.');
     }
 
     const data: CreateAnnonceDto = req.body;
@@ -66,7 +65,7 @@ export const createAnnonce = async (req: Request, res: Response) => {
         .filter(Boolean)
       : [];
     if (!normalizedImages.length) {
-      return res.status(400).json({ message: 'Au moins une image est requise.' });
+      return sendError(res, 400, 'Au moins une image est requise.');
     }
 
     // Build prisma data object using the found proprietaire id
@@ -99,10 +98,10 @@ export const createAnnonce = async (req: Request, res: Response) => {
       include: { proprietaire: true },
     });
 
-    res.status(201).json({ message: 'Annonce créée avec succès.', data: updatedAnnonce });
+    return sendSuccess(res, updatedAnnonce, 201, 'Annonce créée avec succès.');
   } catch (error: any) {
     console.error("Erreur lors de la création de l'annonce :", error);
-    res.status(500).json({ message: 'Erreur lors de la création', error: error.message || error });
+    return sendError(res, 500, 'Erreur lors de la création', undefined, error.message || error);
   }
 };
 
@@ -191,13 +190,10 @@ export const getAllAnnonces = async (req: Request, res: Response) => {
 
     const annonces = await annonceService.getAllAnnonces(where);
 
-    res.json(annonces);
+    return sendSuccess(res, annonces);
   } catch (error: any) {
     console.error("Erreur lors de la récupération des annonces:", error);
-    res.status(500).json({
-      message: "Erreur lors de la récupération",
-      error: error.message || error
-    });
+    return sendError(res, 500, "Erreur lors de la récupération", undefined, error.message || error);
   }
 };
 
@@ -206,7 +202,7 @@ export const getAnnoncesByUser = async (req: Request, res: Response) => {
   try {
     const clerkId = req.params.clerkId as string | undefined;
     if (!clerkId) {
-      return res.status(400).json({ message: 'clerkId parameter is required in the route.' });
+      return sendError(res, 400, 'clerkId parameter is required in the route.');
     }
 
     const {
@@ -245,10 +241,10 @@ export const getAnnoncesByUser = async (req: Request, res: Response) => {
     }
 
     const annonces = await annonceService.getAnnoncesByUser(clerkId, where);
-    res.json(annonces);
+    return sendSuccess(res, annonces);
   } catch (error: any) {
     console.error('Erreur lors de la récupération des annonces utilisateur:', error);
-    return res.status(500).json({ message: 'Erreur lors de la récupération', error: error.message || error });
+    return sendError(res, 500, 'Erreur lors de la récupération', undefined, error.message || error);
   }
 };
 
@@ -260,11 +256,11 @@ export const getAnnonceById = async (req: Request, res: Response) => {
       include: { proprietaire: true },
     });
     if (!annonce) {
-      return res.status(404).json({ message: "Annonce non trouvée" });
+      return sendError(res, 404, "Annonce non trouvée");
     }
-    res.json(annonce);
+    return sendSuccess(res, annonce);
   } catch (error) {
-    res.status(500).json({ message: "Erreur lors de la récupération", error });
+    return sendError(res, 500, "Erreur lors de la récupération", undefined, error);
   }
 };
 
@@ -275,7 +271,7 @@ export const updateAnnonce = async (req: Request, res: Response) => {
     const data: UpdateAnnonceDto = req.body;
     const annonceExistante = await prisma.annonce.findUnique({ where: { id } });
     if (!annonceExistante) {
-      return res.status(404).json({ message: "Annonce non trouvée" });
+      return sendError(res, 404, "Annonce non trouvée");
     }
 
     const annonce = await prisma.annonce.update({
@@ -298,16 +294,10 @@ export const updateAnnonce = async (req: Request, res: Response) => {
       include: { proprietaire: true },
     });
 
-    res.json({
-      message: "Annonce mise à jour avec succès.",
-      data: annonce,
-    });
+    return sendSuccess(res, annonce, 200, "Annonce mise à jour avec succès.");
   } catch (error: any) {
     console.error("Erreur lors de la mise à jour :", error);
-    res.status(500).json({
-      message: "Erreur lors de la mise à jour",
-      error: error.message || error,
-    });
+    return sendError(res, 500, "Erreur lors de la mise à jour", undefined, error.message || error);
   }
 };
 
@@ -319,7 +309,7 @@ export const deleteAnnonce = async (req: Request, res: Response) => {
     // Vérifier que l'annonce existe
     const annonceExistante = await prisma.annonce.findUnique({ where: { id } });
     if (!annonceExistante) {
-      return res.status(404).json({ message: "Annonce non trouvée" });
+      return sendError(res, 404, "Annonce non trouvée");
     }
 
     // Supprimer en cascade: d'abord les favoris, puis les RDVs, puis l'annonce
@@ -327,13 +317,10 @@ export const deleteAnnonce = async (req: Request, res: Response) => {
     await prisma.rendezVous.deleteMany({ where: { annonceId: id } });
     await prisma.annonce.delete({ where: { id } });
 
-    res.json({ message: "Annonce supprimée avec succès" });
+      return sendSuccess(res, null, 200, "Annonce supprimée avec succès");
   } catch (error: any) {
     console.error("Erreur lors de la suppression :", error);
-    res.status(500).json({
-      message: "Erreur lors de la suppression",
-      error: error.message || error
-    });
+    return sendError(res, 500, "Erreur lors de la suppression", undefined, error.message || error);
   }
 };
 
@@ -342,7 +329,7 @@ export const incrementAnnonceViews = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
     if (Number.isNaN(id)) {
-      return res.status(400).json({ message: "ID d'annonce invalide" });
+      return sendError(res, 400, "ID d'annonce invalide");
     }
 
     const updated = await prisma.annonce.update({
@@ -358,17 +345,14 @@ export const incrementAnnonceViews = async (req: Request, res: Response) => {
       },
     });
 
-    return res.json(updated);
+    return sendSuccess(res, updated);
   } catch (error: any) {
     console.error("Erreur lors de l'incrémentation des vues :", error);
     // Gestion du cas où l'annonce n'existe pas
     if (error?.code === "P2025") {
-      return res.status(404).json({ message: "Annonce non trouvée" });
+      return sendError(res, 404, "Annonce non trouvée");
     }
-    return res.status(500).json({
-      message: "Erreur lors de l'incrémentation des vues",
-      error: error.message || error,
-    });
+    return sendError(res, 500, "Erreur lors de l'incrémentation des vues", undefined, error.message || error);
   }
 };
 
