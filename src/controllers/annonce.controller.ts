@@ -29,6 +29,16 @@ const normalizeTypeBien = (type: string): TypeBien | null => {
 
   return typeMap[type] || null;
 };
+
+// Compare le clerkId réel de l'utilisateur connecté (vérifié par Clerk via
+// req.auth()) avec le clerkId du propriétaire de l'annonce. Réutilisé dans
+// updateAnnonce et deleteAnnonce pour empêcher qu'un utilisateur modifie ou
+// supprime l'annonce de quelqu'un d'autre juste en connaissant son ID.
+function assertIsOwner(req: Request, annonce: { proprietaire?: { clerkId?: string } | null }): boolean {
+  const auth = req.auth();
+  return !!auth?.userId && auth.userId === annonce.proprietaire?.clerkId;
+}
+
 // ✅ Créer une annonce
 export const createAnnonce = async (req: Request, res: Response) => {
   try {
@@ -269,9 +279,15 @@ export const updateAnnonce = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
     const data: UpdateAnnonceDto = req.body;
-    const annonceExistante = await prisma.annonce.findUnique({ where: { id } });
+    const annonceExistante = await prisma.annonce.findUnique({
+      where: { id },
+      include: { proprietaire: true },
+    });
     if (!annonceExistante) {
       return sendError(res, 404, "Annonce non trouvée");
+    }
+    if (!assertIsOwner(req, annonceExistante)) {
+      return sendError(res, 403, "Vous ne pouvez modifier que vos propres annonces.");
     }
 
     const annonce = await prisma.annonce.update({
@@ -307,9 +323,15 @@ export const deleteAnnonce = async (req: Request, res: Response) => {
     const id = Number(req.params.id);
 
     // Vérifier que l'annonce existe
-    const annonceExistante = await prisma.annonce.findUnique({ where: { id } });
+    const annonceExistante = await prisma.annonce.findUnique({
+      where: { id },
+      include: { proprietaire: true },
+    });
     if (!annonceExistante) {
       return sendError(res, 404, "Annonce non trouvée");
+    }
+    if (!assertIsOwner(req, annonceExistante)) {
+      return sendError(res, 403, "Vous ne pouvez supprimer que vos propres annonces.");
     }
 
     // Supprimer en cascade: d'abord les favoris, puis les RDVs, puis l'annonce
@@ -317,7 +339,7 @@ export const deleteAnnonce = async (req: Request, res: Response) => {
     await prisma.rendezVous.deleteMany({ where: { annonceId: id } });
     await prisma.annonce.delete({ where: { id } });
 
-      return sendSuccess(res, null, 200, "Annonce supprimée avec succès");
+    return sendSuccess(res, null, 200, "Annonce supprimée avec succès");
   } catch (error: any) {
     console.error("Erreur lors de la suppression :", error);
     return sendError(res, 500, "Erreur lors de la suppression", undefined, error.message || error);
@@ -355,56 +377,3 @@ export const incrementAnnonceViews = async (req: Request, res: Response) => {
     return sendError(res, 500, "Erreur lors de l'incrémentation des vues", undefined, error.message || error);
   }
 };
-
-
-
-
-// import { Request, Response } from "express";
-// import * as annonceService from "../services/annonce.service";
-
-// export const createAnnonce = async (req: Request, res: Response) => {
-//     console.log(req.body)
-//   try {
-//     const annonce = await annonceService.createAnnonce(req.body);
-//     res.status(201).json(annonce);
-//   } catch (error) {
-//     res.status(500).json({ message: "Erreur lors de la création", error });
-//   }
-// };
-
-// export const getAllAnnonces = async (req: Request, res: Response) => {
-//   try {
-//     const annonces = await annonceService.getAllAnnonces();
-//     res.json(annonces);
-//   } catch (error) {
-//     res.status(500).json({ message: "Erreur lors de la récupération", error });
-//   }
-// };
-
-// export const getAnnonceById = async (req: Request, res: Response) => {
-//   try {
-//     const annonce = await annonceService.getAnnonceById(Number(req.params.id));
-//     if (!annonce) return res.status(404).json({ message: "Annonce non trouvée" });
-//     res.json(annonce);
-//   } catch (error) {
-//     res.status(500).json({ message: "Erreur lors de la récupération", error });
-//   }
-// };
-
-// export const updateAnnonce = async (req: Request, res: Response) => {
-//   try {
-//     const annonce = await annonceService.updateAnnonce(Number(req.params.id), req.body);
-//     res.json(annonce);
-//   } catch (error) {
-//     res.status(500).json({ message: "Erreur lors de la mise à jour", error });
-//   }
-// };
-
-// export const deleteAnnonce = async (req: Request, res: Response) => {
-//   try {
-//     await annonceService.deleteAnnonce(Number(req.params.id));
-//     res.json({ message: "Annonce supprimée" });
-//   } catch (error) {
-//     res.status(500).json({ message: "Erreur lors de la suppression", error });
-//   }
-// };
