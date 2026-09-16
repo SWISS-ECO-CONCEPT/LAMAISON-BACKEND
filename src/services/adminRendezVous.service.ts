@@ -10,6 +10,9 @@ export async function getAllRendezVousService() {
                         proprietaire: true
                     }
                 }
+            },
+            orderBy: {
+                createdAt: 'desc'
             }
         });
     } catch (error) {

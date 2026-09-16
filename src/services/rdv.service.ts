@@ -86,12 +86,14 @@ export const getAllRdvs = async (filter?: { prospectId?: number; agentId?: numbe
         annonce: { proprietaireId: filter.agentId },
       },
       include: { prospect: true, annonce: { include: { proprietaire: true } } },
+      orderBy: { createdAt: 'desc' },
     });
   }
 
   return await prisma.rendezVous.findMany({
     where: where,
     include: { prospect: true, annonce: { include: { proprietaire: true } } },
+    orderBy: { createdAt: 'desc' },
   });
 };
 
