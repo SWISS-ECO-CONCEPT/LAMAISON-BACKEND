@@ -189,7 +189,7 @@ export const updateRdv = async (req: Request, res: Response) => {
           updated.annonce.proprietaire.clerkId,
           updated.prospect.clerkId,
           updated.id,
-          `Bonjour, je vous propose un nouveau créneau pour votre RDV : ${formattedDate}.`
+          `Bonjour, je vous propose un nouveau créneau pour votre RDV : ${formattedDate}. Merci de consulter cette messagerie pour échanger à ce sujet ou valider la proposition.`
         );
       }
 
@@ -282,7 +282,7 @@ export const proposeRdv = async (req: Request, res: Response) => {
         updated.annonce.proprietaire.clerkId,
         updated.prospect.clerkId,
         updated.id,
-        `Bonjour, je vous propose un nouveau créneau pour votre RDV : ${formattedDate}.`
+        `Bonjour, je vous propose un nouveau créneau pour votre RDV : ${formattedDate}. Merci de consulter cette messagerie pour échanger à ce sujet ou valider la proposition.`
       );
     }
 
