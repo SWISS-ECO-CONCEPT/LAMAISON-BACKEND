@@ -15,7 +15,8 @@
   "type": "module",
   "main": "src/server.ts",
   "scripts": {
-    "test": "npm test",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "dev": "tsx --watch src/server.ts",
     "migrate": "npx prisma migrate dev --name init"
   },
@@ -47,12 +48,15 @@
     "@types/node": "^24.10.1",
     "@types/pg": "^8.15.6",
     "@types/socket.io": "^3.0.1",
+    "@types/supertest": "^7.2.1",
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.8",
     "prisma": "^7.0.0",
+    "supertest": "^7.2.2",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "tsx": "^4.20.3",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vitest": "^5.0.1"
   }
 }

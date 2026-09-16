@@ -31,6 +31,12 @@ export async function getAnnonceByIdService(annonceId: number) {
 
 export async function deleteAnnonceService(annonceId: number) {
     try {
+        // Les favoris et RDV liés à cette annonce doivent être supprimés AVANT
+        // l'annonce elle-même, sinon MySQL refuse (contrainte de clé étrangère).
+        // Même logique que deleteAnnonce côté client (annonce.controller.ts) —
+        // celle-ci avait été oubliée côté panel admin.
+        await prisma.favori.deleteMany({ where: { annonceId } });
+        await prisma.rendezVous.deleteMany({ where: { annonceId } });
         return await prisma.annonce.delete({
             where: { id: annonceId }
         });
