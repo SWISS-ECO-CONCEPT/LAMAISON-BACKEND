@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import * as messageService from "../services/message.service";
 import { prisma } from "../utils/db";
-import { getDbUserIdByClerkId } from "../services/auth.services";
+import { ensureDbUserId } from "../services/auth.services";
 import { sendSuccess, sendError } from "../utils/apiResponse";
 
 export const createMessage = async (req: Request, res: Response) => {
@@ -17,7 +17,7 @@ export const createMessage = async (req: Request, res: Response) => {
       return sendError(res, 401, "Non authentifié");
     }
 
-    const dbUserId = await getDbUserIdByClerkId(clerkId);
+    const dbUserId = await ensureDbUserId(clerkId);
     if (!dbUserId || Number(dbUserId) !== Number(req.body.senderId)) {
       return sendError(res, 403, "senderId ne correspond pas à l'utilisateur connecté");
     }
@@ -41,7 +41,7 @@ export const getConversation = async (req: Request, res: Response) => {
     if (!clerkId) {
       return sendError(res, 401, "Non authentifié");
     }
-    const dbUserId = await getDbUserIdByClerkId(clerkId);
+    const dbUserId = await ensureDbUserId(clerkId);
     if (!dbUserId || (Number(dbUserId) !== Number(userId1) && Number(dbUserId) !== Number(userId2))) {
       return sendError(res, 403, "Vous ne participez pas à cette conversation");
     }
@@ -140,7 +140,7 @@ export const getUserConversations = async (req: Request, res: Response) => {
       return sendError(res, 401, "Non authentifié");
     }
 
-    const dbUserId = await getDbUserIdByClerkId(clerkId);
+    const dbUserId = await ensureDbUserId(clerkId);
     if (!dbUserId) {
       return sendError(res, 404, "Utilisateur non trouvé");
     }

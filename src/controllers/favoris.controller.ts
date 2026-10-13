@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { favoriService } from "../services/favoris.service";
 import { CreateFavoriDTO } from "../dto/favoris.dto";
-import { getDbUserIdByClerkId } from "../services/auth.services";
+import { ensureDbUserId } from "../services/auth.services";
 import { sendSuccess, sendError } from "../utils/apiResponse";
 
 // Petite fonction réutilisée dans les 3 contrôleurs ci-dessous : compare le clerkId
@@ -23,7 +23,7 @@ export const createFavori = async (req: Request, res: Response) => {
     if (!assertIsOwnClerkId(req, clerkId)) {
       return sendError(res, 403, "Vous ne pouvez modifier que vos propres favoris.");
     }
-    const dbUserId = await getDbUserIdByClerkId(clerkId);
+    const dbUserId = await ensureDbUserId(clerkId);
     if (!dbUserId) {
       return sendError(res, 404, "Utilisateur introuvable");
     }
@@ -45,7 +45,7 @@ export const getUserFavoris = async (req: Request, res: Response) => {
     if (!assertIsOwnClerkId(req, clerkId)) {
       return sendError(res, 403, "Vous ne pouvez consulter que vos propres favoris.");
     }
-    const dbUserId = await getDbUserIdByClerkId(clerkId);
+    const dbUserId = await ensureDbUserId(clerkId);
     if (!dbUserId) {
       return sendError(res, 404, "Utilisateur introuvable");
     }
@@ -70,7 +70,7 @@ export const deleteFavori = async (req: Request, res: Response) => {
     if (!assertIsOwnClerkId(req, clerkId)) {
       return sendError(res, 403, "Vous ne pouvez supprimer que vos propres favoris.");
     }
-    const dbUserId = await getDbUserIdByClerkId(clerkId);
+    const dbUserId = await ensureDbUserId(clerkId);
     if (!dbUserId) {
       return sendError(res, 404, "Utilisateur introuvable");
     }

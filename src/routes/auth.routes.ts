@@ -1,6 +1,7 @@
 import { Request, Response, Router } from "express";
 import { prisma } from "../utils/db";
 import { signInController, signUpController, updateUserRoleController } from "../controllers/auth.controllers";
+import { ensureDbUser } from "../services/auth.services";
 import { requireAuth } from "@clerk/express";
 import { sendSuccess, sendError } from "../utils/apiResponse";
 
@@ -27,7 +28,7 @@ const userRouter = Router();
  *             schema:
  *               $ref: '#/components/schemas/ApiSuccess'
  */
-userRouter.post('/signup', signUpController)
+userRouter.post('/signup', requireAuth(), signUpController)
 
 /**
  * @openapi
@@ -49,7 +50,7 @@ userRouter.post('/signup', signUpController)
  *             schema:
  *               $ref: '#/components/schemas/ApiSuccess'
  */
-userRouter.post('/signin', signInController)
+userRouter.post('/signin', requireAuth(), signInController)
 // requireAuth() ajouté : sans lui, n'importe qui pouvait changer le rôle de
 // n'importe quel utilisateur (voir la vérification d'identité dans le contrôleur).
 
@@ -120,10 +121,7 @@ userRouter.get('/me', requireAuth(), async (req: Request, res: Response) => {
             return sendError(res, 401, "Non authentifié");
         }
 
-        const user = await prisma.user.findUnique({ where: { clerkId } });
-        if (!user) {
-            return sendError(res, 404, "Utilisateur introuvable");
-        }
+        const user = await ensureDbUser(clerkId);
 
         return sendSuccess(res, user);
     } catch (e: any) {

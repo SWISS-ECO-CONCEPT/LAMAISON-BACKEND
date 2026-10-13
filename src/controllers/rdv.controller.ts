@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import * as rdvService from "../services/rdv.service";
-import { getDbUserIdByClerkId } from "../services/auth.services";
+import { ensureDbUserId, getDbUserIdByClerkId } from "../services/auth.services";
 import * as messageService from "../services/message.service";
 import { prisma } from "../utils/db";
 import { sendSuccess, sendError } from "../utils/apiResponse";
@@ -24,7 +24,7 @@ export const createRdv = async (req: Request, res: Response) => {
     }
 
     if (payload.prospectClerkId) {
-      const dbId = await getDbUserIdByClerkId(payload.prospectClerkId as string);
+      const dbId = await ensureDbUserId(payload.prospectClerkId as string);
       if (!dbId) {
         return sendError(res, 404, "Utilisateur Clerk introuvable dans la base.(clerkId)");
       }

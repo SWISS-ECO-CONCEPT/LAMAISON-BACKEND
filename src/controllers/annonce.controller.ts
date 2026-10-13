@@ -3,7 +3,7 @@ import { prisma } from "../utils/db";
 import { TypeBien, Prisma } from "../../generated/prisma/client";
 import { CreateAnnonceDto, UpdateAnnonceDto } from "../dto/annonce.dto";
 import { ProjetType } from "../../generated/prisma/client";
-import { getDbUserIdByClerkId } from "../services/auth.services";
+import { ensureDbUserId } from "../services/auth.services";
 import * as annonceService from "../services/annonce.service";
 import { sendError, sendSuccess } from "../utils/apiResponse";
 
@@ -62,7 +62,7 @@ export const createAnnonce = async (req: Request, res: Response) => {
     }
 
     // Map clerkId -> our DB user id
-    const dbUserId = await getDbUserIdByClerkId(clerkId);
+    const dbUserId = await ensureDbUserId(clerkId);
     if (!dbUserId) {
       return sendError(res, 404, 'Utilisateur Clerk introuvable dans la base.');
     }

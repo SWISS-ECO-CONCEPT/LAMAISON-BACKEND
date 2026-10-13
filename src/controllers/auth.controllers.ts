@@ -6,6 +6,12 @@ import { sendSuccess, sendError } from "../utils/apiResponse";
 export async function signUpController (req:Request, res:Response) {
     try {
         const dto: SignUpDto= req.body
+        // Le clerkId du body doit être celui du token : sinon n'importe qui
+        // connaissant un clerkId pouvait obtenir le profil (et le JWT) d'un autre.
+        const auth = req.auth();
+        if (!auth?.userId || auth.userId !== dto?.clerkId) {
+            return sendError(res, 403, "clerkId ne correspond pas à l'utilisateur connecté");
+        }
         const result = await signUp(dto)
         return sendSuccess(res, result, 201)
     } catch (error: any) {
@@ -15,6 +21,12 @@ export async function signUpController (req:Request, res:Response) {
 export async function signInController (req:Request, res:Response) {
     try {
         const dto: SignInDto= req.body
+        // Le clerkId du body doit être celui du token : sinon n'importe qui
+        // connaissant un clerkId pouvait obtenir le profil (et le JWT) d'un autre.
+        const auth = req.auth();
+        if (!auth?.userId || auth.userId !== dto?.clerkId) {
+            return sendError(res, 403, "clerkId ne correspond pas à l'utilisateur connecté");
+        }
         const result = await signIn(dto)
         return sendSuccess(res, result, 201)
     } catch (error: any) {

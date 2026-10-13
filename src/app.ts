@@ -59,7 +59,7 @@ const app = express();
 // le CORS de Socket.io avec exactement la même liste d'origines autorisées.
 export const allowedOrigins = process.env.CORS_ORIGIN
   ? process.env.CORS_ORIGIN.split(',')
-  : ['http://localhost:5173', 'http://localhost:5174'];
+  : ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:8081'];
 
   
 app.use(cors({

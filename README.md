@@ -194,7 +194,7 @@ REDIS_PASSWORD=votre_redis_password
 # Security Configuration
 JWT_SECRET=votre_jwt_secret_tres_long_et_complexe
 BCRYPT_ROUNDS=12
-CORS_ORIGIN=http://localhost:5173,http://localhost:5174
+CORS_ORIGIN=http://localhost:5173,http://localhost:5174,http://localhost:8081
 
 # Logging Configuration
 LOG_LEVEL=debug

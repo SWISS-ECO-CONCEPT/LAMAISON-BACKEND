@@ -3,6 +3,7 @@ import { prisma } from "../utils/db";
 import * as bcrypt from "bcrypt"
 import Jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config/config";
+import { clerkClient } from "@clerk/express";
 
 const SALT_ROUNDS = 10;
 // const JWT_SECRET = process.env.JWT_SECRET || "dev-secret"; // à sécuriser en prod
@@ -65,6 +66,12 @@ export async function signUp(dto: SignUpDto) {
     };
   }
 
+  // ADMIN n'est jamais attribuable depuis l'inscription publique : sans ce
+  // filtre, il suffisait d'envoyer `role: "ADMIN"` dans le body.
+  if (role && !SELF_ASSIGNABLE_ROLES.includes(role)) {
+    throw new Error("Le rôle doit être AGENT ou PROSPECT");
+  }
+
   // Création de l’utilisateur dans ta BDD
   const user = await prisma.user.create({
     data: {
@@ -93,12 +100,9 @@ export async function signIn(dto: SignInDto) {
     throw new Error("clerkId requis.");
   }
 
-  // On cherche l'utilisateur via clerkId
-  const user = await prisma.user.findUnique({ where: { clerkId } });
-
-  if (!user) {
-    throw new Error("Utilisateur non trouvé. Synchronisez d’abord avec Clerk.");
-  }
+  // Si la ligne BDD manque (inscription dont la synchro a échoué), on la
+  // recrée depuis Clerk au lieu de laisser l'utilisateur connecté sans profil.
+  const user = await ensureDbUser(clerkId);
 
   // Génération de ton propre JWT interne (si nécessaire)
   const token = Jwt.sign(
@@ -114,6 +118,7 @@ export async function signIn(dto: SignInDto) {
       clerkId: user.clerkId,
       firstname: user.firstname,
       role: user.role,
+      phone: user.phone,
     },
   };
 }
@@ -125,22 +130,52 @@ export async function getDbUserIdByClerkId(clerkId: string): Promise<number | nu
   return user ? user.id : null;
 }
 
+const SELF_ASSIGNABLE_ROLES = ["AGENT", "PROSPECT"];
+
+// Retourne l'utilisateur BDD lié à ce compte Clerk, en le créant à partir du
+// profil Clerk s'il manque (signup dont la synchro a échoué, webhook Clerk qui
+// n'atteint pas un backend local...). Mêmes sources de prénom/téléphone que le
+// webhook (voir clerkwebhook.routes.ts). À n'appeler qu'avec le clerkId de
+// l'utilisateur authentifié : on ne crée pas de profil pour un tiers.
+export async function ensureDbUser(clerkId: string, role?: string) {
+  const existing = await prisma.user.findUnique({ where: { clerkId } });
+  if (existing) return existing;
+
+  const clerkUser = await clerkClient.users.getUser(clerkId);
+  const meta = (clerkUser.unsafeMetadata ?? {}) as { firstname?: string; phone?: string; role?: string };
+  const email = clerkUser.emailAddresses?.[0]?.emailAddress;
+  const metaRole = meta.role && SELF_ASSIGNABLE_ROLES.includes(meta.role) ? meta.role : undefined;
+
+  // upsert plutôt que create : deux requêtes simultanées du même utilisateur
+  // ne doivent pas échouer sur la contrainte d'unicité de clerkId.
+  return prisma.user.upsert({
+    where: { clerkId },
+    update: {},
+    create: {
+      clerkId,
+      firstname: meta.firstname || clerkUser.firstName || email?.split('@')[0] || 'Utilisateur',
+      phone: meta.phone || clerkUser.phoneNumbers?.[0]?.phoneNumber || null,
+      role: (role ?? metaRole ?? 'PROSPECT') as any,
+    },
+  });
+}
+
+export async function ensureDbUserId(clerkId: string): Promise<number | null> {
+  if (!clerkId) return null;
+  return (await ensureDbUser(clerkId)).id;
+}
+
 // Mettre à jour le rôle de l'utilisateur
 export async function updateUserRole(clerkId: string, newRole: string) {
   if (!clerkId) {
     throw new Error("clerkId requis.");
   }
 
-  const validRoles = ["AGENT", "PROSPECT"];
-  if (!validRoles.includes(newRole)) {
+  if (!SELF_ASSIGNABLE_ROLES.includes(newRole)) {
     throw new Error("Le rôle doit être  AGENT ou PROSPECT");
   }
 
-  // Vérifier que l'utilisateur existe
-  const user = await prisma.user.findUnique({ where: { clerkId } });
-  if (!user) {
-    throw new Error("Utilisateur non trouvé.");
-  }
+  await ensureDbUser(clerkId, newRole);
 
   // Mettre à jour le rôle dans la base de données
   const updatedUser = await prisma.user.update({
@@ -151,7 +186,9 @@ export async function updateUserRole(clerkId: string, newRole: string) {
   // Mettre à jour les métadonnées Clerk si la clé secrète est disponible
   if (process.env.CLERK_SECRET_KEY) {
     try {
-      const response = await fetch(`https://api.clerk.com/v1/users/${clerkId}`, {
+      // `/metadata` fusionne au lieu de remplacer : un PATCH sur `/users/{id}`
+      // écraserait tout `unsafe_metadata` (firstname, phone...) par `{ role }`.
+      const response = await fetch(`https://api.clerk.com/v1/users/${clerkId}/metadata`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${process.env.CLERK_SECRET_KEY}`,
